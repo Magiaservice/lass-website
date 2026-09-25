@@ -19,13 +19,11 @@
 <script src="assets/vendor/gsap.min.js"></script>
 <script src="assets/vendor/ScrollTrigger.min.js"></script>
 <script src="assets/vendor/lenis.min.js"></script>
-<!-- LocalBusiness-Auszeichnung. BEWUSST NICHT enthalten: address und
-     telephone — beide stehen im Impressum noch auf Platzhaltern
-     (compliance/OFFENE-PUNKTE.md, Punkt 1). Falsche NAP-Daten in
-     strukturierten Daten sind schädlicher als fehlende, weil Suchmaschinen
-     und KI-Assistenten sie als Tatsache übernehmen. Ergänzen, sobald die
-     echten Firmendaten vorliegen. Ebenfalls nicht enthalten: foundingDate —
-     Gründungsjahr unbestätigt, siehe Commit-Historie zu dieser Änderung. -->
+<!-- LocalBusiness-Auszeichnung. address/telephone seit 2026-09-25 mit den
+     vom Kunden bestätigten echten Firmendaten ergänzt (siehe
+     compliance/OFFENE-PUNKTE.md, Punkt 1 — erledigt). Weiterhin NICHT
+     enthalten: foundingDate — Gründungsjahr unbestätigt, siehe
+     Commit-Historie zu dieser Änderung. -->
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
@@ -37,6 +35,14 @@
   "logo": "https://lexikal.github.io/lass-website/assets/mark-blue.png",
   "image": "https://lexikal.github.io/lass-website/assets/mark-blue.png",
   "email": "info@liss-reinigungsservice.de",
+  "telephone": "+4915203133132",
+  "address": {
+    "@type": "PostalAddress",
+    "streetAddress": "Am Bornberg 82",
+    "postalCode": "29690",
+    "addressLocality": "Schwarmstedt",
+    "addressCountry": "DE"
+  },
   "knowsLanguage": "de",
   "currenciesAccepted": "EUR",
   "areaServed": [
@@ -86,7 +92,7 @@
 <nav class="mobnav" aria-label="Mobile Navigation">
   <a href="index.html">Start</a><a href="leistungen.html">Leistungen</a><a href="preise.html">Preise</a><a href="standorte.html">Standorte</a><a href="ueber-uns.html">Über uns</a><a href="faq.html">FAQ</a><a href="kontakt.html">Kontakt</a>
   <a class="btn btn--signal" href="kontakt.html">Festpreis anfragen</a>
-  <a class="btn btn--ghost" href="tel:+4951112345670">0511 · 1234 567-0</a>
+  <a class="btn btn--ghost" href="tel:+4915203133132">0152 0313 3132</a>
 </nav>
 
 <main>
@@ -356,10 +362,10 @@
       </div>
       <div class="fcol">
         <h4>Kontakt</h4>
-        <a href="tel:+4951112345670">0511 · 1234 567-0</a>
+        <a href="tel:+4915203133132">0152 0313 3132</a>
         <a href="mailto:info@liss-reinigungsservice.de">info@liss-reinigungsservice.de</a>
         <span>Mo–Fr 07:00–18:00 Uhr</span>
-        <span>Musterstraße 1, 30159 Hannover</span>
+        <span>Am Bornberg 82, 29690 Schwarmstedt</span>
       </div>
     </div>
     <div class="fbottom">
@@ -371,7 +377,7 @@
 </footer>
 
 <div class="sticky" id="sticky">
-  <a class="btn btn--ghost" href="tel:+4951112345670">Anrufen</a>
+  <a class="btn btn--ghost" href="tel:+4915203133132">Anrufen</a>
   <a class="btn btn--signal" href="kontakt.html">Festpreis anfragen</a>
 </div>
 

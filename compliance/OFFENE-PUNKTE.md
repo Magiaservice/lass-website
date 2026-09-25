@@ -1,32 +1,101 @@
 # Offene Punkte — nur mit Kundendaten/-entscheidung zu schließen
 
-Stand: 2026-08-11. Diese Punkte sind **keine** Bugs, die sich im Code lösen
-lassen — sie brauchen eine Antwort oder Entscheidung von LISS
-Reinigungsservice selbst. Bis dahin bleiben die betroffenen Textstellen
-Platzhalter (`[...]`) und der Prototyp ist nicht launch-fähig.
+Stand: 2026-09-25 (7. Durchgang — Punkte 1–3 vom Kunden beantwortet und
+umgesetzt). Ursprünglicher Stand: 2026-08-11. Diese Punkte sind **keine**
+Bugs, die sich im Code lösen lassen — sie brauchen eine Antwort oder
+Entscheidung von LISS Reinigungsservice selbst. Bis dahin bleiben die
+betroffenen Textstellen Platzhalter (`[...]`) und der Prototyp ist nicht
+launch-fähig.
 
-## 1. Echte Firmendaten für `impressum.html`
+## 1. Echte Firmendaten für `impressum.html` — ERLEDIGT (2026-09-25)
 
-- [ ] Ladungsfähige Anschrift (kein Postfach) — aktuell Platzhalter „Musterstraße 1, 30159 Hannover"
-- [ ] Vor- und Nachname des/der Inhaber(s) bzw. Vertretungsberechtigten — aktuell `[Vor- und Nachname]` (zweimal: Diensteanbieter + § 18 Abs. 2 MStV)
-- [ ] Rechtsform final bestätigen (aktuell als Einzelunternehmen/Inhaber formuliert)
-- [ ] Reale Telefonnummer — aktuell `+4951112345670` / „0511 · 1234 567-0" ist ein Platzhalter, kein echter Anschluss
+**Vom Kunden bestätigt und eingetragen:**
+- [x] Ladungsfähige Anschrift: Am Bornberg 82, 29690 Schwarmstedt
+- [x] Inhaber: Hassan Daoud (zweimal eingetragen: Diensteanbieter +
+  § 18 Abs. 2 MStV)
+- [x] Rechtsform: Einzelunternehmen/Inhaber, wie bereits formuliert — vom
+  Kunden nicht widersprochen
+- [x] Reale Telefonnummer: 015203133132 (deutsche Mobilnummer), als
+  `tel:+4915203133132` / Anzeige „0152 0313 3132" auf allen 12 Seiten
+  sowie im Impressum, in der Datenschutzerklärung und im
+  `LocalBusiness`-JSON-LD auf `index.html` eingetragen.
 
-## 2. USt-IdNr. oder Kleinunternehmerstatus
+E-Mail-Adresse `info@liss-reinigungsservice.de` war bereits korrekt und
+vom Kunden ausdrücklich bestätigt — keine Änderung nötig.
 
-- [ ] USt-IdNr. nach § 27a UStG vorhanden? Wenn ja: Nummer eintragen.
-- [ ] Wenn nicht umsatzsteuerpflichtig (§ 19 UStG, Kleinunternehmer): Impressum entsprechend umformulieren statt Platzhalter stehen zu lassen — **eine leere/falsche USt-IdNr.-Zeile ist selbst ein Abmahngrund**, sie darf nicht einfach im Platzhalterzustand live gehen.
+## 2. USt-IdNr. oder Kleinunternehmerstatus — ERLEDIGT (2026-09-25)
 
-## 3. Name des Hosters
+**Vom Kunden bestätigt:** Kleinunternehmer nach § 19 UStG, keine USt-IdNr.,
+keine Umsatzsteuer wird berechnet.
 
-- [ ] `datenschutz.html`, Abschnitt 7 „Hosting": `[Hoster]` durch den tatsächlichen Anbieter ersetzen.
-- [ ] Serverstandort bestätigen (Text behauptet aktuell „Deutschland" — muss stimmen oder angepasst werden).
-- [ ] Auftragsverarbeitungsvertrag (Art. 28 DSGVO) mit dem Hoster tatsächlich abschließen — der Text behauptet bereits „liegt vor", das muss zum Zeitpunkt des Launches auch stimmen.
+- [x] `impressum.html`, Abschnitt „Umsatzsteuer" umformuliert: „Kleinunternehmer
+  im Sinne von § 19 UStG. Es wird keine Umsatzsteuer ausgewiesen und
+  berechnet; eine Umsatzsteuer-Identifikationsnummer nach § 27a UStG liegt
+  entsprechend nicht vor." — keine Platzhalter-Zeile mehr live.
+- **Wichtig, vom Kunden mitgeteilt und bewusst NICHT veröffentlicht:** Der
+  Kunde hat eine persönliche 11-stellige Steuer-Identifikationsnummer
+  genannt. Das ist **keine** USt-IdNr. nach § 27a UStG, sondern eine
+  persönliche steuerliche Identifikationsnummer — die gehört nicht ins
+  Impressum und wurde entsprechend nicht eingetragen.
 
-## 4. Berufshaftpflichtversicherer
+## 3. Name des Hosters — ERLEDIGT, aber mit neuem Folgepunkt (2026-09-25)
 
-- [ ] `impressum.html`: `[Versicherer]`, `[Anschrift]` — Name und Anschrift des Berufshaftpflichtversicherers eintragen (Pflichtangabe für Handwerksbetriebe, siehe Eintrag „Eingetragen in der Handwerksrolle der Handwerkskammer Hannover" auf derselben Seite).
-- [ ] Falls die Handwerksrollen-Eintragung selbst noch nicht final ist: auch das gegenprüfen, bevor die Seite live geht.
+**Vom Kunden geklärt:** Zwei getrennte Anbieter mit unterschiedlichen
+Rollen, nicht ein einzelner Hoster:
+- STRATO: Domain-DNS und E-Mail-Versand (Deutschland).
+- GitHub Pages (GitHub, Inc.): tatsächliche Auslieferung der
+  Website-Dateien — technisch unverändert gegenüber dem bisherigen Stand.
+
+- [x] `datenschutz.html`, Abschnitt 7 „Hosting" neu formuliert: beide
+  Anbieter benannt, Rollen sauber getrennt, keine falsche Zuschreibung
+  mehr (STRATO liefert nicht die Website aus).
+- [x] Die vorher unbelegte Behauptung „Serverstandort in Deutschland" +
+  „Auftragsverarbeitungsvertrag ... liegt vor" wurde **entfernt**, weil sie
+  für GitHub Pages nicht bestätigt ist (eher USA/globales CDN,
+  GitHub Inc./Microsoft).
+- [ ] **Neu offen:** Serverstandort von GitHub Pages und AVV-/SCC-Status
+  mit GitHub, Inc. sind nicht geprüft. Muss vor Launch geklärt werden
+  (GitHub veröffentlicht eigene DPA-Bedingungen für GitHub Pages/Free —
+  zu prüfen, ob und wie diese für dieses Projekt greifen).
+- [ ] **Neu offen:** Ob mit STRATO für Domain-/E-Mail-Verarbeitung
+  tatsächlich ein unterschriebener AVV vorliegt, ist ebenfalls nicht
+  bestätigt — Text behauptet das jetzt nicht mehr pauschal, sondern
+  benennt es als zu bestätigenden Punkt.
+
+## 4. Berufshaftpflichtversicherer — WEITERHIN OFFEN
+
+- [ ] `impressum.html`: `[Versicherer]`, `[Anschrift]` — Name und Anschrift
+  des Berufshaftpflichtversicherers eintragen (Pflichtangabe für
+  Handwerksbetriebe, siehe Eintrag „Eingetragen in der Handwerksrolle der
+  Handwerkskammer Hannover" auf derselben Seite). **Einziger noch
+  fehlender Pflichtangaben-Block im Impressum** nach Abschluss der
+  Punkte 1–3.
+- [ ] Falls die Handwerksrollen-Eintragung selbst noch nicht final ist:
+  auch das gegenprüfen, bevor die Seite live geht — siehe verschärfend
+  Punkt 4a unten.
+
+## 4a. Zuständigkeit der Handwerkskammer — NEU OFFEN (2026-09-25)
+
+`impressum.html` behauptet weiterhin unverändert: „Eingetragen in der
+Handwerksrolle der Handwerkskammer Hannover" und nennt als Aufsichtsbehörde
+„Handwerkskammer Hannover, Berliner Allee 17, 30175 Hannover". Diese
+Aussage war laut `CLAUDE.md` („Was als Nächstes ansteht", Punkt 4) bereits
+vorher als ungeprüft markiert. Mit der jetzt bestätigten echten Anschrift
+**Am Bornberg 82, 29690 Schwarmstedt** — das liegt im Landkreis Heidekreis,
+nicht in der Stadt oder Region Hannover — stellt sich die Frage neu und
+konkreter:
+
+- [ ] Ist die Handwerkskammer Hannover tatsächlich die für den
+  Betriebssitz Schwarmstedt zuständige Kammer, oder eine andere (z. B.
+  Handwerkskammer Braunschweig-Lüneburg-Stade — nicht verifiziert, nur als
+  mögliche Alternative genannt, keine eigene Entscheidung getroffen)?
+- [ ] Falls eine andere Kammer zuständig ist: sowohl der Eintrag unter
+  „Eintragung" als auch „Zuständige Aufsichtsbehörde" (Name + Anschrift)
+  in `impressum.html` müssen entsprechend korrigiert werden.
+- Bewusst **nicht selbst geändert** — das ist eine Tatsachenfrage, die nur
+  durch eine Kammer-Zugehörigkeitsprüfung (oder Rückfrage bei der
+  Handwerkskammer Hannover selbst) beantwortet werden kann, keine
+  Ermessensentscheidung dieses Dokuments.
 
 ## 5. Kontaktformular — Button-Funktion behoben (2026-08-16), Backend-Frage bleibt
 
@@ -469,6 +538,14 @@ Rechtlich gilt exakt dieselbe Analyse wie Punkt 10/11:
 
 ---
 
-**Nächster Schritt:** Diese Datei eignet sich als Kundenfragebogen — die
-Punkte 1–5 lassen sich 1:1 an LISS Reinigungsservice weiterreichen. Antworten
-zurück, Platzhalter ersetzen, `COMPLIANCE.md` aktualisieren.
+**Nächster Schritt (Stand 2026-09-25):** Punkte 1–3 sind mit den vom Kunden
+gelieferten echten Firmendaten geschlossen. Noch offen und weiterhin 1:1 an
+LISS Reinigungsservice bzw. externe Stellen weiterzureichen:
+- Punkt 4: Name/Anschrift des Berufshaftpflichtversicherers (vom Kunden).
+- Punkt 4a: Zuständige Handwerkskammer für Schwarmstedt (Rückfrage bei der
+  Kammer oder Kammer-Zugehörigkeitsprüfung, nicht allein vom Kunden zu
+  beantworten).
+- Punkt 3, GitHub-Pages-Folgefrage: Serverstandort/AVV-Status von GitHub
+  Pages (technische/rechtliche Prüfung, nicht allein vom Kunden zu
+  beantworten).
+- Punkt 5–12: siehe jeweilige Abschnitte oben, unverändert offen.

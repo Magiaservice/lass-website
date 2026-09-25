@@ -1,13 +1,16 @@
 # Compliance-Status — LISS Reinigungsservice
 
-Stand: **2026-08-20** (5. Durchgang — Discoverability/SEO-Grundlagen:
-Indexierungssperre, Sitemap, LocalBusiness-Schema, unbelegte Jahreszahl
+Stand: **2026-09-25** (7. Durchgang — echte Firmendaten des Kunden
+eingearbeitet: Inhaber, Anschrift, Telefon, Kleinunternehmerstatus, Hosting-
+Rollenklärung STRATO/GitHub Pages). 6. Durchgang: Standorte-Umbenennung +
+Doorway-Page-Hinweis. 5. Durchgang: Discoverability/SEO-Grundlagen
+(Indexierungssperre, Sitemap, LocalBusiness-Schema, unbelegte Jahreszahl
 entfernt). 4. Durchgang: kompletter Re-Scan ohne Vorannahmen, plus
 Security-Audit nach OWASP Top 10:2025 und Code-Review. 3. Durchgang:
 Kontaktformular repariert, GSAP/ScrollTrigger/Lenis self-hosted. 2.
 Durchgang: voller Compliance-Re-Scan. 1. Durchgang: 2026-08-11, Grundlagen
 (Footer-Links, Fonts, Streitschlichtung). Nächste Re-Prüfung: spätestens
-**2027-02-11** (alle 6 Monate) oder sofort bei jeder neuen externen
+**2027-03-25** (alle 6 Monate) oder sofort bei jeder neuen externen
 Einbindung.
 
 Dieser Prototyp ist **nicht** live geschaltet. Die Punkte unten sind der
@@ -47,8 +50,8 @@ Kernabschnitte (Impressum, Datenschutz, Cookies, Lizenzen, ggf. BFSG).
 | Kontaktformular funktionsfähig | ✅ | 3 Schritte, Pro-Schritt-Validierung, `mailto:`-Absenden. Details: Security-Abschnitt unten. |
 | `standorte.html` — 14 Stadtteilseiten-Links auf `#` | ⚠️ **absichtlich nicht angefasst** | Sind laut `CLAUDE.md` ("Was als Nächstes ansteht", Punkt 1) ein dokumentierter, offener Roadmap-Punkt (Seiten existieren einfach noch nicht) — kein Bug wie die Footer-Fake-Links oben, sondern ehrliche Baustelle. Nicht verändert. |
 | `.scene-bg` / `.scene-ph` (ungenutztes CSS) | ⚠️ **absichtlich nicht angefasst** | Aktuell kein HTML-Treffer, aber passt zu `CLAUDE.md`-Punkt 4 ("Zweites Hintergrundvideo für die angeheftete Scroll-Szene, Konzept vorhanden, noch nicht generiert") — vermutlich Vorbereitung für dieses Feature. Nicht gelöscht. |
-| Impressum — Firmendaten (Anschrift, USt-IdNr., Versicherer) | ❌ | Weiterhin Platzhalter. Siehe `OFFENE-PUNKTE.md`. |
-| Datenschutz — Hoster-Name | ❌ | `[Hoster]` weiterhin Platzhalter. Siehe `OFFENE-PUNKTE.md`. |
+| **Impressum — Firmendaten (NEU, 7. Durchgang)** | ⚠️ | Inhaber (Hassan Daoud), Anschrift (Am Bornberg 82, 29690 Schwarmstedt) und Telefon (0152 0313 3132) sind jetzt echt, zweimal eingetragen (Diensteanbieter + § 18 Abs. 2 MStV). USt-IdNr.-Zeile durch korrekte Kleinunternehmer-Formulierung nach § 19 UStG ersetzt (keine Nummer, weil keine vorhanden — richtig so). **Weiterhin offen:** `[Versicherer]`/`[Anschrift]` der Berufshaftpflicht (siehe `OFFENE-PUNKTE.md` Punkt 4) und die Handwerkskammer-Zuständigkeit (neu, siehe Punkt 4a). |
+| **Datenschutz — Hoster-Name (NEU, 7. Durchgang)** | ⚠️ | Abschnitt 7 neu formuliert: STRATO (Domain/E-Mail) und GitHub Pages (Auslieferung der Website-Dateien) sauber als getrennte Rollen benannt, statt fälschlich einen einzigen Hoster mit Serverstandort Deutschland zu behaupten. **Weiterhin offen:** Serverstandort/AVV-Status von GitHub Pages ungeprüft, siehe `OFFENE-PUNKTE.md` Punkt 3. |
 | Sichtbare KI-Kennzeichnung am Hero-Video selbst | ❌ | Zusage steht, ist am Video selbst noch nicht eingelöst. Siehe `OFFENE-PUNKTE.md`. |
 | **§ 22 KUG für `hero.mp4`/`zusagen.mp4` (NEU, 2026-08-22)** | ✅ n/a | Nicht anwendbar — bestätigt reines Text-zu-Video ohne Image-to-Video und ohne reales Referenzfoto/-video einer echten Person, daher keine „Abgebildete" i. S. d. § 22 KUG; Art. 50 KI-VO/§ 5 UWG bleiben davon unberührt offen, siehe `OFFENE-PUNKTE.md` Punkt 6/10. |
 | Kontaktformular — echtes Backend statt `mailto:`? | — (Entscheidung offen) | Siehe `OFFENE-PUNKTE.md` Punkt 5. |
@@ -57,7 +60,7 @@ Kernabschnitte (Impressum, Datenschutz, Cookies, Lizenzen, ggf. BFSG).
 | Rechtstexte fachlich geprüft | ❌ | Weiterhin als Entwurf markiert. |
 | **Indexierungssperre (NEU, 5. Durchgang)** | ✅ | `robots.txt` (`Disallow: /`) + `<meta name="robots" content="noindex,nofollow">` auf allen 12 Seiten. Notwendig, solange Impressum-Platzhalter live erreichbar sind — Disallow allein verhindert nur das Crawlen, nicht zuverlässig die Indexierung. |
 | **Sitemap.xml (NEU, 5. Durchgang)** | ✅ | Alle 12 Seiten, vorbereitet für den Live-Gang, in `robots.txt` bewusst noch nicht referenziert. |
-| **LocalBusiness Schema.org (NEU, 5. Durchgang)** | ⚠️ | Auf `index.html`. Bewusst ohne `address`, `telephone`, `foundingDate` — dieselben Platzhalter-Blocker wie im Impressum, siehe Zeile oben. Nachtragen, sobald Punkt 1 in `OFFENE-PUNKTE.md` geklärt ist. |
+| **LocalBusiness Schema.org (aktualisiert, 7. Durchgang)** | ✅ | Auf `index.html`. `address` (PostalAddress) und `telephone` jetzt mit den echten Firmendaten ergänzt, JSON per `json.loads()` gegengeprüft — valide. Weiterhin ohne `foundingDate` (Gründungsjahr unbestätigt). |
 | **„seit 2026" ohne Beleg (NEU, 5. Durchgang)** | ✅ | Stand unbelegt an drei Stellen (`index.html` Hero-Kennzeile, `ueber-uns.html` Meta-Description/Lead/Kennzahl) — dieses Projekt nennt selbst nur „neu gegründet", kein Jahr. Entfernt bzw. durch anderswo bereits veröffentlichte, belegbare Aussage ersetzt. Details: `OFFENE-PUNKTE.md` Punkt 9. |
 
 ---
@@ -163,11 +166,12 @@ Keine gefunden.
 
 ## Blocker für einen Launch (nicht abschließend)
 
-1. Platzhalter in `impressum.html` (Inhaber, Anschrift, USt-IdNr., Berufshaftpflicht-Versicherer, verantwortliche Person § 18 Abs. 2 MStV).
-2. Platzhalter in `datenschutz.html` (Hoster-Name in Abschnitt 7).
-3. Rechtstexte insgesamt noch nicht anwaltlich freigegeben.
-4. BFSG-Anwendbarkeit nicht abschließend geklärt.
-5. Lizenznachweis für `hero.mp4` (Seedance) fehlt noch, ebenso sichtbare KI-Kennzeichnung am Video selbst.
+1. `impressum.html`: Berufshaftpflicht-Versicherer + Anschrift (`[Versicherer]`/`[Anschrift]`) weiterhin Platzhalter — einzige verbliebene Lücke in diesem Dokument. Inhaber/Anschrift/Telefon/Kleinunternehmerstatus sind seit 7. Durchgang echt.
+2. `impressum.html`: Zuständigkeit der Handwerkskammer Hannover für den neuen Standort Schwarmstedt ungeprüft (neu, 7. Durchgang) — siehe `OFFENE-PUNKTE.md` Punkt 4a.
+3. `datenschutz.html`: Serverstandort und AVV-Status von GitHub Pages (GitHub, Inc.) ungeprüft — Abschnitt 7 beschreibt das jetzt ehrlich als offene Frage statt es zu behaupten, siehe `OFFENE-PUNKTE.md` Punkt 3.
+4. Rechtstexte insgesamt noch nicht anwaltlich freigegeben.
+5. BFSG-Anwendbarkeit nicht abschließend geklärt.
+6. Lizenznachweis für `hero.mp4` (Seedance) fehlt noch, ebenso sichtbare KI-Kennzeichnung am Video selbst.
 
 *Kein Blocker (mehr):* Kontaktformular funktioniert, keine externen
 Verbindungen mehr, keine Sicherheitslücken gefunden, keine kritischen
@@ -216,6 +220,64 @@ Code-Probleme.
   Beschreibung, eigene Anfahrts-/Einsatzgebiets-Angaben, unterschiedliche
   FAQ-/Preisbeispiel-Passagen — nicht mechanisch dieselbe Vorlage mit
   ausgetauschtem Namen.
+
+## Änderungen im 7. Durchgang (2026-09-25)
+
+Kunde (Hassan Daoud) hat echte Firmendaten geliefert — bisher als
+Platzhalter in `OFFENE-PUNKTE.md` Punkte 1–3 offen. Umgesetzt:
+
+- `impressum.html` — Diensteanbieter-Absatz und § 18 Abs. 2 MStV-Absatz:
+  Inhaber „Hassan Daoud", Anschrift „Am Bornberg 82, 29690 Schwarmstedt",
+  Telefon „0152 0313 3132". USt-IdNr.-Zeile ersetzt durch korrekte
+  Kleinunternehmer-Formulierung nach § 19 UStG (keine Nummer eingetragen —
+  Kunde hat eine persönliche Steuer-ID genannt, die **bewusst nicht**
+  veröffentlicht wurde, weil sie keine USt-IdNr. ist und im Impressum nicht
+  hingehört). `[Versicherer]`/`[Anschrift]` bewusst als Platzhalter stehen
+  gelassen — fehlt weiterhin, siehe Blocker 1.
+- `datenschutz.html` — Abschnitt 1 „Verantwortliche Stelle" mit echter
+  Anschrift/Telefon/Inhabername aktualisiert. Abschnitt 7 „Hosting"
+  komplett neu formuliert: STRATO (Domain-DNS + E-Mail, Deutschland) und
+  GitHub Pages (Auslieferung der Website-Dateien, GitHub Inc./USA) als
+  zwei getrennte Anbieter mit unterschiedlichen Rollen benannt. Die vorher
+  unbelegte Behauptung „Serverstandort in Deutschland" +
+  „Auftragsverarbeitungsvertrag ... liegt vor" für den eigentlichen
+  Webhoster wurde entfernt, weil sie für GitHub Pages nicht zutrifft/nicht
+  geprüft ist — stattdessen offen benannt (Serverstandort GitHub Pages
+  nicht sicher EU/Deutschland, AVV-Status ungeprüft), siehe Blocker 3.
+- 12× `*.html` (alle Seiten außer dem nicht verlinkten, untracked
+  Altstand `liss-reinigungsservice.html`, siehe unten) — Footer-
+  Kontaktspalte, Mobile-Nav und Sticky-CTA: `tel:+4951112345670` /
+  „0511 · 1234 567-0" → `tel:+4915203133132` / „0152 0313 3132";
+  „Musterstraße 1, 30159 Hannover" → „Am Bornberg 82, 29690 Schwarmstedt".
+  `kontakt.html` zusätzlich: Meta-Description-Telefonangabe aktualisiert.
+  Verifiziert per `grep -l "4951112345670\|Musterstraße" <alle 12
+  Dateien>` → keine Treffer mehr; `grep -o 'tel:[+0-9]*'` → einheitlich
+  `tel:+4915203133132` auf allen 12 Seiten.
+- `index.html` — `LocalBusiness`-JSON-LD: `address` (als `PostalAddress`)
+  und `telephone` ergänzt, die vorher bewusst wegen Platzhalterdaten
+  ausgelassen waren. Kommentar direkt davor aktualisiert (beschrieb bisher
+  fälschlich weiterhin fehlende Daten). JSON-Validität mit
+  `python3 -c "json.loads(...)"` gegengeprüft.
+- **Nicht angefasst, wie angewiesen:** `robots.txt`, `noindex`-Meta-Tags
+  auf allen Seiten (Impressum bleibt wegen fehlendem Versicherer weiterhin
+  unvollständig — Prototyp bleibt von der Indexierung ausgeschlossen), die
+  Handwerksrollen-Aussage selbst in `impressum.html` (nur als offene Frage
+  dokumentiert, siehe `OFFENE-PUNKTE.md` Punkt 4a), sowie
+  `liss-reinigungsservice.html` — ein untracked, von keiner der 12 Seiten
+  verlinktes Altstand-Dokument mit Google-Fonts-CDN-Einbindung und
+  eigenem SPA-Routing, offensichtlich kein Teil der aktuell gepflegten
+  Seite; nicht Gegenstand dieses Auftrags.
+
+**Neuer offener Punkt (7. Durchgang):** Die im Impressum stehende
+Behauptung „Eingetragen in der Handwerksrolle der Handwerkskammer
+Hannover" war schon vorher ungeprüft (`CLAUDE.md`, „Was als Nächstes
+ansteht", Punkt 4). Mit der jetzt echten Adresse Schwarmstedt (Landkreis
+Heidekreis, nicht Stadt/Region Hannover) ist offen, ob die Handwerkskammer
+Hannover für diesen Standort tatsächlich zuständig ist oder eine andere
+Kammer (z. B. Handwerkskammer Braunschweig-Lüneburg-Stade, deren
+Zuständigkeitsgebiet den Heidekreis abdecken könnte — nicht verifiziert,
+nur als Vermutung genannt). Keine eigene Entscheidung getroffen, nur als
+Frage dokumentiert, siehe `OFFENE-PUNKTE.md` Punkt 4a.
 
 ## Frühere Durchgänge
 
