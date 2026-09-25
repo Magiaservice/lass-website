@@ -8,6 +8,26 @@
 <meta name="robots" content="noindex,nofollow">
 <title>Kontakt &amp; Angebot in 24 Stunden · LISS Reinigungsservice Hannover</title>
 <meta name="description" content="Anfrage an LISS Reinigungsservice Hannover: Angebot binnen 24 Stunden, telefonisch unter 0152 0313 3132 oder über das dreistufige Anfrageformular.">
+<!-- Favicon + Link-Vorschau.
+     og:url zeigt auf die aktuelle GitHub-Pages-Adresse — beim Wechsel
+     auf die echte Domain hier UND in sitemap.xml mit austauschen.
+     Kein <link rel="canonical">: solange die Seite auf noindex steht,
+     waere eine Kanonisierung ohne endgueltige Domain nur Ballast
+     (siehe compliance/OFFENE-PUNKTE.md, Punkt 9). -->
+<link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+<link rel="icon" href="assets/favicon-32.png" sizes="32x32">
+<link rel="apple-touch-icon" href="assets/apple-touch-icon.png">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="LISS Reinigungsservice">
+<meta property="og:locale" content="de_DE">
+<meta property="og:url" content="https://lexikal.github.io/lass-website/kontakt.html">
+<meta property="og:title" content="Kontakt &amp; Angebot in 24 Stunden · LISS Reinigungsservice Hannover">
+<meta property="og:description" content="Anfrage an LISS Reinigungsservice Hannover: Angebot binnen 24 Stunden, telefonisch unter 0152 0313 3132 oder über das dreistufige Anfrageformular.">
+<meta property="og:image" content="https://lexikal.github.io/lass-website/assets/og-card.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="LISS Reinigungsservice Hannover — Festpreis, Angebot in 24 Stunden, Foto-Protokoll je Einsatz">
+<meta name="twitter:card" content="summary_large_image">
 <link rel="stylesheet" href="assets/fonts/fonts.css">
 <link rel="stylesheet" href="assets/site.css">
 </head>
@@ -61,6 +81,20 @@
 
     <form class="form rv" id="kontaktForm" novalidate>
       <div class="form-steps" aria-hidden="true"><div class="on"></div><div></div><div></div></div>
+
+      <!-- Richtpreis-Übernahme aus dem Preisrechner. Wird von site.js
+           eingeblendet, sobald Objektart, Fläche und Turnus einen Preis aus
+           der Staffel ergeben — entweder aus den URL-Parametern des
+           Rechner-Knopfes oder aus den Eingaben im Formular selbst. Bleibt
+           versteckt bei Bauendreinigung und "Sonstiges": dort gilt kein
+           monatlicher Staffelpreis. aria-live, weil sich der Wert ändert,
+           während weiter oben getippt wird. -->
+      <div class="ap" id="anfragePreis" hidden aria-live="polite">
+        <span class="ap-k">Ihr Richtpreis</span>
+        <span class="ap-v"><b data-role="apPreis">0</b> € <small>/ Monat · netto</small></span>
+        <span class="ap-m" data-role="apMeta"></span>
+      </div>
+
       <h3>Schritt 1 von 3 · Ihr Objekt</h3>
 
       <div class="form-step" data-step="1">

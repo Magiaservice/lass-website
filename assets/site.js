@@ -125,16 +125,67 @@
     }, { passive: true });
   }
 
-  /* ---------- 5. Preisrechner (mehrfach pro Seite möglich) ----------
+  /* ---------- 5. Preismodell ----------
+     Eine einzige Quelle der Wahrheit für die Staffel, die Objektfaktoren und
+     die Turnusfaktoren. Vorher lagen die Faktoren ausschließlich als
+     data-Attribute im Markup von drei Seiten (index, preise, bueroreinigung)
+     und existierten für kontakt.html gar nicht — die Übergabe vom Rechner
+     ins Anfrageformular (unten, Abschnitt 5c) braucht sie aber auf beiden
+     Seiten. Das Markup bleibt weiterhin führend für das, was der Rechner
+     anzeigt; diese Tabelle bildet nur die Zuordnung Schlüssel ↔ Faktor ↔
+     Beschriftung ab, damit ein Link wie ?obj=praxis überhaupt eine
+     definierte Bedeutung hat.
+
+     `form` ist die Beschriftung im <select> auf kontakt.html, `calc` die
+     Chip-Beschriftung im Rechner — beide weichen bewusst voneinander ab
+     (das Formular ist ausführlicher), deshalb steht hier beides.          */
+  var OBJEKTE = {
+    buero:       { f: 1,    calc: 'Büro',        form: 'Büro' },
+    praxis:      { f: 1.25, calc: 'Praxis',      form: 'Arzt- oder Zahnarztpraxis' },
+    treppenhaus: { f: 0.8,  calc: 'Treppenhaus', form: 'Treppenhaus / Wohnanlage' },
+    laden:       { f: 1.1,  calc: 'Laden',       form: 'Ladenfläche' }
+  };
+  var TURNUS = {
+    '1': { f: 4.33, label: '1×/Woche' },
+    '2': { f: 8.66, label: '2×/Woche' },
+    '3': { f: 13,   label: '3×/Woche' },
+    '5': { f: 21.6, label: '5×/Woche' }
+  };
+  var QM_MIN = 40, QM_MAX = 1200;
+
+  function objKeyByLabel(label) {
+    for (var k in OBJEKTE) if (OBJEKTE[k].calc === label) return k;
+    return null;
+  }
+  function turnusKeyByFactor(f) {
+    for (var k in TURNUS) if (TURNUS[k].f === f) return k;
+    return null;
+  }
+
+  /* ---------- 5b. Preisrechner (mehrfach pro Seite möglich) ----------
      Staffelpreise: je größer die Fläche, desto niedriger der m²-Satz.
      Objektfaktor bildet den Aufwand ab (Praxis > Büro > Treppenhaus).   */
   function de(n, d) { return n.toLocaleString('de-DE', { minimumFractionDigits: d, maximumFractionDigits: d }); }
   function rate(m) { return m < 150 ? 0.90 : m < 400 ? 0.75 : m < 800 ? 0.66 : 0.58; }
 
+  /* Monatlicher Richtpreis, auf 10 € gerundet — dieselbe Rechnung wie im
+     Rechner, damit Rechner, Formular-Zusammenfassung und E-Mail garantiert
+     dieselbe Zahl zeigen. */
+  function monatspreis(m, objF, freqF) {
+    return Math.round(m * rate(m) * objF * freqF / 10) * 10;
+  }
+
   function initCalc(root) {
     var q = function (sel) { return root.querySelector('[data-role=' + sel + ']'); };
     var qm = q('qm'); if (!qm) return;
     var objMul = 1, freqMul = 8.66, shown = 0;
+    /* Der Knopf unter dem Ergebnis führte bisher nackt auf kontakt.html:
+       Fläche, Objektart und Turnus, die der Nutzer gerade eingestellt hat,
+       gingen dabei verloren und mussten im Formular komplett neu eingegeben
+       werden — und im Anfrage-Mail stand am Ende keine Zahl, sodass die
+       zugesagte 24-Stunden-Bestätigung ohne Nachrechnen gar nicht möglich
+       war. Der Knopf trägt den Zustand jetzt als Parameter weiter. */
+    var cta = root.querySelector('.calc-out a[href]');
 
     function countTo(el, target) {
       if (reduced) { el.textContent = de(target, 0); shown = target; return; }
@@ -147,6 +198,21 @@
       })(performance.now());
     }
 
+    function updateCta(m) {
+      if (!cta) return;
+      var pressed = root.querySelector('.chip[data-obj][aria-pressed=true]');
+      var objKey = pressed ? objKeyByLabel(pressed.textContent.trim()) : null;
+      var frqKey = turnusKeyByFactor(freqMul);
+      /* Bewusst OHNE Preis im Link: kontakt.html rechnet ihn aus qm/obj/frq
+         selbst neu. Ein Preis als Parameter wäre vom Empfänger eines
+         weitergeleiteten Links frei manipulierbar — die Seite würde dann
+         eine Zahl anzeigen, die nie aus unserer Staffel stammt. */
+      var p = ['qm=' + m];
+      if (objKey) p.push('obj=' + objKey);
+      if (frqKey) p.push('frq=' + frqKey);
+      cta.setAttribute('href', 'kontakt.html?' + p.join('&'));
+    }
+
     function render() {
       var m = +qm.value, r = rate(m) * objMul, perVisit = m * r;
       q('qmOut').textContent = de(m, 0);
@@ -154,6 +220,7 @@
       q('outQmPreis').textContent = de(r, 2) + ' €';
       q('outEinsatz').textContent = de(Math.round(perVisit), 0) + ' €';
       countTo(q('outMonat'), Math.round(perVisit * freqMul / 10) * 10);
+      updateCta(m);
     }
 
     qm.addEventListener('input', render);
@@ -192,6 +259,43 @@
     var turnus = form.querySelector('[data-turnus][aria-pressed=true]');
     turnus = turnus ? turnus.dataset.turnus : '';
 
+    var typSel = form.querySelector('#f-typ');
+    var qmInp = form.querySelector('#f-qm');
+
+    /* ---- 5c. Richtpreis im Formular ----
+       Rechnet live mit, während das Formular ausgefüllt wird, und liefert
+       dieselbe Zahl wie der Rechner auf der Startseite. Gibt null zurück,
+       wenn für die gewählte Objektart kein monatlicher Staffelpreis gilt:
+       Bauendreinigung und "Sonstiges" werden einmalig bzw. individuell
+       abgerechnet — eine Monatszahl wäre dort schlicht falsch. */
+    function richtpreis() {
+      if (!typSel || !qmInp) return null;
+      var label = typSel.value;
+      var key = null;
+      for (var k in OBJEKTE) if (OBJEKTE[k].form === label) key = k;
+      if (!key) return null;
+      var m = parseInt(String(qmInp.value).replace(/[^0-9]/g, ''), 10);
+      if (!m || m < QM_MIN || m > QM_MAX) return null;
+      var t = null;
+      for (var tk in TURNUS) if (TURNUS[tk].label === turnus) t = TURNUS[tk];
+      if (!t) return null;
+      return { m: m, preis: monatspreis(m, OBJEKTE[key].f, t.f), objekt: label, turnus: t.label };
+    }
+
+    var box = document.getElementById('anfragePreis');
+    function renderPreis() {
+      if (!box) return;
+      var r = richtpreis();
+      var out = box.querySelector('[data-role=apPreis]');
+      var meta = box.querySelector('[data-role=apMeta]');
+      if (!r) { box.hidden = true; return; }
+      box.hidden = false;
+      /* textContent, nicht innerHTML: die Werte stammen teils aus der URL
+         (siehe prefillFromUrl) und damit aus fremder Hand. */
+      if (out) out.textContent = de(r.preis, 0);
+      if (meta) meta.textContent = r.objekt + ' · ' + de(r.m, 0) + ' m² · ' + r.turnus;
+    }
+
     function validateStep(stepEl) {
       var fields = [].slice.call(stepEl.querySelectorAll('input, select, textarea'));
       var firstInvalid = fields.find(function (el) { return !el.checkValidity(); });
@@ -223,8 +327,43 @@
         form.querySelectorAll('[data-turnus]').forEach(function (c) { c.setAttribute('aria-pressed', 'false'); });
         chip.setAttribute('aria-pressed', 'true');
         turnus = chip.dataset.turnus;
+        renderPreis();
       });
     });
+    if (typSel) typSel.addEventListener('change', renderPreis);
+    if (qmInp) qmInp.addEventListener('input', renderPreis);
+
+    /* ---- Übernahme aus dem Preisrechner ----
+       Jeder Wert wird gegen eine Positivliste bzw. den zulässigen Bereich
+       geprüft, bevor er ins Formular geschrieben wird. Unbekannte oder
+       manipulierte Parameter werden ignoriert, nicht übernommen — der
+       Link ist frei editierbar und kann weitergeleitet werden. */
+    function prefillFromUrl() {
+      var p;
+      try { p = new URLSearchParams(location.search); } catch (e) { return; }
+      if (!p.toString()) return;
+
+      var qmRaw = parseInt(p.get('qm'), 10);
+      if (qmInp && qmRaw >= QM_MIN && qmRaw <= QM_MAX) qmInp.value = String(qmRaw);
+
+      var obj = OBJEKTE[p.get('obj')];
+      if (typSel && obj) {
+        [].slice.call(typSel.options).forEach(function (o) {
+          if (o.value === obj.form || o.textContent === obj.form) typSel.value = o.value;
+        });
+      }
+
+      var t = TURNUS[p.get('frq')];
+      if (t) {
+        form.querySelectorAll('[data-turnus]').forEach(function (c) {
+          var hit = c.dataset.turnus === t.label;
+          c.setAttribute('aria-pressed', hit ? 'true' : 'false');
+          if (hit) turnus = t.label;
+        });
+      }
+    }
+    prefillFromUrl();
+    renderPreis();
 
     form.addEventListener('submit', function (e) {
       e.preventDefault();
@@ -232,17 +371,24 @@
       var val = function (id) { var el = form.querySelector(id); return el ? el.value.trim() : ''; };
       var typ = val('#f-typ'), qm = val('#f-qm'), plz = val('#f-plz');
       var name = val('#f-name'), email = val('#f-email'), tel = val('#f-tel');
+      /* Der Richtpreis gehört in die Mail: er ist die Zahl, die der Kunde
+         auf der Seite gesehen hat. Ohne ihn müsste die 24-Stunden-Zusage
+         mit einer Nachrechnung beginnen — und im Zweifel mit einer anderen
+         Zahl als der, auf die sich der Kunde eingestellt hat. */
+      var r = richtpreis();
       var body = [
         'Neue Anfrage über liss-reinigungsservice.de', '',
         'Objektart: ' + typ,
         'Fläche: ' + qm + ' m²',
         'Postleitzahl: ' + plz,
-        'Turnus: ' + (turnus || '—'), '',
+        'Turnus: ' + (turnus || '—'),
+        'Richtpreis laut Rechner: ' + (r ? de(r.preis, 0) + ' € / Monat netto' : '— (nicht aus der Staffel berechenbar)'), '',
         'Name: ' + name,
         'E-Mail: ' + email,
         'Telefon: ' + (tel || '—')
       ].join('\n');
-      var subject = 'Anfrage: ' + typ + ', ' + qm + ' m², PLZ ' + plz;
+      var subject = 'Anfrage: ' + typ + ', ' + qm + ' m², PLZ ' + plz
+        + (r ? ', ' + de(r.preis, 0) + ' €/Mon.' : '');
       window.location.href = 'mailto:info@liss-reinigungsservice.de'
         + '?subject=' + encodeURIComponent(subject)
         + '&body=' + encodeURIComponent(body);

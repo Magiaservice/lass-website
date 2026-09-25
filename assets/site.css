@@ -46,6 +46,27 @@ body{
        .lv-Karten bleiben weiß, Header bleibt sein eigenes
        Blur-/Transparenz-Rezept — nichts davon wird hier angefasst). --- */
 body.lg-videobg{background:transparent}
+/* Fliesstext auf dieser Seite eine Stufe dunkler als das sonst genutzte
+   --stahl. Grund ist gemessen, nicht geschaetzt: der Text steht hier nicht
+   auf ruhigem Papier, sondern auf Video + .lg-tint + .lg-scrim. Ueber alle
+   36 abgetasteten Frames (ffmpeg, linke 60 % der Flaeche, 5.-Perzentil der
+   Helligkeit nach Nachbildung der drei Ebenen) ergab --stahl nur 3,80:1 im
+   dunkelsten Fall und 4,13:1 im Median — WCAG AA verlangt 4,5:1 fuer
+   Fliesstext. #31426A ist derselbe Farbton, nur abgedunkelt, und kommt auf
+   4,61:1 bzw. 5,01:1. Ueberschriften (--tiefsee) lagen mit 7,67:1 nie im
+   kritischen Bereich und bleiben unveraendert.
+
+   Bewusst NICHT angefasst: die Deckkraft von .lg-scrim. Ein staerkerer
+   Schleier haette denselben Effekt, wuerde aber das Video verdecken — und
+   dass es deutlich sichtbar ist, war die ausdrueckliche Vorgabe. */
+body.lg-videobg p,
+body.lg-videobg .lead{color:#31426A}
+/* Karten mit eigener deckender Flaeche brauchen die Korrektur nicht —
+   dort gilt weiter das normale Grau-Blau des Designsystems. */
+body.lg-videobg .lv p,
+body.lg-videobg .card p,
+body.lg-videobg .ex p,
+body.lg-videobg .form p{color:var(--stahl)}
 .lg-media{
   position:fixed;inset:0;z-index:-1;pointer-events:none;overflow:hidden;
 }
@@ -707,11 +728,46 @@ details p{padding:0 0 var(--s5);font-size:15px;max-width:72ch}
 @media(min-width:1000px){.contact-grid{grid-template-columns:1fr 1fr;gap:var(--s8)}}
 .form{background:#fff;border-radius:var(--r-lg);padding:var(--s5);color:var(--tiefsee);box-shadow:8px 8px 0 var(--leisblau)}
 .form h3{margin-bottom:var(--s5);font-size:20px}
+/* Die weisse Formularkarte steht in einer .tiefsee-bg-Sektion. Deren Regeln
+   .tiefsee-bg h3 und .tiefsee-bg p faerben Text fuer dunklen Grund (weiss
+   bzw. hellblau) und sind spezifischer als die Farbangabe auf .form selbst.
+   Ergebnis bisher, auf der wichtigsten Seite der Website: die Schrittzeile
+   "Schritt 1 von 3" stand weiss auf weiss (Kontrast 1,0:1 — komplett
+   unsichtbar), der Hinweis darunter hellblau auf weiss (1,5:1). Gerade
+   dieser Hinweis erklaert, dass beim Absenden nur das E-Mail-Programm
+   geoeffnet und nichts automatisch verschickt wird — er muss lesbar sein.
+   Hier zurueckgeholt: gleiche Spezifitaet, spaetere Regel gewinnt. */
+.form h3{color:var(--tiefsee)}
+.form p{color:var(--stahl)}
+.form .calc-note{color:var(--nebel)}
 .form-steps{display:flex;gap:var(--s2);margin-bottom:var(--s5)}
 .form-steps div{flex:1;height:4px;background:var(--eis);border-radius:2px}
 .form-steps div.on{background:var(--leisblau)}
 .form-nav{display:flex;gap:var(--s3);margin-top:var(--s2)}
 .form-nav .btn{flex:1}
+
+/* Richtpreis-Übernahme im Anfrageformular.
+   [hidden] muss hier ausdrücklich gewinnen: das Attribut setzt nur
+   display:none über das UA-Stylesheet, ein eigenes display:grid in der
+   Klassenregel hätte höhere Spezifität und würde den Kasten trotz
+   hidden-Attribut zeigen. */
+.ap{
+  display:grid;gap:2px;margin-bottom:var(--s5);
+  padding:var(--s4);border-left:4px solid var(--leisblau);
+  background:var(--aqua-soft);border-radius:0 var(--r) var(--r) 0;
+}
+.ap[hidden]{display:none}
+.ap-k{
+  font-family:var(--mono);font-size:10px;font-weight:500;letter-spacing:.14em;
+  text-transform:uppercase;color:var(--nebel);
+}
+.ap-v{
+  font-family:var(--mono);font-weight:700;color:var(--leisblau);
+  font-size:clamp(26px,6vw,34px);letter-spacing:-.03em;line-height:1.1;
+  font-variant-numeric:tabular-nums;
+}
+.ap-v small{font-size:12px;font-weight:500;color:var(--stahl);letter-spacing:0}
+.ap-m{font-family:var(--mono);font-size:11px;color:var(--stahl);margin-top:2px}
 /* display bewusst nicht gesetzt: .field>label (weiter oben) macht daraus
    flex+space-between, damit ein optionaler .fval-Zusatz (z. B. "optional")
    wie beim Rechner rechtsbündig neben dem Label-Text steht, statt darunter

@@ -8,6 +8,26 @@
 <meta name="robots" content="noindex,nofollow">
 <title>LISS Reinigungsservice Hannover · Büroreinigung zum Festpreis</title>
 <meta name="description" content="Büro-, Praxis- und Treppenhausreinigung in Hannover zum veröffentlichten Festpreis. Angebot in 24 Stunden, feste Reinigungskraft, Foto-Protokoll nach jedem Einsatz.">
+<!-- Favicon + Link-Vorschau.
+     og:url zeigt auf die aktuelle GitHub-Pages-Adresse — beim Wechsel
+     auf die echte Domain hier UND in sitemap.xml mit austauschen.
+     Kein <link rel="canonical">: solange die Seite auf noindex steht,
+     waere eine Kanonisierung ohne endgueltige Domain nur Ballast
+     (siehe compliance/OFFENE-PUNKTE.md, Punkt 9). -->
+<link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+<link rel="icon" href="assets/favicon-32.png" sizes="32x32">
+<link rel="apple-touch-icon" href="assets/apple-touch-icon.png">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="LISS Reinigungsservice">
+<meta property="og:locale" content="de_DE">
+<meta property="og:url" content="https://lexikal.github.io/lass-website/">
+<meta property="og:title" content="LISS Reinigungsservice Hannover · Büroreinigung zum Festpreis">
+<meta property="og:description" content="Büro-, Praxis- und Treppenhausreinigung in Hannover zum veröffentlichten Festpreis. Angebot in 24 Stunden, feste Reinigungskraft, Foto-Protokoll nach jedem Einsatz.">
+<meta property="og:image" content="https://lexikal.github.io/lass-website/assets/og-card.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="LISS Reinigungsservice Hannover — Festpreis, Angebot in 24 Stunden, Foto-Protokoll je Einsatz">
+<meta name="twitter:card" content="summary_large_image">
 <link rel="stylesheet" href="assets/fonts/fonts.css">
 <link rel="stylesheet" href="assets/site.css">
 <!-- GSAP + ScrollTrigger + Lenis, self-hosted unter assets/vendor/
@@ -101,7 +121,9 @@
        gesetzter, rechts auslaufender Streifen. Der Fortschritt des Videos
        hängt am Scroll (siehe GSAP-Block am Seitenende). -->
   <div class="hv-media" aria-hidden="true">
-    <video class="hv-video" muted playsinline preload="auto" disablepictureinpicture
+    <!-- preload="none", freigegeben vom GSAP-Block unten — siehe die
+         ausfuehrliche Begruendung am zusagen-Video. -->
+    <video class="hv-video" muted playsinline preload="none" disablepictureinpicture
            poster="assets/hero-poster.jpg" src="assets/hero.mp4"></video>
   </div>
 
@@ -184,7 +206,13 @@
        voll sichtbar) statt umgekehrt. Scrollt am Fortschritt der Liste
        rechts, nicht in eigener Schleife — siehe GSAP-Block. -->
   <div class="zusagen-media" aria-hidden="true">
-    <video class="zusagen-video" muted playsinline preload="auto" disablepictureinpicture
+    <!-- preload="none" ist hier der richtige Ausgangszustand, nicht eine
+         Sparmassnahme: dieses Video bewegt sich ausschliesslich am Scroll
+         (kein autoplay, kein loop). Ohne den GSAP-Block unten passiert
+         damit gar nichts — es bliebe ein 2,2-MB-Download, der dauerhaft auf
+         Frame 0 steht. Das Laden wird deshalb dort aktiv freigegeben, wo es
+         auch angesteuert wird. Bis dahin steht das Poster. -->
+    <video class="zusagen-video" muted playsinline preload="none" disablepictureinpicture
            poster="assets/zusagen-poster.jpg" src="assets/zusagen.mp4"></video>
   </div>
   <div class="wrap zusagen">
@@ -450,8 +478,23 @@
          Wichtig zur Erwartung: beide Dateien sind keyframe-dicht kodiert
          (ein Keyframe pro Frame), damit jeder Rücksprung beim Scrubben
          ohne GOP-Neuaufbau auskommt. --- */
+  /* Datensparmodus des Browsers. Wer ihn eingeschaltet hat, hat aktiv um
+     weniger Datenverkehr gebeten — zwei Hintergrundvideos von zusammen
+     5 MB sind genau das, was damit gemeint ist. Die Poster bleiben stehen,
+     die Seite ist inhaltlich vollstaendig. */
+  var sparmodus = (navigator.connection && navigator.connection.saveData === true)
+    || window.matchMedia('(prefers-reduced-data: reduce)').matches;
+
   function bindVideoScrub(vid, triggerEl, startPos, endPos, scrubAmt) {
     if (!vid) return;
+    if (sparmodus) return;          /* Poster bleibt, nichts wird geladen */
+    /* Freigabe des Downloads. Im Markup steht preload="none", weil das
+       Video ohne diesen Code weder abgespielt noch gescrubbt wird. Bewusst
+       KEIN zusaetzliches load(): das Setzen von preload startet den
+       Ladevorgang bereits, load() wuerde das Medienelement zuruecksetzen
+       und ein zweites Mal vollstaendig laden (gemessen: 2 Anfragen,
+       4,45 MB statt einer mit 2,22 MB). */
+    vid.preload = 'auto';
     var scrubTrigger = null;
 
     /* Rückfallebene: kann der Browser die Datei nicht dekodieren (z. B.
@@ -584,7 +627,21 @@
      scrub-Wert weiterhin niedriger als beim Hero (0.15 statt 0.6): Lenis
      glättet den Scroll bereits selbst (duration 1.05, siehe oben) — ein
      zusätzliches scrub von 0.6 addiert eine zweite, unabhängige
-     Nachlauf-Verzögerung obendrauf, das wirkte hier spürbar träge. */
+     Nachlauf-Verzögerung obendrauf, das wirkte hier spürbar träge.
+
+     Geladen wird die Datei erst kurz bevor der Abschnitt sichtbar wird
+     (preload="none" im Markup, siehe dort). Der Vorlauf von 900 px ist
+     bewusst grösser als der Startpunkt des Scrubs ('top bottom' = Oberkante
+     erreicht Viewport-Unterkante): der ScrollTrigger existiert damit
+     garantiert, bevor seine eigene Startlinie erreicht wird, und der
+     3-Sekunden-Wachhund in bindVideoScrub beginnt erst mit dem Ladevorgang
+     statt schon beim Seitenaufbau.
+
+     Ein zusaetzliches Aufschieben per IntersectionObserver wurde gemessen
+     und wieder verworfen: der Abschnitt beginnt bei 900 px Viewporthoehe
+     rund 130 px unter der Falz, jeder brauchbare Vorlauf loest also sofort
+     beim Laden aus. Der Datenverkehr blieb exakt gleich, der Code waere nur
+     laenger geworden. */
   bindVideoScrub(document.querySelector('.zusagen-video'), document.querySelector('.zusagen'), 'top bottom', 'bottom top', 0.15);
 
   /* ============================================================

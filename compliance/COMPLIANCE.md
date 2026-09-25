@@ -1,17 +1,18 @@
 # Compliance-Status — LISS Reinigungsservice
 
-Stand: **2026-09-25** (7. Durchgang — echte Firmendaten des Kunden
+Stand: **2026-09-25** (8. Durchgang — echte Firmendaten des Kunden
 eingearbeitet: Inhaber, Anschrift, Telefon, Kleinunternehmerstatus, Hosting-
-Rollenklärung STRATO/GitHub Pages). 6. Durchgang: Standorte-Umbenennung +
-Doorway-Page-Hinweis. 5. Durchgang: Discoverability/SEO-Grundlagen
-(Indexierungssperre, Sitemap, LocalBusiness-Schema, unbelegte Jahreszahl
-entfernt). 4. Durchgang: kompletter Re-Scan ohne Vorannahmen, plus
-Security-Audit nach OWASP Top 10:2025 und Code-Review. 3. Durchgang:
-Kontaktformular repariert, GSAP/ScrollTrigger/Lenis self-hosted. 2.
-Durchgang: voller Compliance-Re-Scan. 1. Durchgang: 2026-08-11, Grundlagen
-(Footer-Links, Fonts, Streitschlichtung). Nächste Re-Prüfung: spätestens
-**2027-03-25** (alle 6 Monate) oder sofort bei jeder neuen externen
-Einbindung.
+Rollenklärung STRATO/GitHub Pages). 7. Durchgang: Audit auf Wirkung und
+Zugänglichkeit (Rechner-Übergabe, Kontrastfehler, toter Datenverkehr,
+Favicon/Open Graph). 6. Durchgang: Standorte-Umbenennung + Doorway-Page-
+Hinweis. 5. Durchgang: Discoverability/SEO-Grundlagen (Indexierungssperre,
+Sitemap, LocalBusiness-Schema, unbelegte Jahreszahl entfernt). 4. Durchgang:
+kompletter Re-Scan ohne Vorannahmen, plus Security-Audit nach OWASP Top
+10:2025 und Code-Review. 3. Durchgang: Kontaktformular repariert,
+GSAP/ScrollTrigger/Lenis self-hosted. 2. Durchgang: voller Compliance-
+Re-Scan. 1. Durchgang: 2026-08-11, Grundlagen (Footer-Links, Fonts,
+Streitschlichtung). Nächste Re-Prüfung: spätestens **2027-03-25** (alle 6
+Monate) oder sofort bei jeder neuen externen Einbindung.
 
 Dieser Prototyp ist **nicht** live geschaltet. Die Punkte unten sind der
 Stand der technischen Umsetzung; sie ersetzen keine anwaltliche Prüfung
@@ -50,8 +51,8 @@ Kernabschnitte (Impressum, Datenschutz, Cookies, Lizenzen, ggf. BFSG).
 | Kontaktformular funktionsfähig | ✅ | 3 Schritte, Pro-Schritt-Validierung, `mailto:`-Absenden. Details: Security-Abschnitt unten. |
 | `standorte.html` — 14 Stadtteilseiten-Links auf `#` | ⚠️ **absichtlich nicht angefasst** | Sind laut `CLAUDE.md` ("Was als Nächstes ansteht", Punkt 1) ein dokumentierter, offener Roadmap-Punkt (Seiten existieren einfach noch nicht) — kein Bug wie die Footer-Fake-Links oben, sondern ehrliche Baustelle. Nicht verändert. |
 | `.scene-bg` / `.scene-ph` (ungenutztes CSS) | ⚠️ **absichtlich nicht angefasst** | Aktuell kein HTML-Treffer, aber passt zu `CLAUDE.md`-Punkt 4 ("Zweites Hintergrundvideo für die angeheftete Scroll-Szene, Konzept vorhanden, noch nicht generiert") — vermutlich Vorbereitung für dieses Feature. Nicht gelöscht. |
-| **Impressum — Firmendaten (NEU, 7. Durchgang)** | ⚠️ | Inhaber (Hassan Daoud), Anschrift (Am Bornberg 82, 29690 Schwarmstedt) und Telefon (0152 0313 3132) sind jetzt echt, zweimal eingetragen (Diensteanbieter + § 18 Abs. 2 MStV). USt-IdNr.-Zeile durch korrekte Kleinunternehmer-Formulierung nach § 19 UStG ersetzt (keine Nummer, weil keine vorhanden — richtig so). **Weiterhin offen:** `[Versicherer]`/`[Anschrift]` der Berufshaftpflicht (siehe `OFFENE-PUNKTE.md` Punkt 4) und die Handwerkskammer-Zuständigkeit (neu, siehe Punkt 4a). |
-| **Datenschutz — Hoster-Name (NEU, 7. Durchgang)** | ⚠️ | Abschnitt 7 neu formuliert: STRATO (Domain/E-Mail) und GitHub Pages (Auslieferung der Website-Dateien) sauber als getrennte Rollen benannt, statt fälschlich einen einzigen Hoster mit Serverstandort Deutschland zu behaupten. **Weiterhin offen:** Serverstandort/AVV-Status von GitHub Pages ungeprüft, siehe `OFFENE-PUNKTE.md` Punkt 3. |
+| **Impressum — Firmendaten (NEU, 8. Durchgang)** | ⚠️ | Inhaber (Hassan Daoud), Anschrift (Am Bornberg 82, 29690 Schwarmstedt) und Telefon (0152 0313 3132) sind jetzt echt, zweimal eingetragen (Diensteanbieter + § 18 Abs. 2 MStV). USt-IdNr.-Zeile durch korrekte Kleinunternehmer-Formulierung nach § 19 UStG ersetzt (keine Nummer, weil keine vorhanden — richtig so). **Weiterhin offen:** `[Versicherer]`/`[Anschrift]` der Berufshaftpflicht (siehe `OFFENE-PUNKTE.md` Punkt 4) und die Handwerkskammer-Zuständigkeit (neu, siehe Punkt 4a). |
+| **Datenschutz — Hoster-Name (NEU, 8. Durchgang)** | ⚠️ | Abschnitt 7 neu formuliert: STRATO (Domain/E-Mail) und GitHub Pages (Auslieferung der Website-Dateien) sauber als getrennte Rollen benannt, statt fälschlich einen einzigen Hoster mit Serverstandort Deutschland zu behaupten. **Weiterhin offen:** Serverstandort/AVV-Status von GitHub Pages ungeprüft, siehe `OFFENE-PUNKTE.md` Punkt 3. |
 | Sichtbare KI-Kennzeichnung am Hero-Video selbst | ❌ | Zusage steht, ist am Video selbst noch nicht eingelöst. Siehe `OFFENE-PUNKTE.md`. |
 | **§ 22 KUG für `hero.mp4`/`zusagen.mp4` (NEU, 2026-08-22)** | ✅ n/a | Nicht anwendbar — bestätigt reines Text-zu-Video ohne Image-to-Video und ohne reales Referenzfoto/-video einer echten Person, daher keine „Abgebildete" i. S. d. § 22 KUG; Art. 50 KI-VO/§ 5 UWG bleiben davon unberührt offen, siehe `OFFENE-PUNKTE.md` Punkt 6/10. |
 | Kontaktformular — echtes Backend statt `mailto:`? | — (Entscheidung offen) | Siehe `OFFENE-PUNKTE.md` Punkt 5. |
@@ -60,8 +61,11 @@ Kernabschnitte (Impressum, Datenschutz, Cookies, Lizenzen, ggf. BFSG).
 | Rechtstexte fachlich geprüft | ❌ | Weiterhin als Entwurf markiert. |
 | **Indexierungssperre (NEU, 5. Durchgang)** | ✅ | `robots.txt` (`Disallow: /`) + `<meta name="robots" content="noindex,nofollow">` auf allen 12 Seiten. Notwendig, solange Impressum-Platzhalter live erreichbar sind — Disallow allein verhindert nur das Crawlen, nicht zuverlässig die Indexierung. |
 | **Sitemap.xml (NEU, 5. Durchgang)** | ✅ | Alle 12 Seiten, vorbereitet für den Live-Gang, in `robots.txt` bewusst noch nicht referenziert. |
-| **LocalBusiness Schema.org (aktualisiert, 7. Durchgang)** | ✅ | Auf `index.html`. `address` (PostalAddress) und `telephone` jetzt mit den echten Firmendaten ergänzt, JSON per `json.loads()` gegengeprüft — valide. Weiterhin ohne `foundingDate` (Gründungsjahr unbestätigt). |
+| **LocalBusiness Schema.org (aktualisiert, 8. Durchgang)** | ✅ | Auf `index.html`. `address` (PostalAddress) und `telephone` jetzt mit den echten Firmendaten ergänzt, JSON per `json.loads()` gegengeprüft — valide. Weiterhin ohne `foundingDate` (Gründungsjahr unbestätigt). |
 | **„seit 2026" ohne Beleg (NEU, 5. Durchgang)** | ✅ | Stand unbelegt an drei Stellen (`index.html` Hero-Kennzeile, `ueber-uns.html` Meta-Description/Lead/Kennzahl) — dieses Projekt nennt selbst nur „neu gegründet", kein Jahr. Entfernt bzw. durch anderswo bereits veröffentlichte, belegbare Aussage ersetzt. Details: `OFFENE-PUNKTE.md` Punkt 9. |
+| **Rechner-Übergabe an das Formular (NEU, 7. Durchgang)** | ✅ | Fläche/Objektart/Turnus werden jetzt per URL-Parameter an `kontakt.html` übergeben und dort live neu berechnet (nicht der Preis selbst, siehe § 5 UWG-Begründung unten). |
+| **Kontrastfehler behoben (NEU, 7. Durchgang)** | ✅ | Drei Fundstellen unter WCAG AA (4,5:1), gemessen statt geschätzt — siehe Durchgang-Log unten. |
+| **Favicon/Open Graph (NEU, 7. Durchgang)** | ✅ | Vorher auf keiner der 12 Seiten vorhanden, jetzt überall inkl. `og-card.jpg`. |
 
 ---
 
@@ -166,16 +170,17 @@ Keine gefunden.
 
 ## Blocker für einen Launch (nicht abschließend)
 
-1. `impressum.html`: Berufshaftpflicht-Versicherer + Anschrift (`[Versicherer]`/`[Anschrift]`) weiterhin Platzhalter — einzige verbliebene Lücke in diesem Dokument. Inhaber/Anschrift/Telefon/Kleinunternehmerstatus sind seit 7. Durchgang echt.
-2. `impressum.html`: Zuständigkeit der Handwerkskammer Hannover für den neuen Standort Schwarmstedt ungeprüft (neu, 7. Durchgang) — siehe `OFFENE-PUNKTE.md` Punkt 4a.
+1. `impressum.html`: Berufshaftpflicht-Versicherer + Anschrift (`[Versicherer]`/`[Anschrift]`) weiterhin Platzhalter — einzige verbliebene Lücke in diesem Dokument. Inhaber/Anschrift/Telefon/Kleinunternehmerstatus sind seit 8. Durchgang echt.
+2. `impressum.html`: Zuständigkeit der Handwerkskammer Hannover für den neuen Standort Schwarmstedt ungeprüft (neu, 8. Durchgang) — siehe `OFFENE-PUNKTE.md` Punkt 4a.
 3. `datenschutz.html`: Serverstandort und AVV-Status von GitHub Pages (GitHub, Inc.) ungeprüft — Abschnitt 7 beschreibt das jetzt ehrlich als offene Frage statt es zu behaupten, siehe `OFFENE-PUNKTE.md` Punkt 3.
 4. Rechtstexte insgesamt noch nicht anwaltlich freigegeben.
 5. BFSG-Anwendbarkeit nicht abschließend geklärt.
 6. Lizenznachweis für `hero.mp4` (Seedance) fehlt noch, ebenso sichtbare KI-Kennzeichnung am Video selbst.
 
-*Kein Blocker (mehr):* Kontaktformular funktioniert, keine externen
-Verbindungen mehr, keine Sicherheitslücken gefunden, keine kritischen
-Code-Probleme.
+*Kein Blocker (mehr):* Kontaktformular funktioniert (inkl. Rechner-Übergabe
+seit 7. Durchgang), keine externen Verbindungen mehr, keine
+Sicherheitslücken gefunden, keine kritischen Code-Probleme, WCAG-AA-
+Kontrastfehler behoben.
 
 ## Änderungen im 4. Durchgang (2026-08-16)
 
@@ -221,7 +226,105 @@ Code-Probleme.
   FAQ-/Preisbeispiel-Passagen — nicht mechanisch dieselbe Vorlage mit
   ausgetauschtem Namen.
 
-## Änderungen im 7. Durchgang (2026-09-25)
+## Änderungen im 7. Durchgang (2026-08-27) — Audit auf Wirkung und Zugänglichkeit
+
+Schwerpunkt diesmal nicht Rechtstext, sondern: funktioniert die Seite
+eigentlich als das, was sie sein soll — und ist sie lesbar?
+
+**Barrierefreiheit (BFSG-relevant, gemessen statt geschätzt)**
+
+- `kontakt.html`, Schrittüberschrift im Formular: stand **weiß auf weiß,
+  Kontrast 1,0:1 — vollständig unsichtbar**. Ursache: `.tiefsee-bg h3
+  {color:#fff}` färbt für dunklen Grund und ist spezifischer als die
+  Farbangabe auf `.form` selbst; die weiße Formularkarte steht aber in
+  einer `.tiefsee-bg`-Sektion. Der Nutzer konnte auf der wichtigsten
+  Seite der Website nicht sehen, in welchem von drei Schritten er steht.
+  Jetzt 16,5:1.
+- Dieselbe Ursache, zweite Stelle: der Hinweistext unter dem Formular
+  („… öffnet Ihr E-Mail-Programm, nichts wird automatisch verschickt")
+  stand hellblau auf weiß, **1,5:1**. Ausgerechnet die Passage, die die
+  Datenverarbeitung transparent macht, war praktisch unlesbar. Jetzt
+  6,0:1.
+- `leistungen.html`, Fließtext über dem Vollbild-Hintergrundvideo:
+  **3,80:1 im ungünstigsten Videobild, 4,13:1 im Median — AA verlangt
+  4,5:1**. Gemessen, nicht geschätzt: 36 Frames aus
+  `assets/leistungen-bg.mp4` abgetastet (ffmpeg), linke 60 % der Fläche,
+  5.-Perzentil der Helligkeit, nachdem Multiply-Blend, `.lg-tint` und
+  `.lg-scrim` rechnerisch nachgebildet wurden. Behoben durch eine
+  dunklere Fließtextfarbe **nur auf dieser Seite** (`#31426A`, gleicher
+  Farbton) → 4,61:1 bzw. 5,01:1. Die Deckkraft von `.lg-scrim` wurde
+  bewusst **nicht** erhöht: das hätte denselben Effekt gehabt, aber das
+  Video verdeckt — dass es deutlich sichtbar bleibt, war ausdrückliche
+  Kundenvorgabe (siehe `OFFENE-PUNKTE.md` Punkt 12). Überschriften lagen
+  mit 7,7:1 nie im kritischen Bereich.
+
+**Wirksamkeit des Alleinstellungsmerkmals**
+
+- Der Preisrechner führte in eine Sackgasse: sein Knopf verwies nackt auf
+  `kontakt.html`, sämtliche Eingaben (Fläche, Objektart, Turnus) gingen
+  verloren und mussten im Formular neu eingegeben werden — und in der
+  Anfrage-Mail stand am Ende **keine Zahl**. Die zugesagte
+  24-Stunden-Bestätigung hätte also mit einer Nachrechnung beginnen
+  müssen, im Zweifel mit einem anderen Ergebnis als dem, das der Kunde
+  gesehen hat. Der Knopf trägt den Zustand jetzt als Parameter weiter
+  (`?qm=…&obj=…&frq=…`), das Formular übernimmt ihn und rechnet live mit,
+  die Zahl steht in Betreff und Text der Mail.
+- **Der Preis wird bewusst nicht im Link mitgeschickt**, sondern auf
+  `kontakt.html` aus Fläche/Objektart/Turnus neu berechnet. Ein Preis als
+  Parameter wäre von jedem, der den Link weiterleitet oder bearbeitet,
+  frei manipulierbar — die Seite würde dann eine Zahl anzeigen, die nie
+  aus unserer Staffel stammt (§ 5 UWG). Alle drei Parameter werden gegen
+  Positivliste bzw. zulässigen Bereich (40–1.200 m²) geprüft, Ausgabe
+  ausschließlich über `textContent`.
+- Für **Bauendreinigung und „Sonstiges" bleibt der Kasten leer**: dort
+  gilt kein monatlicher Staffelpreis, eine Monatszahl wäre schlicht
+  falsch.
+
+**Datenverkehr**
+
+- Beide Startseiten-Videos standen auf `preload="auto"` und wurden auch
+  dann vollständig geladen (**5,0 MB**), wenn sie nie laufen konnten:
+  bei `prefers-reduced-motion: reduce` steigt der GSAP-Block aus, bevor
+  die Videos gebunden werden, und ohne JavaScript passiert ohnehin
+  nichts — beides ergab 5 MB Download für ein Standbild. Markup jetzt
+  `preload="none"`; freigegeben wird dort, wo das Video auch angesteuert
+  wird. Gemessen: reduzierte Bewegung **5,0 MB → 0 MB**, Normalfall
+  unverändert. Zusätzlich respektiert wird jetzt der Datensparmodus
+  (`navigator.connection.saveData` / `prefers-reduced-data`) — geprüft,
+  greift.
+- Verworfen nach Messung: zusätzliches Aufschieben per
+  IntersectionObserver. Der Zusagen-Abschnitt beginnt rund 130 px unter
+  der Falz, jeder brauchbare Vorlauf löst sofort beim Laden aus — der
+  Datenverkehr blieb exakt gleich, der Code wäre nur länger geworden.
+  (Ein erster Anlauf mit `preload='auto'` **und** `load()` lud die Datei
+  sogar zweimal: 4,45 MB statt 2,22 MB.)
+
+**Link-Vorschau und Favicon (vorher auf allen 12 Seiten nicht vorhanden)**
+
+- `assets/favicon.svg` + PNG-Rasterfassungen, `apple-touch-icon`.
+  Motiv ist die Seifenblase aus dem bestehenden Designsystem (`.bub`,
+  Regler-Knopf des Rechners) — der Wortmarken-Schriftzug ist bei 16 px
+  nicht lesbar.
+- Open-Graph- und Twitter-Card-Auszeichnung auf allen 12 Seiten, je
+  Seite mit deren eigenem Titel/Beschreibung, plus `assets/og-card.jpg`
+  (1200×630, in den echten Markenschriften gesetzt). Bis dahin erschien
+  jeder weitergeleitete Link als nackte URL ohne Vorschau — für einen
+  B2B-Verteiler (Hausverwaltung leitet an Entscheider weiter) der
+  Normalfall, nicht der Sonderfall. Enthält ausschließlich bereits
+  veröffentlichte Aussagen (Festpreis, 24 Std., Foto-Protokoll), keine
+  neuen Behauptungen.
+- `og:url` zeigt auf die GitHub-Pages-Adresse und muss beim Wechsel auf
+  die echte Domain zusammen mit `sitemap.xml` angepasst werden.
+  `rel="canonical"` bewusst weiterhin nicht gesetzt, siehe
+  `OFFENE-PUNKTE.md` Punkt 9.
+
+**Nicht angefasst:** Preise, Leistungstexte, Rechtstexte, die drei
+Videodateien selbst, `hero.mp4`-Kodierung, Fonts, GSAP/Lenis. Die offenen
+Punkte 1–4, 6, 7, 10 und 12 in `OFFENE-PUNKTE.md` bleiben unverändert
+offen — sie brauchen Kunden- bzw. Rechtsauskunft, keinen weiteren
+Technik-Durchgang.
+
+## Änderungen im 8. Durchgang (2026-09-25)
 
 Kunde (Hassan Daoud) hat echte Firmendaten geliefert — bisher als
 Platzhalter in `OFFENE-PUNKTE.md` Punkte 1–3 offen. Umgesetzt:
@@ -268,7 +371,7 @@ Platzhalter in `OFFENE-PUNKTE.md` Punkte 1–3 offen. Umgesetzt:
   eigenem SPA-Routing, offensichtlich kein Teil der aktuell gepflegten
   Seite; nicht Gegenstand dieses Auftrags.
 
-**Neuer offener Punkt (7. Durchgang):** Die im Impressum stehende
+**Neuer offener Punkt (8. Durchgang):** Die im Impressum stehende
 Behauptung „Eingetragen in der Handwerksrolle der Handwerkskammer
 Hannover" war schon vorher ungeprüft (`CLAUDE.md`, „Was als Nächstes
 ansteht", Punkt 4). Mit der jetzt echten Adresse Schwarmstedt (Landkreis

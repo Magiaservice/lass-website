@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" role="img" aria-label="LISS">
+  <!-- Markenzeichen fuer Browser-Tab und Lesezeichen.
+       Bewusst NICHT der Wortmarken-Schriftzug aus assets/mark-blue.png: der
+       ist 560x232 breit und bei 16 px Kantenlaenge nicht mehr lesbar.
+       Stattdessen die Seifenblase, die als Motiv ohnehin durch die ganze
+       Seite laeuft (.bub in site.css, der Regler-Knopf des Preisrechners,
+       das Zusagen-Video) - gleiche Farbwerte, gleicher Lichtpunkt.
+       Farben aus den CSS-Variablen: --leisblau #012E89, --aqua #9FC2E8. -->
+  <defs>
+    <radialGradient id="b" cx="34%" cy="28%" r="72%">
+      <stop offset="0%"   stop-color="#FFFFFF"/>
+      <stop offset="14%"  stop-color="#FFFFFF"/>
+      <stop offset="46%"  stop-color="#C5D9F5"/>
+      <stop offset="78%"  stop-color="#9FC2E8"/>
+      <stop offset="100%" stop-color="#4E7FC4"/>
+    </radialGradient>
+  </defs>
+  <rect width="32" height="32" rx="6" fill="#012E89"/>
+  <circle cx="16" cy="16.5" r="9.5" fill="url(#b)"/>
+  <circle cx="12.4" cy="12.6" r="2.15" fill="#FFFFFF" opacity=".95"/>
+</svg>
