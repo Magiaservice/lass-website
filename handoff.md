@@ -117,6 +117,40 @@ FAQ-Auswahl), sonst Google-Spam-Risiko.
 
 Ein vollständiger, datierter Leistungsnachweis über alle 15
 Arbeitstermine dieses Projekts (08.08.–28.09.2026) wurde am 28.09.2026
-als Artifact erstellt und dem Nutzer als Grundlage für die
-Rechnungsstellung übergeben — nicht Teil dieses Repositorys, nur hier
-vermerkt, falls danach gefragt wird.
+als Artifact erstellt: https://claude.ai/code/artifact/dfd8c8f2-9f56-495c-847b-fe75b49ec15e
+— nicht Teil dieses Repositorys, nur hier vermerkt, falls danach
+gefragt wird. Enthält zwei Abschnitte:
+
+1. Chronologischer Arbeitsnachweis (alle 15 Termine, aus `git log`
+   gebaut, nichts erfunden) mit leerer Tabelle am Ende für
+   Stunden/Satz — der Nutzer trägt Preise selbst ein.
+2. „Recht- und Sicherheitsstatus" — Kurz-Auszug aus
+   `compliance/COMPLIANCE.md`/`OFFENE-PUNKTE.md` als Tabelle, mit
+   explizitem Hinweis, dass das **nur** technische/rechtliche Prüfungen
+   am Code abdeckt, keine Markt-/Wettbewerbsrecherche.
+
+**Falls danach gefragt wird, das Artifact zu aktualisieren:** mit
+Read (`action:"read"`, diese URL) den aktuellen Stand holen, dann mit
+demselben `file_path`-Trick in dieser Art weiterbauen (Datei lokal
+ändern, mit `url` erneut publishen) — nicht neu von null anlegen, sonst
+entsteht ein zweites Artifact mit anderem Link.
+
+**Offener Punkt vom Nutzer, noch nicht aufgelöst:** Er ist überzeugt,
+dass es **vor** diesem Projekt (vor dem 08.08., dem Datum des ersten
+Commits) eine separate Sitzung mit Markt-/Wettbewerbsrecherche und
+Strategiearbeit gab — vermutlich über die `website-factory`-Skill-Phasen
+`researcher`/`strategist`. **In diesem Repository und in keinem der
+untersuchten Backup-Ordner (`export/`, `liss-reinigungsservice.html`,
+`lissnetlify.zip`) liegen dazu keine Artefakte** — die Positionierung
+(„Positionierung"-Abschnitt in `CLAUDE.md`) ist von Anfang an bereits
+fertig formuliert vorhanden, ihre Herkunft ist nicht nachvollziehbar.
+Falls der Nutzer mit Informationen aus einer anderen Sitzung
+zurückkommt („ein anderer Chat"), sollen diese in **dasselbe** Artifact
+oben eingearbeitet werden, nicht in ein neues Dokument.
+
+**Technische Notiz:** Auf diesem Mac ist kein Chrome/Chromium
+installiert (nur Safari) — automatisches HTML→PDF-Rendern per
+Headless-Chrome funktioniert hier nicht (getestet, Pfad existiert
+nicht). Für PDF-Wünsche: Nutzer an Safaris eigenen Weg verweisen
+(⌘P → PDF-Dropdown unten links → „Save as PDF") statt einen
+Konvertierungs-Weg zu bauen.
