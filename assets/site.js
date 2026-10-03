@@ -168,11 +168,20 @@
   function de(n, d) { return n.toLocaleString('de-DE', { minimumFractionDigits: d, maximumFractionDigits: d }); }
   function rate(m) { return m < 150 ? 0.90 : m < 400 ? 0.75 : m < 800 ? 0.66 : 0.58; }
 
+  /* Preis je Einsatz vor Objektfaktor. Der Staffelsatz gilt für die ganze
+     Fläche; damit der Preis beim Überschreiten einer Stufe nie sinkt, gilt
+     als Untergrenze der Preis der größten Fläche der Vorstufe
+     (149 m² · 0,90 / 399 m² · 0,75 / 799 m² · 0,66). */
+  function einsatzGrund(m) {
+    var floor = m < 150 ? 0 : m < 400 ? 149 * 0.90 : m < 800 ? 399 * 0.75 : 799 * 0.66;
+    return Math.max(m * rate(m), floor);
+  }
+
   /* Monatlicher Richtpreis, auf 10 € gerundet — dieselbe Rechnung wie im
      Rechner, damit Rechner, Formular-Zusammenfassung und E-Mail garantiert
      dieselbe Zahl zeigen. */
   function monatspreis(m, objF, freqF) {
-    return Math.round(m * rate(m) * objF * freqF / 10) * 10;
+    return Math.round(einsatzGrund(m) * objF * freqF / 10) * 10;
   }
 
   function initCalc(root) {
@@ -214,7 +223,7 @@
     }
 
     function render() {
-      var m = +qm.value, r = rate(m) * objMul, perVisit = m * r;
+      var m = +qm.value, perVisit = einsatzGrund(m) * objMul, r = perVisit / m;
       q('qmOut').textContent = de(m, 0);
       q('outEins').textContent = de(freqMul, 1);
       q('outQmPreis').textContent = de(r, 2) + ' €';
