@@ -1,0 +1,13 @@
+# Interne Dokumente: Repository ist öffentlich — nie committen
+/docs/
+/marktanalyse-*.md
+*.pdf
+
+# Lokale Arbeitsdateien, Backups, Rohmaterial
+/.claude/
+.DS_Store
+*.zip
+/_users_*
+/export/
+/liss-reinigungsservice.html
+/Новая папка/

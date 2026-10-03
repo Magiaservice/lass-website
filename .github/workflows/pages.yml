@@ -24,15 +24,13 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
+      # Whitelist statt Blacklist: nur Website-Dateien gehen online,
+      # interne .md-Dateien (handoff.md, CLAUDE.md) nie.
       - name: Site-Verzeichnis vorbereiten
         run: |
           mkdir -p _site
-          rsync -a \
-            --exclude='_site' \
-            --exclude='.git' \
-            --exclude='.github' \
-            --exclude='compliance' \
-            ./ _site/
+          cp -- *.html CNAME robots.txt sitemap.xml _site/
+          cp -R assets _site/
 
       - name: Configure Pages
         uses: actions/configure-pages@v5
