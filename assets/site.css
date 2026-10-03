@@ -357,7 +357,7 @@ body.nav-open .mobnav{transform:translateX(0)}
   backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);
   border-radius:0;box-shadow:none;color:var(--gletscher);
 }
-.hv .calc-head h3{color:var(--weiss)}
+.hv .calc-head h3,.hv .calc-head h2{color:var(--weiss)}
 .hv .tag{background:rgba(159,194,232,.14);color:var(--aqua)}
 .hv .field>label,.hv .field>.flabel{color:#8FA3CC}
 .hv .field .fval,.hv .field .fval .num{color:var(--weiss)}
@@ -572,6 +572,7 @@ body.nav-open .mobnav{transform:translateX(0)}
 }
 .calc-head{display:flex;justify-content:space-between;align-items:center;gap:var(--s3);margin-bottom:var(--s5)}
 .calc-head h3{font-size:17px}
+.calc-head h2{font-size:17px;font-weight:700;line-height:1.28;letter-spacing:-.01em}
 .tag{
   font-family:var(--mono);font-size:10px;letter-spacing:.1em;text-transform:uppercase;
   background:var(--aqua-soft);color:var(--leisblau);padding:var(--s1) var(--s2);border-radius:var(--r);font-weight:700;
@@ -711,7 +712,7 @@ section{padding:var(--s7) 0;position:relative}
    Leistungsverzeichnis (.lv-grp h4), aber ohne dessen Listen-/Haken-Stil,
    weil hier <details> statt <ul> stehen. */
 .faq-grp+.faq-grp{margin-top:var(--s6)}
-.faq-grp>h4{
+.faq-grp>h2,.faq-grp>h3,.faq-grp>h4{line-height:1.62;
   font-family:var(--mono);font-size:11px;letter-spacing:.12em;text-transform:uppercase;
   color:var(--leisblau);font-weight:700;padding:var(--s4) 0 var(--s2);
 }
@@ -789,7 +790,7 @@ details p{padding:0 0 var(--s5);font-size:15px;max-width:72ch}
 .lv{background:var(--weiss);border:1.5px solid var(--tiefsee);border-radius:var(--r-lg);overflow:hidden}
 .lv-grp{border-bottom:1px solid var(--linie)}
 .lv-grp:last-child{border-bottom:none}
-.lv-grp h4{font-family:var(--mono);font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--leisblau);padding:var(--s4) var(--s4) var(--s2);font-weight:700}
+.lv-grp h3,.lv-grp h4{line-height:1.62;font-family:var(--mono);font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--leisblau);padding:var(--s4) var(--s4) var(--s2);font-weight:700}
 .lv-grp ul{list-style:none;padding:0 var(--s4) var(--s4);display:grid;gap:var(--s2)}
 .lv-grp li{font-size:14px;color:var(--stahl);padding-left:var(--s5);position:relative}
 .lv-grp li::before{content:"✓";position:absolute;left:0;color:var(--leisblau);font-weight:700}
@@ -809,7 +810,7 @@ details p{padding:0 0 var(--s5);font-size:15px;max-width:72ch}
 footer{background:var(--tiefsee);color:#fff;padding:var(--s8) 0 var(--s6);position:relative;overflow:hidden}
 footer .fgrid{display:grid;gap:var(--s6)}
 @media(min-width:760px){footer .fgrid{grid-template-columns:repeat(4,1fr)}}
-.fcol h4{font-family:var(--mono);font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:#8FA3CC;margin-bottom:var(--s3);font-weight:500}
+.fcol h3,.fcol h4{line-height:1.62;font-family:var(--mono);font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:#8FA3CC;margin-bottom:var(--s3);font-weight:500}
 .fcol a{display:block;text-decoration:none;font-size:14px;padding:var(--s1) 0;color:#D6DFF2;transition:color var(--dur-2) var(--ease-soft),transform var(--dur-2) var(--ease-out)}
 /* Öffnungszeiten/Adresse sind reiner Text, keine Ziele zum Anklicken —
    bewusst kein <a href="#">, das nirgendwo hinführt und einen Sprung an
@@ -896,6 +897,7 @@ footer .fgrid{display:grid;gap:var(--s6)}
 /* Rechtstexte */
 .legal{max-width:76ch}
 .legal h3{margin:var(--s6) 0 var(--s3);font-size:19px}
+.legal h2{margin:var(--s6) 0 var(--s3);font-size:19px;font-weight:700;line-height:1.28;letter-spacing:-.01em}
 .legal p{margin-bottom:var(--s3);font-size:15px;line-height:1.7}
 .legal ul{margin:0 0 var(--s3) 20px;font-size:15px;color:var(--stahl);line-height:1.7}
 .legal li{margin-bottom:var(--s1)}
@@ -1058,3 +1060,10 @@ footer .fsub{
   font-family:var(--mono);font-size:10px;letter-spacing:.17em;color:#8FA3CC;
   margin-bottom:var(--s5);display:block;
 }
+
+
+/* Barrierefreiheit: Sprungmarke zum Inhalt, nur bei Tastaturfokus sichtbar */
+.skip{position:fixed;left:-9999px;top:8px;z-index:2000;background:var(--weiss);color:var(--tiefsee);
+  padding:10px 16px;border:2px solid var(--leisblau);border-radius:var(--r);font-weight:600;text-decoration:none}
+.skip:focus{left:12px}
+main:focus{outline:none}

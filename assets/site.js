@@ -297,6 +297,11 @@
     }
 
     function validateStep(stepEl) {
+      var qmField = stepEl.querySelector('#f-qm');
+      if (qmField) {
+        var qmVal = parseInt(qmField.value, 10);
+        qmField.setCustomValidity(qmVal >= 10 ? '' : 'Bitte die Fläche als ganze Zahl in m² angeben (mindestens 10).');
+      }
       var fields = [].slice.call(stepEl.querySelectorAll('input, select, textarea'));
       var firstInvalid = fields.find(function (el) { return !el.checkValidity(); });
       if (firstInvalid) { firstInvalid.reportValidity(); return false; }

@@ -96,6 +96,7 @@
 </script>
 </head>
 <body>
+<a class="skip" href="#main">Zum Inhalt springen</a>
 <div class="page-veil" aria-hidden="true"></div>
 
 <header>
@@ -115,7 +116,7 @@
   <a class="btn btn--ghost" href="tel:+4915203133132">0152 0313 3132</a>
 </nav>
 
-<main>
+<main id="main" tabindex="-1">
 <section class="hv" id="hero">
   <!-- Wasserband: kein Vollflächen-Hintergrund, sondern ein bewusst
        gesetzter, rechts auslaufender Streifen. Der Fortschritt des Videos
@@ -148,7 +149,7 @@
    </div>
 
     <div class="hv-panel"><div class="calc">
-      <div class="calc-head"><h3>Preis jetzt berechnen</h3><span class="tag">Live</span></div>
+      <div class="calc-head"><h2>Preis jetzt berechnen</h2><span class="tag">Live</span></div>
       <div class="field">
         <label>Fläche <span class="fval"><span class="num" data-role="qmOut">180</span> m²</span></label>
         <input type="range" data-role="qm" min="40" max="1200" step="10" value="180" aria-label="Fläche in Quadratmetern">
@@ -360,11 +361,11 @@
 <footer class="stage">
   <div class="layer blob b2" data-px="0.10" style="opacity:.22" aria-hidden="true"></div>
   <div class="wrap">
-    <img class="flogo" src="assets/mark-white.png" alt="LISS">
+    <img class="flogo" src="assets/mark-white.png" alt="LISS" width="560" height="232">
     <span class="fsub">REINIGUNGSSERVICE · HANNOVER</span>
     <div class="fgrid">
       <div class="fcol">
-        <h4>Leistungen</h4>
+        <h3>Leistungen</h3>
         <a href="bueroreinigung.html">Büroreinigung</a>
         <a href="leistungen.html#praxis">Praxisreinigung</a>
         <a href="leistungen.html#treppenhaus">Treppenhausreinigung</a>
@@ -373,7 +374,7 @@
         <a href="leistungen.html#bau">Bauendreinigung</a>
       </div>
       <div class="fcol">
-        <h4>Standorte</h4>
+        <h3>Standorte</h3>
         <a href="hannover-list.html">LISS in List</a>
         <a href="standorte.html">Mitte · Linden · Südstadt</a>
         <a href="standorte.html">Vahrenwald · Bothfeld</a>
@@ -381,7 +382,7 @@
         <a href="standorte.html">Alle 15 Stadtteile</a>
       </div>
       <div class="fcol">
-        <h4>Unternehmen</h4>
+        <h3>Unternehmen</h3>
         <a href="ueber-uns.html">Über uns</a>
         <a href="preise.html">Preise</a>
         <a href="faq.html">Häufige Fragen</a>
@@ -389,7 +390,7 @@
         <a href="kontakt.html">Jobs bei LISS</a>
       </div>
       <div class="fcol">
-        <h4>Kontakt</h4>
+        <h3>Kontakt</h3>
         <a href="tel:+4915203133132">0152 0313 3132</a>
         <a href="mailto:info@liss-reinigungsservice.de">info@liss-reinigungsservice.de</a>
         <span>Mo–Fr 07:00–18:00 Uhr</span>
@@ -399,7 +400,6 @@
     <div class="fbottom">
       <span>© 2026 LISS Reinigungsservice · Hannover</span>
       <span><a href="impressum.html" style="display:inline">Impressum</a> · <a href="datenschutz.html" style="display:inline">Datenschutz</a> · <a href="agb.html" style="display:inline">AGB</a></span>
-      <span>PROTOTYP · ARBEITSSTAND 08/2026</span>
     </div>
   </div>
 </footer>

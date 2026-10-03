@@ -32,6 +32,7 @@
 <link rel="stylesheet" href="assets/site.css">
 </head>
 <body>
+<a class="skip" href="#main">Zum Inhalt springen</a>
 
 <header>
   <div class="wrap hdr">
@@ -50,7 +51,7 @@
   <a class="btn btn--ghost" href="tel:+4915203133132">0152 0313 3132</a>
 </nav>
 
-<main>
+<main id="main" tabindex="-1">
 <div class="pagehead stage">
   <div class="layer grid-layer" data-px="0.06" aria-hidden="true"></div>
   <div class="layer blob b1" data-px="0.22" data-px-x="0.04" aria-hidden="true"></div>
@@ -100,7 +101,7 @@
       <div class="form-step" data-step="1">
         <div class="field"><label for="f-typ">Objektart</label>
           <select id="f-typ"><option>Büro</option><option>Arzt- oder Zahnarztpraxis</option><option>Treppenhaus / Wohnanlage</option><option>Ladenfläche</option><option>Neubau / nach Umbau</option><option>Sonstiges</option></select></div>
-        <div class="field"><label for="f-qm">Fläche in m²</label><input type="text" id="f-qm" inputmode="numeric" placeholder="z. B. 180" required></div>
+        <div class="field"><label for="f-qm">Fläche in m²</label><input type="text" id="f-qm" inputmode="numeric" placeholder="z. B. 180" required pattern="[0-9]{2,5}" maxlength="5" title="Bitte die Fläche als ganze Zahl in m² angeben, z. B. 180."></div>
         <div class="field"><label for="f-plz">Postleitzahl</label><input type="text" id="f-plz" inputmode="numeric" placeholder="30159" required pattern="[0-9]{5}" maxlength="5"></div>
         <button class="btn btn--signal btn--full" type="button" data-next>Weiter zu Turnus &amp; Kontakt</button>
       </div>
@@ -152,11 +153,11 @@
 <footer class="stage">
   <div class="layer blob b2" data-px="0.10" style="opacity:.22" aria-hidden="true"></div>
   <div class="wrap">
-    <img class="flogo" src="assets/mark-white.png" alt="LISS">
+    <img class="flogo" src="assets/mark-white.png" alt="LISS" width="560" height="232">
     <span class="fsub">REINIGUNGSSERVICE · HANNOVER</span>
     <div class="fgrid">
       <div class="fcol">
-        <h4>Leistungen</h4>
+        <h3>Leistungen</h3>
         <a href="bueroreinigung.html">Büroreinigung</a>
         <a href="leistungen.html#praxis">Praxisreinigung</a>
         <a href="leistungen.html#treppenhaus">Treppenhausreinigung</a>
@@ -165,7 +166,7 @@
         <a href="leistungen.html#bau">Bauendreinigung</a>
       </div>
       <div class="fcol">
-        <h4>Standorte</h4>
+        <h3>Standorte</h3>
         <a href="hannover-list.html">LISS in List</a>
         <a href="standorte.html">Mitte · Linden · Südstadt</a>
         <a href="standorte.html">Vahrenwald · Bothfeld</a>
@@ -173,7 +174,7 @@
         <a href="standorte.html">Alle 15 Stadtteile</a>
       </div>
       <div class="fcol">
-        <h4>Unternehmen</h4>
+        <h3>Unternehmen</h3>
         <a href="ueber-uns.html">Über uns</a>
         <a href="preise.html">Preise</a>
         <a href="faq.html">Häufige Fragen</a>
@@ -181,7 +182,7 @@
         <a href="kontakt.html">Jobs bei LISS</a>
       </div>
       <div class="fcol">
-        <h4>Kontakt</h4>
+        <h3>Kontakt</h3>
         <a href="tel:+4915203133132">0152 0313 3132</a>
         <a href="mailto:info@liss-reinigungsservice.de">info@liss-reinigungsservice.de</a>
         <span>Mo–Fr 07:00–18:00 Uhr</span>
@@ -191,7 +192,6 @@
     <div class="fbottom">
       <span>© 2026 LISS Reinigungsservice · Hannover</span>
       <span><a href="impressum.html" style="display:inline">Impressum</a> · <a href="datenschutz.html" style="display:inline">Datenschutz</a> · <a href="agb.html" style="display:inline">AGB</a></span>
-      <span>PROTOTYP · ARBEITSSTAND 08/2026</span>
     </div>
   </div>
 </footer>

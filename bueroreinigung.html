@@ -32,6 +32,7 @@
 <link rel="stylesheet" href="assets/site.css">
 </head>
 <body>
+<a class="skip" href="#main">Zum Inhalt springen</a>
 
 <header>
   <div class="wrap hdr">
@@ -50,7 +51,7 @@
   <a class="btn btn--ghost" href="tel:+4915203133132">0152 0313 3132</a>
 </nav>
 
-<main>
+<main id="main" tabindex="-1">
 <div class="pagehead stage">
   <div class="layer grid-layer" data-px="0.06" aria-hidden="true"></div>
   <div class="layer blob b1" data-px="0.22" data-px-x="0.04" aria-hidden="true"></div>
@@ -109,9 +110,9 @@
 <section class="sec-line">
   <div class="wrap">
     <div class="examples">
-      <div class="ex rv"><div class="t">Kleines Büro</div><div class="m">120 m² · 2× pro Woche</div><div class="p">936 €<small> / Monat netto</small></div><ul><li>0,90 €/m² pro Einsatz</li><li>8,7 Einsätze pro Monat</li><li>ca. 108 € je Einsatz</li></ul></div>
-      <div class="ex rv rv-d1"><div class="t">Mittleres Büro</div><div class="m">340 m² · 3× pro Woche</div><div class="p">3 315 €<small> / Monat netto</small></div><ul><li>0,75 €/m² pro Einsatz</li><li>13 Einsätze pro Monat</li><li>ca. 255 € je Einsatz</li></ul></div>
-      <div class="ex rv rv-d2"><div class="t">Großes Büro</div><div class="m">900 m² · 5× pro Woche</div><div class="p">11 270 €<small> / Monat netto</small></div><ul><li>0,58 €/m² pro Einsatz</li><li>21,6 Einsätze pro Monat</li><li>ca. 522 € je Einsatz</li></ul></div>
+      <div class="ex rv"><div class="t">Kleines Büro</div><div class="m">120 m² · 2× pro Woche</div><div class="p">940 €<small> / Monat netto</small></div><ul><li>0,90 €/m² pro Einsatz</li><li>8,7 Einsätze pro Monat</li><li>ca. 108 € je Einsatz</li></ul></div>
+      <div class="ex rv rv-d1"><div class="t">Mittleres Büro</div><div class="m">340 m² · 3× pro Woche</div><div class="p">3 320 €<small> / Monat netto</small></div><ul><li>0,75 €/m² pro Einsatz</li><li>13 Einsätze pro Monat</li><li>ca. 255 € je Einsatz</li></ul></div>
+      <div class="ex rv rv-d2"><div class="t">Großes Büro</div><div class="m">900 m² · 5× pro Woche</div><div class="p">11 280 €<small> / Monat netto</small></div><ul><li>0,58 €/m² pro Einsatz</li><li>21,6 Einsätze pro Monat</li><li>ca. 522 € je Einsatz</li></ul></div>
     </div>
     <p class="calc-note rv" style="margin-top:16px">Alle Preise netto zzgl. 19 % USt. Enthalten sind Personal, Reinigungsmittel, Geräte, Versicherung und Protokoll. Nicht enthalten: Verbrauchsmaterial für Ihre Sanitärräume (optional buchbar).</p>
   </div>
@@ -121,22 +122,22 @@
   <div class="wrap">
     <div class="sec-head rv"><p class="eyebrow">Leistungsverzeichnis</p><h2>Was bei jedem Einsatz passiert.</h2><p>Dieses Verzeichnis ist Vertragsbestandteil. Ihre Reinigungskraft hakt es in der App ab — Sie sehen das Ergebnis im Protokoll.</p></div>
     <div class="lv rv">
-      <div class="lv-grp"><h4>Jeder Einsatz</h4><ul>
+      <div class="lv-grp"><h3>Jeder Einsatz</h3><ul>
         <li>Hartböden saugen und feucht wischen</li><li>Teppichflächen saugen</li>
         <li>Sanitärräume reinigen und desinfizieren <em>WC · Waschbecken · Spiegel</em></li>
         <li>Teeküche: Spüle, Armatur, Arbeitsplatte, Fronten</li>
         <li>Papierkörbe leeren, Müll getrennt entsorgen</li>
         <li>Griffbereiche, Lichtschalter, Türklinken</li>
       </ul></div>
-      <div class="lv-grp"><h4>Einmal pro Woche</h4><ul>
+      <div class="lv-grp"><h3>Einmal pro Woche</h3><ul>
         <li>Freigeräumte Schreibtischflächen</li><li>Türblätter und Zargen</li>
         <li>Glastüren und Trennwände beidseitig</li><li>Fußleisten</li>
       </ul></div>
-      <div class="lv-grp"><h4>Vierteljährlich · ohne Aufpreis</h4><ul>
+      <div class="lv-grp"><h3>Vierteljährlich · ohne Aufpreis</h3><ul>
         <li>Heizkörper und Fensterbänke</li><li>Oberkanten von Schränken</li>
         <li>Lampenschirme und Bilderrahmen</li><li>Kühlschrank innen nach Absprache</li>
       </ul></div>
-      <div class="lv-grp"><h4>Optional dazu buchbar</h4><ul>
+      <div class="lv-grp"><h3>Optional dazu buchbar</h3><ul>
         <li>Verbrauchsmaterial-Service <em>ab 0,90 € je Mitarbeiter/Monat</em></li>
         <li>Fensterreinigung im Turnus <em>ab 3,00 € je Element</em></li>
         <li>Grundreinigung einmal jährlich <em>ab 2,50 €/m²</em></li>
@@ -162,11 +163,11 @@
 <footer class="stage">
   <div class="layer blob b2" data-px="0.10" style="opacity:.22" aria-hidden="true"></div>
   <div class="wrap">
-    <img class="flogo" src="assets/mark-white.png" alt="LISS">
+    <img class="flogo" src="assets/mark-white.png" alt="LISS" width="560" height="232">
     <span class="fsub">REINIGUNGSSERVICE · HANNOVER</span>
     <div class="fgrid">
       <div class="fcol">
-        <h4>Leistungen</h4>
+        <h3>Leistungen</h3>
         <a href="bueroreinigung.html">Büroreinigung</a>
         <a href="leistungen.html#praxis">Praxisreinigung</a>
         <a href="leistungen.html#treppenhaus">Treppenhausreinigung</a>
@@ -175,7 +176,7 @@
         <a href="leistungen.html#bau">Bauendreinigung</a>
       </div>
       <div class="fcol">
-        <h4>Standorte</h4>
+        <h3>Standorte</h3>
         <a href="hannover-list.html">LISS in List</a>
         <a href="standorte.html">Mitte · Linden · Südstadt</a>
         <a href="standorte.html">Vahrenwald · Bothfeld</a>
@@ -183,7 +184,7 @@
         <a href="standorte.html">Alle 15 Stadtteile</a>
       </div>
       <div class="fcol">
-        <h4>Unternehmen</h4>
+        <h3>Unternehmen</h3>
         <a href="ueber-uns.html">Über uns</a>
         <a href="preise.html">Preise</a>
         <a href="faq.html">Häufige Fragen</a>
@@ -191,7 +192,7 @@
         <a href="kontakt.html">Jobs bei LISS</a>
       </div>
       <div class="fcol">
-        <h4>Kontakt</h4>
+        <h3>Kontakt</h3>
         <a href="tel:+4915203133132">0152 0313 3132</a>
         <a href="mailto:info@liss-reinigungsservice.de">info@liss-reinigungsservice.de</a>
         <span>Mo–Fr 07:00–18:00 Uhr</span>
@@ -201,7 +202,6 @@
     <div class="fbottom">
       <span>© 2026 LISS Reinigungsservice · Hannover</span>
       <span><a href="impressum.html" style="display:inline">Impressum</a> · <a href="datenschutz.html" style="display:inline">Datenschutz</a> · <a href="agb.html" style="display:inline">AGB</a></span>
-      <span>PROTOTYP · ARBEITSSTAND 08/2026</span>
     </div>
   </div>
 </footer>
