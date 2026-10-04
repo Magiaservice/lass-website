@@ -92,23 +92,33 @@
            während weiter oben getippt wird. -->
       <div class="ap" id="anfragePreis" hidden aria-live="polite">
         <span class="ap-k">Ihr Richtpreis</span>
-        <span class="ap-v"><b data-role="apPreis">0</b> € <small>/ Monat · netto</small></span>
+        <span class="ap-v"><b data-role="apPreis">0</b> € <small data-role="apEinheit">/ Monat · netto</small></span>
         <span class="ap-m" data-role="apMeta"></span>
       </div>
 
       <h3>Schritt 1 von 3 · Ihr Objekt</h3>
 
       <div class="form-step" data-step="1">
-        <div class="field"><label for="f-typ">Objektart</label>
-          <select id="f-typ"><option>Büro</option><option>Arzt- oder Zahnarztpraxis</option><option>Treppenhaus / Wohnanlage</option><option>Ladenfläche</option><option>Neubau / nach Umbau</option><option>Sonstiges</option></select></div>
-        <div class="field"><label for="f-qm">Fläche in m²</label><input type="text" id="f-qm" inputmode="numeric" placeholder="z. B. 180" required pattern="[0-9]{2,5}" maxlength="5" title="Bitte die Fläche als ganze Zahl in m² angeben, z. B. 180."></div>
+        <div class="field"><label for="f-typ">Was sollen wir reinigen?</label>
+          <select id="f-typ">
+            <option>Büro</option>
+            <option>Arzt- oder Zahnarztpraxis</option>
+            <option>Ladenfläche</option>
+            <option>Treppenhaus / Wohnanlage</option>
+            <option value="Endreinigung nach Bau / Renovierung">Endreinigung nach Bau oder Renovierung</option>
+            <option>Grundreinigung</option>
+            <option value="Fenster- / Glasreinigung">Fenster und Glas</option>
+            <option>Sonstiges</option>
+          </select></div>
+        <div class="field" data-fuer="regel bau grund sonst"><label for="f-qm">Fläche in m²</label><input type="text" id="f-qm" inputmode="numeric" placeholder="z. B. 180" required pattern="[0-9]{2,5}" maxlength="5" title="Bitte die Fläche als ganze Zahl in m² angeben, z. B. 180."></div>
+        <div class="field" data-fuer="glas bau"><label for="f-fenster">Anzahl Fensterflügel <span class="fval" data-fuer="bau">optional, nur außen</span></label><input type="text" id="f-fenster" inputmode="numeric" placeholder="z. B. 12" pattern="[0-9]{1,4}" maxlength="4" title="Bitte eine ganze Zahl angeben."></div>
         <div class="field"><label for="f-plz">Postleitzahl</label><input type="text" id="f-plz" inputmode="numeric" placeholder="30159" required pattern="[0-9]{5}" maxlength="5"></div>
-        <button class="btn btn--signal btn--full" type="button" data-next>Weiter zu Turnus &amp; Kontakt</button>
+        <button class="btn btn--signal btn--full" type="button" data-next>Weiter zu den Details</button>
       </div>
 
       <div class="form-step" data-step="2" hidden>
-        <div class="field">
-          <span class="flabel">Turnus</span>
+        <div class="field" data-fuer="regel">
+          <span class="flabel">Wie oft?</span>
           <div class="chips" role="group" aria-label="Turnus">
             <button class="chip" type="button" data-turnus="1×/Woche">1×/Wo.</button>
             <button class="chip" type="button" data-turnus="2×/Woche" aria-pressed="true">2×/Wo.</button>
@@ -116,6 +126,18 @@
             <button class="chip" type="button" data-turnus="5×/Woche">5×/Wo.</button>
           </div>
         </div>
+        <div class="field" data-fuer="bau grund sonst">
+          <span class="flabel">Wie stark ist die Verschmutzung?</span>
+          <div class="chips" role="group" aria-label="Verschmutzung">
+            <button class="chip" type="button" data-schmutz="normal" aria-pressed="true">normal</button>
+            <button class="chip" type="button" data-schmutz="stark">stark</button>
+            <button class="chip" type="button" data-schmutz="sehr stark">sehr stark</button>
+          </div>
+        </div>
+        <div class="field" data-fuer="treppe"><label for="f-etagen">Anzahl Etagen <span class="fval">optional</span></label><input type="text" id="f-etagen" inputmode="numeric" placeholder="z. B. 4" pattern="[0-9]{1,2}" maxlength="2" title="Bitte eine ganze Zahl angeben."></div>
+        <div class="field" data-fuer="regel bau grund"><label for="f-boden">Bodenbelag <span class="fval">optional</span></label><input type="text" id="f-boden" placeholder="z. B. Fliesen, Teppich, Laminat" maxlength="120"></div>
+        <div class="field"><label for="f-termin">Wunschtermin / Beginn <span class="fval">optional</span></label><input type="text" id="f-termin" placeholder="z. B. ab 1. November, vormittags" maxlength="120"></div>
+        <div class="field"><label for="f-msg">Was ist Ihnen wichtig? <span class="fval">optional</span></label><textarea id="f-msg" rows="3" maxlength="800" placeholder="z. B. Zugang, Alarmanlage, besondere Böden, was bisher nicht gut lief"></textarea></div>
         <div class="form-nav">
           <button class="btn btn--ghost" type="button" data-back>Zurück</button>
           <button class="btn btn--signal" type="button" data-next>Weiter zu Kontakt</button>
@@ -123,13 +145,32 @@
       </div>
 
       <div class="form-step" data-step="3" hidden>
-        <div class="field"><label for="f-name">Name</label><input type="text" id="f-name" autocomplete="name" placeholder="Vor- und Nachname" required></div>
-        <div class="field"><label for="f-email">E-Mail</label><input type="email" id="f-email" autocomplete="email" placeholder="name@firma.de" required></div>
-        <div class="field"><label for="f-tel">Telefon <span class="fval">optional</span></label><input type="tel" id="f-tel" autocomplete="tel" placeholder="0511 ..."></div>
+        <div class="field">
+          <span class="flabel">Sie fragen an als</span>
+          <div class="chips" role="group" aria-label="Kundenart">
+            <button class="chip" type="button" data-kunde="Unternehmen / Praxis" aria-pressed="true">Unternehmen / Praxis</button>
+            <button class="chip" type="button" data-kunde="Privatperson">Privatperson</button>
+          </div>
+        </div>
+        <div class="field"><label for="f-name">Name</label><input type="text" id="f-name" autocomplete="name" placeholder="Vor- und Nachname" required maxlength="100"></div>
+        <div class="field" data-kunde-feld="Unternehmen / Praxis"><label for="f-firma">Firma / Praxis <span class="fval">optional</span></label><input type="text" id="f-firma" autocomplete="organization" maxlength="120"></div>
+        <div class="field"><label for="f-email">E-Mail</label><input type="email" id="f-email" autocomplete="email" placeholder="name@firma.de" required maxlength="120"></div>
+        <div class="field"><label for="f-tel">Telefon <span class="fval">optional</span></label><input type="tel" id="f-tel" autocomplete="tel" placeholder="0511 ..." maxlength="40"></div>
+        <p class="calc-note" style="margin:0 0 var(--s4)"><b>Fotos helfen beim Preis.</b> Nach dem Klick öffnet sich Ihre E-Mail mit allen Angaben — hängen Sie dort 3–5 Fotos an (Bilddateien, bitte keine Personen und keine Dokumente).</p>
         <div class="form-nav">
           <button class="btn btn--ghost" type="button" data-back>Zurück</button>
           <button class="btn btn--signal btn--full" type="submit">Anfrage senden</button>
         </div>
+      </div>
+
+      <div class="form-step" data-step="4" hidden>
+        <p style="margin:0 0 var(--s3)"><b>Fast geschafft.</b> Ihr E-Mail-Programm hat sich mit allen Angaben geöffnet. Hängen Sie gern noch Fotos an und senden Sie die E-Mail ab — Sie erhalten Ihr Angebot innerhalb von 24 Stunden.</p>
+        <p class="calc-note" style="margin:0 0 var(--s4)">Es hat sich nichts geöffnet? Kopieren Sie Ihre Angaben und senden Sie sie an <a href="mailto:info@liss-reinigungsservice.de">info@liss-reinigungsservice.de</a> — oder rufen Sie an: <a href="tel:+4915203133132">0152 0313 3132</a>.</p>
+        <div class="form-nav">
+          <button class="btn btn--ghost" type="button" data-back>Angaben ändern</button>
+          <button class="btn btn--signal" type="button" data-kopieren>Angaben kopieren</button>
+        </div>
+        <textarea id="f-zusammenfassung" rows="8" readonly aria-label="Ihre Angaben" style="margin-top:var(--s4)"></textarea>
       </div>
 
       <p class="calc-note">Drei kurze Schritte statt einem langen Formular. „Anfrage senden" öffnet Ihr E-Mail-Programm mit einer vorausgefüllten Nachricht an uns — nichts wird automatisch verschickt, Sie sehen und bestätigen die Mail selbst. Öffnet sich kein E-Mail-Programm, schreiben Sie uns einfach direkt an <a href="mailto:info@liss-reinigungsservice.de">info@liss-reinigungsservice.de</a> oder rufen Sie an: <a href="tel:+4915203133132">0152 0313 3132</a>. Kein Newsletter, keine Weitergabe an Vermittlungsportale.</p>

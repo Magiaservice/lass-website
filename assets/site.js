@@ -263,32 +263,72 @@
     if (!steps.length) return;
     var dots = [].slice.call(form.querySelectorAll('.form-steps > div'));
     var heading = form.querySelector('h3');
-    var titles = { 1: 'Schritt 1 von 3 · Ihr Objekt', 2: 'Schritt 2 von 3 · Turnus', 3: 'Schritt 3 von 3 · Kontakt' };
+    var titles = { 1: 'Schritt 1 von 3 · Ihr Objekt', 2: 'Schritt 2 von 3 · Details', 3: 'Schritt 3 von 3 · Kontakt', 4: 'Danke – nur noch absenden' };
     var current = 1;
     var turnus = form.querySelector('[data-turnus][aria-pressed=true]');
     turnus = turnus ? turnus.dataset.turnus : '';
+    var schmutz = 'normal', kunde = 'Unternehmen / Praxis';
 
     var typSel = form.querySelector('#f-typ');
     var qmInp = form.querySelector('#f-qm');
+    var fensterInp = form.querySelector('#f-fenster');
+
+    /* Einmalige Leistungen: "ab"-Preise aus der Preisliste (preise.html),
+       netto je m² bzw. je Fensterelement. Bei sehr starker Verschmutzung
+       wird kein Preis angezeigt — dann entscheidet ein Blick auf Fotos. */
+    var EINMALIG = { bau: 3.50, grund: 2.50, glas: 3.00 };
+
+    /* Welche Felder zur gewählten Leistung gehören (data-fuer im Markup) */
+    function arten() {
+      var v = typSel ? typSel.value : '';
+      if (v === 'Treppenhaus / Wohnanlage') return ['regel', 'treppe'];
+      for (var k in OBJEKTE) if (OBJEKTE[k].form === v) return ['regel'];
+      if (/^Endreinigung/.test(v)) return ['bau'];
+      if (v === 'Grundreinigung') return ['grund'];
+      if (/^Fenster/.test(v)) return ['glas'];
+      return ['sonst'];
+    }
+    function sichtbarkeit() {
+      var a = arten();
+      form.querySelectorAll('[data-fuer]').forEach(function (el) {
+        el.hidden = !el.getAttribute('data-fuer').split(' ').some(function (x) { return a.indexOf(x) > -1; });
+      });
+      form.querySelectorAll('[data-kunde-feld]').forEach(function (el) { el.hidden = el.getAttribute('data-kunde-feld') !== kunde; });
+    }
+    /* Nur Felder ausblenden, die nicht zur gewählten Leistung/Kundenart gehören —
+       Felder in gerade nicht angezeigten Schritten zählen weiter mit. */
+    function sichtbar(el) { return !!el && !el.closest('[data-fuer][hidden], [data-kunde-feld][hidden]'); }
+    function zahlVon(inp) { return inp && sichtbar(inp) ? parseInt(String(inp.value).replace(/[^0-9]/g, ''), 10) || 0 : 0; }
 
     /* ---- 5c. Richtpreis im Formular ----
-       Rechnet live mit, während das Formular ausgefüllt wird, und liefert
-       dieselbe Zahl wie der Rechner auf der Startseite. Gibt null zurück,
-       wenn für die gewählte Objektart kein monatlicher Staffelpreis gilt:
-       Bauendreinigung und "Sonstiges" werden einmalig bzw. individuell
-       abgerechnet — eine Monatszahl wäre dort schlicht falsch. */
+       Regelmäßige Reinigung: dieselbe Zahl wie der Rechner (Monatspreis).
+       Einmalige Leistungen: "ab"-Preis aus der Preisliste. Gibt null zurück,
+       wenn kein seriöser Richtwert möglich ist (Sonstiges, sehr starke
+       Verschmutzung, fehlende Angaben). */
     function richtpreis() {
-      if (!typSel || !qmInp) return null;
-      var label = typSel.value;
-      var key = null;
-      for (var k in OBJEKTE) if (OBJEKTE[k].form === label) key = k;
-      if (!key) return null;
-      var m = parseInt(String(qmInp.value).replace(/[^0-9]/g, ''), 10);
-      if (!m || m < QM_MIN || m > QM_MAX) return null;
-      var t = null;
-      for (var tk in TURNUS) if (TURNUS[tk].label === turnus) t = TURNUS[tk];
-      if (!t) return null;
-      return { m: m, preis: monatspreis(m, OBJEKTE[key].f, t.f), objekt: label, turnus: t.label };
+      if (!typSel) return null;
+      var a = arten(), label = typSel.value, m = zahlVon(qmInp);
+      if (a.indexOf('regel') > -1) {
+        var key = null;
+        for (var k in OBJEKTE) if (OBJEKTE[k].form === label) key = k;
+        if (!key || !m || m < QM_MIN || m > QM_MAX) return null;
+        var t = null;
+        for (var tk in TURNUS) if (TURNUS[tk].label === turnus) t = TURNUS[tk];
+        if (!t) return null;
+        return { m: m, preis: monatspreis(m, OBJEKTE[key].f, t.f), objekt: label, turnus: t.label, meta: label + ' · ' + de(m, 0) + ' m² · ' + t.label };
+      }
+      if (schmutz === 'sehr stark' && a[0] !== 'glas') return null;
+      var f = zahlVon(fensterInp);
+      if (a[0] === 'bau' || a[0] === 'grund') {
+        if (!m || m > 5000) return null;
+        var p = m * EINMALIG[a[0]] + (a[0] === 'bau' && f ? f * EINMALIG.glas : 0);
+        return { einmalig: true, m: m, preis: Math.round(p), objekt: label, meta: label + ' · ' + de(m, 0) + ' m²' + (a[0] === 'bau' && f ? ' · ' + f + ' Fenster außen' : '') + (schmutz === 'stark' ? ' · bei starker Verschmutzung nach Fotos' : '') };
+      }
+      if (a[0] === 'glas') {
+        if (!f) return null;
+        return { einmalig: true, preis: Math.round(f * EINMALIG.glas), objekt: label, meta: label + ' · ' + f + ' Fensterflügel bis 3. OG' };
+      }
+      return null;
     }
 
     var box = document.getElementById('anfragePreis');
@@ -297,21 +337,29 @@
       var r = richtpreis();
       var out = box.querySelector('[data-role=apPreis]');
       var meta = box.querySelector('[data-role=apMeta]');
+      var einh = box.querySelector('[data-role=apEinheit]');
       if (!r) { box.hidden = true; return; }
       box.hidden = false;
       /* textContent, nicht innerHTML: die Werte stammen teils aus der URL
          (siehe prefillFromUrl) und damit aus fremder Hand. */
-      if (out) out.textContent = de(r.preis, 0);
-      if (meta) meta.textContent = r.objekt + ' · ' + de(r.m, 0) + ' m² · ' + r.turnus;
+      if (out) out.textContent = (r.einmalig ? 'ab ' : '') + de(r.preis, 0);
+      if (einh) einh.textContent = r.einmalig ? 'einmalig · netto' : '/ Monat · netto';
+      if (meta) meta.textContent = r.meta;
     }
 
     function validateStep(stepEl) {
+      var a = arten();
       var qmField = stepEl.querySelector('#f-qm');
       if (qmField) {
         var qmVal = parseInt(qmField.value, 10);
-        qmField.setCustomValidity(qmVal >= 10 ? '' : 'Bitte die Fläche als ganze Zahl in m² angeben (mindestens 10).');
+        qmField.setCustomValidity(!sichtbar(qmField) || qmVal >= 10 ? '' : 'Bitte die Fläche als ganze Zahl in m² angeben (mindestens 10).');
       }
-      var fields = [].slice.call(stepEl.querySelectorAll('input, select, textarea'));
+      var fField = stepEl.querySelector('#f-fenster');
+      if (fField) {
+        var fVal = parseInt(fField.value, 10);
+        fField.setCustomValidity(a[0] === 'glas' && !(fVal >= 1) ? 'Bitte die ungefähre Anzahl der Fensterflügel angeben.' : '');
+      }
+      var fields = [].slice.call(stepEl.querySelectorAll('input, select, textarea')).filter(sichtbar);
       var firstInvalid = fields.find(function (el) { return !el.checkValidity(); });
       if (firstInvalid) { firstInvalid.reportValidity(); return false; }
       return true;
@@ -322,7 +370,7 @@
       steps.forEach(function (s) { s.hidden = (+s.dataset.step !== step); });
       dots.forEach(function (d, i) { d.classList.toggle('on', i < step); });
       if (heading && titles[step]) heading.textContent = titles[step];
-      var focusEl = steps[step - 1] && steps[step - 1].querySelector('input, select, button');
+      var focusEl = steps[step - 1] && steps[step - 1].querySelector('input:not([readonly]), select, button');
       if (focusEl) focusEl.focus({ preventScroll: true });
     }
 
@@ -336,16 +384,22 @@
     form.querySelectorAll('[data-back]').forEach(function (btn) {
       btn.addEventListener('click', function () { show(current - 1); });
     });
-    form.querySelectorAll('[data-turnus]').forEach(function (chip) {
-      chip.addEventListener('click', function () {
-        form.querySelectorAll('[data-turnus]').forEach(function (c) { c.setAttribute('aria-pressed', 'false'); });
-        chip.setAttribute('aria-pressed', 'true');
-        turnus = chip.dataset.turnus;
-        renderPreis();
+    function chipGruppe(attr, setze) {
+      form.querySelectorAll('[' + attr + ']').forEach(function (chip) {
+        chip.addEventListener('click', function () {
+          form.querySelectorAll('[' + attr + ']').forEach(function (c) { c.setAttribute('aria-pressed', 'false'); });
+          chip.setAttribute('aria-pressed', 'true');
+          setze(chip.getAttribute(attr));
+          sichtbarkeit();
+          renderPreis();
+        });
       });
-    });
-    if (typSel) typSel.addEventListener('change', renderPreis);
-    if (qmInp) qmInp.addEventListener('input', renderPreis);
+    }
+    chipGruppe('data-turnus', function (v) { turnus = v; });
+    chipGruppe('data-schmutz', function (v) { schmutz = v; });
+    chipGruppe('data-kunde', function (v) { kunde = v; });
+    if (typSel) typSel.addEventListener('change', function () { sichtbarkeit(); renderPreis(); });
+    [qmInp, fensterInp].forEach(function (inp) { if (inp) inp.addEventListener('input', renderPreis); });
 
     /* ---- Übernahme aus dem Preisrechner ----
        Jeder Wert wird gegen eine Positivliste bzw. den zulässigen Bereich
@@ -377,35 +431,50 @@
       }
     }
     prefillFromUrl();
+    sichtbarkeit();
     renderPreis();
 
+    var zusammenfassung = form.querySelector('#f-zusammenfassung');
     form.addEventListener('submit', function (e) {
       e.preventDefault();
       if (!validateStep(steps[current - 1])) return;
-      var val = function (id) { var el = form.querySelector(id); return el ? el.value.trim() : ''; };
-      var typ = val('#f-typ'), qm = val('#f-qm'), plz = val('#f-plz');
-      var name = val('#f-name'), email = val('#f-email'), tel = val('#f-tel');
+      var val = function (id) { var el = form.querySelector(id); return el && sichtbar(el) ? el.value.trim() : ''; };
+      var a = arten(), typ = typSel ? typSel.value : '', plz = val('#f-plz');
       /* Der Richtpreis gehört in die Mail: er ist die Zahl, die der Kunde
          auf der Seite gesehen hat. Ohne ihn müsste die 24-Stunden-Zusage
          mit einer Nachrechnung beginnen — und im Zweifel mit einer anderen
          Zahl als der, auf die sich der Kunde eingestellt hat. */
       var r = richtpreis();
-      var body = [
-        'Neue Anfrage über liss-reinigungsservice.de', '',
-        'Objektart: ' + typ,
-        'Fläche: ' + qm + ' m²',
-        'Postleitzahl: ' + plz,
-        'Turnus: ' + (turnus || '—'),
-        'Richtpreis laut Rechner: ' + (r ? de(r.preis, 0) + ' € / Monat netto' : '— (nicht aus der Staffel berechenbar)'), '',
-        'Name: ' + name,
-        'E-Mail: ' + email,
-        'Telefon: ' + (tel || '—')
-      ].join('\n');
-      var subject = 'Anfrage: ' + typ + ', ' + qm + ' m², PLZ ' + plz
-        + (r ? ', ' + de(r.preis, 0) + ' €/Mon.' : '');
+      var zeilen = ['Neue Anfrage über liss-reinigungsservice.de', '', 'Leistung: ' + typ];
+      if (val('#f-qm')) zeilen.push('Fläche: ' + val('#f-qm') + ' m²');
+      if (val('#f-fenster')) zeilen.push('Fensterflügel: ' + val('#f-fenster'));
+      if (val('#f-etagen')) zeilen.push('Etagen: ' + val('#f-etagen'));
+      zeilen.push('Postleitzahl: ' + plz);
+      if (a.indexOf('regel') > -1) zeilen.push('Turnus: ' + (turnus || '—'));
+      if (['bau', 'grund', 'sonst'].indexOf(a[0]) > -1) zeilen.push('Verschmutzung: ' + schmutz);
+      if (val('#f-boden')) zeilen.push('Bodenbelag: ' + val('#f-boden'));
+      if (val('#f-termin')) zeilen.push('Wunschtermin: ' + val('#f-termin'));
+      if (val('#f-msg')) zeilen.push('Hinweise: ' + val('#f-msg'));
+      zeilen.push('Richtpreis laut Website: ' + (r ? (r.einmalig ? 'ab ' + de(r.preis, 0) + ' € einmalig netto' : de(r.preis, 0) + ' € / Monat netto') : '— (Preis nach Prüfung)'));
+      zeilen.push('', 'Kundenart: ' + kunde, 'Name: ' + val('#f-name'));
+      if (val('#f-firma')) zeilen.push('Firma: ' + val('#f-firma'));
+      zeilen.push('E-Mail: ' + val('#f-email'), 'Telefon: ' + (val('#f-tel') || '—'), '', '(Fotos ggf. als Anhang)');
+      var body = zeilen.join('\n');
+      var subject = 'Anfrage: ' + typ + (val('#f-qm') ? ', ' + val('#f-qm') + ' m²' : '') + ', PLZ ' + plz
+        + (r ? ', ' + (r.einmalig ? 'ab ' : '') + de(r.preis, 0) + ' €' + (r.einmalig ? '' : '/Mon.') : '');
+      if (zusammenfassung) zusammenfassung.value = 'An: info@liss-reinigungsservice.de\nBetreff: ' + subject + '\n\n' + body;
+      show(4);
       window.location.href = 'mailto:info@liss-reinigungsservice.de'
         + '?subject=' + encodeURIComponent(subject)
         + '&body=' + encodeURIComponent(body);
+    });
+
+    var kopieren = form.querySelector('[data-kopieren]');
+    if (kopieren && zusammenfassung) kopieren.addEventListener('click', function () {
+      var fertig = function () { kopieren.textContent = 'Kopiert ✓'; setTimeout(function () { kopieren.textContent = 'Angaben kopieren'; }, 2500); };
+      zusammenfassung.select();
+      if (navigator.clipboard && navigator.clipboard.writeText) navigator.clipboard.writeText(zusammenfassung.value).then(fertig, function () { document.execCommand('copy'); fertig(); });
+      else { document.execCommand('copy'); fertig(); }
     });
 
     show(1);
