@@ -1067,3 +1067,6 @@ footer .fsub{
   padding:10px 16px;border:2px solid var(--leisblau);border-radius:var(--r);font-weight:600;text-decoration:none}
 .skip:focus{left:12px}
 main:focus{outline:none}
+
+/* Kontaktdaten: größere Tippfläche auf dem Handy */
+.fact .v a{display:inline-block;padding:10px 0}
