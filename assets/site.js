@@ -322,7 +322,7 @@
       if (a[0] === 'bau' || a[0] === 'grund') {
         if (!m || m > 5000) return null;
         var p = m * EINMALIG[a[0]] + (a[0] === 'bau' && f ? f * EINMALIG.glas : 0);
-        return { einmalig: true, m: m, preis: Math.round(p), objekt: label, meta: label + ' · ' + de(m, 0) + ' m²' + (a[0] === 'bau' && f ? ' · ' + f + ' Fenster außen' : '') + (schmutz === 'stark' ? ' · bei starker Verschmutzung nach Fotos' : '') };
+        return { einmalig: true, m: m, preis: Math.round(p), objekt: label, meta: label + ' · ' + de(m, 0) + ' m²' + (a[0] === 'bau' && f ? ' · ' + f + ' Fenster außen' : '') + (schmutz === 'stark' ? ' · bei starker Verschmutzung nach Prüfung' : '') };
       }
       if (a[0] === 'glas') {
         if (!f) return null;
@@ -458,7 +458,7 @@
       zeilen.push('Richtpreis laut Website: ' + (r ? (r.einmalig ? 'ab ' + de(r.preis, 0) + ' € einmalig netto' : de(r.preis, 0) + ' € / Monat netto') : '— (Preis nach Prüfung)'));
       zeilen.push('', 'Kundenart: ' + kunde, 'Name: ' + val('#f-name'));
       if (val('#f-firma')) zeilen.push('Firma: ' + val('#f-firma'));
-      zeilen.push('E-Mail: ' + val('#f-email'), 'Telefon: ' + (val('#f-tel') || '—'), '', '(Fotos ggf. als Anhang)');
+      zeilen.push('E-Mail: ' + val('#f-email'), 'Telefon: ' + (val('#f-tel') || '—'));
       var body = zeilen.join('\n');
       var subject = 'Anfrage: ' + typ + (val('#f-qm') ? ', ' + val('#f-qm') + ' m²' : '') + ', PLZ ' + plz
         + (r ? ', ' + (r.einmalig ? 'ab ' : '') + de(r.preis, 0) + ' €' + (r.einmalig ? '' : '/Mon.') : '');
