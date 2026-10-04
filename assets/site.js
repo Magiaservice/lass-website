@@ -343,7 +343,8 @@
       /* textContent, nicht innerHTML: die Werte stammen teils aus der URL
          (siehe prefillFromUrl) und damit aus fremder Hand. */
       if (out) out.textContent = (r.einmalig ? 'ab ' : '') + de(r.preis, 0);
-      if (einh) einh.textContent = r.einmalig ? 'einmalig · netto' : '/ Monat · netto';
+      /* Einmalige Leistungen buchen auch Privatkunden: Endpreis inkl. USt mit angeben (PAngV). */
+      if (einh) einh.textContent = r.einmalig ? 'netto einmalig · ab ' + de(Math.round(r.preis * 1.19), 0) + ' € inkl. 19 % USt' : '/ Monat · netto';
       if (meta) meta.textContent = r.meta;
     }
 
@@ -455,7 +456,7 @@
       if (val('#f-boden')) zeilen.push('Bodenbelag: ' + val('#f-boden'));
       if (val('#f-termin')) zeilen.push('Wunschtermin: ' + val('#f-termin'));
       if (val('#f-msg')) zeilen.push('Hinweise: ' + val('#f-msg'));
-      zeilen.push('Richtpreis laut Website: ' + (r ? (r.einmalig ? 'ab ' + de(r.preis, 0) + ' € einmalig netto' : de(r.preis, 0) + ' € / Monat netto') : '— (Preis nach Prüfung)'));
+      zeilen.push('Richtpreis laut Website: ' + (r ? (r.einmalig ? 'ab ' + de(r.preis, 0) + ' € einmalig netto (ab ' + de(Math.round(r.preis * 1.19), 0) + ' € inkl. 19 % USt)' : de(r.preis, 0) + ' € / Monat netto') : '— (Preis nach Prüfung)'));
       zeilen.push('', 'Kundenart: ' + kunde, 'Name: ' + val('#f-name'));
       if (val('#f-firma')) zeilen.push('Firma: ' + val('#f-firma'));
       zeilen.push('E-Mail: ' + val('#f-email'), 'Telefon: ' + (val('#f-tel') || '—'));
