@@ -1,5 +1,9 @@
 # LISS Reinigungsservice — Projektkontext
 
+## Gemeinsame Arbeitsregeln
+
+Vor jeder Aufgabe zuerst die gemeinsamen Regeln in `AGENTS.md` lesen und beachten. Dieses Dokument ergänzt die Claude-Code-spezifischen Hinweise weiter unten.
+
 Website für LISS Reinigungsservice, eine neu gegründete Gebäudereinigungsfirma in
 Hannover. Zielgruppe: SME-Kunden — Büros, Arztpraxen, Hausverwaltungen im Bereich
 80–1.500 m². Alle Inhalte auf Deutsch, dieser Kontext auf Deutsch/Russisch gemischt,

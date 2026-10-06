@@ -1070,3 +1070,11 @@ main:focus{outline:none}
 
 /* Kontaktdaten: größere Tippfläche auf dem Handy */
 .fact .v a{display:inline-block;padding:10px 0}
+
+/* Schmale Bildschirme (320 px): lange deutsche Wörter dürfen trennen, Raster und Preiszeilen dürfen nicht überlaufen */
+.wordrise>span{max-width:100%}
+.wordrise>span>i{max-width:100%;overflow-wrap:anywhere;hyphens:auto}
+.card h3,.card p{overflow-wrap:anywhere;hyphens:auto}
+@media(max-width:699px){.cards{grid-template-columns:minmax(0,1fr)}}
+.prow{grid-template-columns:minmax(0,1fr) auto}
+.prow .pr small{white-space:normal}

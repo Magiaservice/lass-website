@@ -37,7 +37,7 @@ Seite öffnet direkt im Browser. Deutscher Markt, deutsches Recht
   Website-Dateien liegen weiterhin auf GitHub Pages**, nicht bei
   STRATO — STRATO übernimmt nur Domain-DNS und E-Mail
   (`info@liss-reinigungsservice.de`).
-- **Lokale Arbeitskopie:** `~/Downloads/lass-website`. `git remote -v`
+- **Lokale Arbeitskopie:** `/Users/director/Projects Claude/lass-website`. `git remote -v`
   zeigt jetzt `github.com/Magiaservice/lass-website.git` (nicht mehr
   `Lexikal`) — **vor jeder Aktion neu prüfen**, falls diese Datei
   veraltet ist.

@@ -415,6 +415,10 @@
       var qmRaw = parseInt(p.get('qm'), 10);
       if (qmInp && qmRaw >= QM_MIN && qmRaw <= QM_MAX) qmInp.value = String(qmRaw);
 
+      var STADTTEILE = ['List', 'Mitte', 'Linden', 'Südstadt', 'Vahrenwald', 'Bothfeld', 'Ricklingen', 'Misburg', 'Kleefeld', 'Döhren', 'Herrenhausen', 'Langenhagen', 'Laatzen', 'Garbsen', 'Isernhagen'];
+      var st = p.get('stadtteil'), stInp = form.querySelector('#f-stadtteil'), stBox = form.querySelector('#f-stadtteil-box');
+      if (stInp && stBox && STADTTEILE.indexOf(st) > -1) { stInp.value = st; stBox.hidden = false; }
+
       var obj = OBJEKTE[p.get('obj')];
       if (typSel && obj) {
         [].slice.call(typSel.options).forEach(function (o) {
@@ -451,6 +455,7 @@
       if (val('#f-fenster')) zeilen.push('Fensterflügel: ' + val('#f-fenster'));
       if (val('#f-etagen')) zeilen.push('Etagen: ' + val('#f-etagen'));
       zeilen.push('Postleitzahl: ' + plz);
+      if (val('#f-stadtteil')) zeilen.push('Stadtteil: ' + val('#f-stadtteil'));
       if (a.indexOf('regel') > -1) zeilen.push('Turnus: ' + (turnus || '—'));
       if (['bau', 'grund', 'sonst'].indexOf(a[0]) > -1) zeilen.push('Verschmutzung: ' + schmutz);
       if (val('#f-boden')) zeilen.push('Bodenbelag: ' + val('#f-boden'));
