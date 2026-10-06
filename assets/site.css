@@ -88,7 +88,7 @@ body.lg-videobg .form p{color:var(--stahl)}
 .lg-scrim{position:absolute;inset:0;pointer-events:none;background:rgba(239,242,249,.62)}
 img{max-width:100%;display:block}
 a{color:inherit}
-:focus-visible{outline:3px solid var(--leisblau);outline-offset:3px}
+:focus-visible{outline:3px solid var(--leisblau);outline-offset:3px;box-shadow:0 0 0 6px #fff}
 .wrap{width:100%;max-width:var(--maxw);margin:0 auto;padding:0 var(--s4);position:relative;z-index:2}
 @media(min-width:880px){.wrap{padding:0 var(--s6)}}
 
@@ -164,9 +164,9 @@ body.nav-open .burger span:nth-child(3){transform:translateY(-7px) rotate(-45deg
 .mobnav{
   position:fixed;inset:var(--hdr) 0 0;z-index:79;background:var(--gletscher);
   padding:var(--s6) var(--s4);display:flex;flex-direction:column;gap:var(--s2);
-  transform:translateX(100%);transition:transform var(--dur-4) var(--ease-in-out);overflow-y:auto;
+  transform:translateX(100%);visibility:hidden;transition:transform var(--dur-4) var(--ease-in-out),visibility 0s linear var(--dur-4);overflow-y:auto;
 }
-body.nav-open .mobnav{transform:translateX(0)}
+body.nav-open .mobnav{transform:translateX(0);visibility:visible;transition-delay:0s}
 .mobnav a{
   text-decoration:none;font-size:22px;font-weight:700;letter-spacing:-.02em;
   padding:var(--s4) 0;border-bottom:1px solid var(--linie);

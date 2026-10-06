@@ -104,16 +104,18 @@
   /* ---------- 3. Mobile Navigation ---------- */
   var burger = document.querySelector('.burger');
   if (burger) {
-    burger.addEventListener('click', function () {
-      var open = document.body.classList.toggle('nav-open');
+    function menue(open) {
+      document.body.classList.toggle('nav-open', open);
       burger.setAttribute('aria-expanded', open ? 'true' : 'false');
+      burger.setAttribute('aria-label', open ? 'Menü schließen' : 'Menü öffnen');
       document.body.style.overflow = open ? 'hidden' : '';
-    });
+    }
+    burger.addEventListener('click', function () { menue(!document.body.classList.contains('nav-open')); });
     document.querySelectorAll('.mobnav a').forEach(function (a) {
-      a.addEventListener('click', function () {
-        document.body.classList.remove('nav-open');
-        document.body.style.overflow = '';
-      });
+      a.addEventListener('click', function () { menue(false); });
+    });
+    document.addEventListener('keydown', function (e) {
+      if (e.key === 'Escape' && document.body.classList.contains('nav-open')) { menue(false); burger.focus(); }
     });
   }
 
@@ -344,7 +346,7 @@
          (siehe prefillFromUrl) und damit aus fremder Hand. */
       if (out) out.textContent = (r.einmalig ? 'ab ' : '') + de(r.preis, 0);
       /* Einmalige Leistungen buchen auch Privatkunden: Endpreis inkl. USt mit angeben (PAngV). */
-      if (einh) einh.textContent = r.einmalig ? 'netto einmalig · ab ' + de(Math.round(r.preis * 1.19), 0) + ' € inkl. 19 % USt' : '/ Monat · netto';
+      if (einh) einh.textContent = r.einmalig ? 'netto einmalig · ab ' + de(Math.round(r.preis * 1.19), 0) + ' € inkl. 19 % USt' : (kunde === 'Privatperson' ? '/ Monat · netto · ' + de(Math.round(r.preis * 1.19), 0) + ' € inkl. 19 % USt' : '/ Monat · netto');
       if (meta) meta.textContent = r.meta;
     }
 
@@ -398,7 +400,7 @@
     }
     chipGruppe('data-turnus', function (v) { turnus = v; });
     chipGruppe('data-schmutz', function (v) { schmutz = v; });
-    chipGruppe('data-kunde', function (v) { kunde = v; });
+    chipGruppe('data-kunde', function (v) { kunde = v; renderPreis(); });
     if (typSel) typSel.addEventListener('change', function () { sichtbarkeit(); renderPreis(); });
     [qmInp, fensterInp].forEach(function (inp) { if (inp) inp.addEventListener('input', renderPreis); });
 
@@ -461,7 +463,7 @@
       if (val('#f-boden')) zeilen.push('Bodenbelag: ' + val('#f-boden'));
       if (val('#f-termin')) zeilen.push('Wunschtermin: ' + val('#f-termin'));
       if (val('#f-msg')) zeilen.push('Hinweise: ' + val('#f-msg'));
-      zeilen.push('Richtpreis laut Website: ' + (r ? (r.einmalig ? 'ab ' + de(r.preis, 0) + ' € einmalig netto (ab ' + de(Math.round(r.preis * 1.19), 0) + ' € inkl. 19 % USt)' : de(r.preis, 0) + ' € / Monat netto') : '— (Preis nach Prüfung)'));
+      zeilen.push('Richtpreis laut Website: ' + (r ? (r.einmalig ? 'ab ' + de(r.preis, 0) + ' € einmalig netto (ab ' + de(Math.round(r.preis * 1.19), 0) + ' € inkl. 19 % USt)' : de(r.preis, 0) + ' € / Monat netto' + (kunde === 'Privatperson' ? ' (' + de(Math.round(r.preis * 1.19), 0) + ' € inkl. 19 % USt)' : '')) : '— (Preis nach Prüfung)'));
       zeilen.push('', 'Kundenart: ' + kunde, 'Name: ' + val('#f-name'));
       if (val('#f-firma')) zeilen.push('Firma: ' + val('#f-firma'));
       zeilen.push('E-Mail: ' + val('#f-email'), 'Telefon: ' + (val('#f-tel') || '—'));
