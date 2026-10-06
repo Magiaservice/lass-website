@@ -486,6 +486,32 @@
     show(1);
   }
   document.querySelectorAll('.form').forEach(initContactForm);
+  /* ---- Bewerbungsformular (jobs.html): öffnet das E-Mail-Programm, überträgt selbst nichts ---- */
+  function initJobsForm(form) {
+    if (!form) return;
+    var v = function (id) { var e = form.querySelector(id); return e ? e.value.trim().replace(/[\u0000-\u001f]/g, ' ') : ''; };
+    form.addEventListener('submit', function (e) {
+      e.preventDefault();
+      var name = v('#j-name'), tel = v('#j-tel'), plz = v('#j-plz');
+      var bad = null;
+      if (!name) bad = '#j-name'; else if (!tel) bad = '#j-tel'; else if (!/^[0-9]{5}$/.test(plz)) bad = '#j-plz';
+      if (bad) { var f = form.querySelector(bad); if (f) { f.focus(); f.setAttribute('aria-invalid', 'true'); } return; }
+      var z = ['Bewerbung über liss-reinigungsservice.de', '', 'Name: ' + name, 'Telefon: ' + tel];
+      if (v('#j-email')) z.push('E-Mail: ' + v('#j-email'));
+      z.push('Postleitzahl: ' + plz, 'Umfang: ' + v('#j-umfang'));
+      if (v('#j-zeit')) z.push('Zeiten: ' + v('#j-zeit'));
+      if (v('#j-start')) z.push('Beginn: ' + v('#j-start'));
+      z.push('Deutschkenntnisse: ' + v('#j-deutsch'), 'Erfahrung: ' + v('#j-erf'));
+      if (v('#j-msg')) z.push('Hinweise: ' + v('#j-msg'));
+      var body = z.join('\n'), subject = 'Bewerbung: Reinigungskraft, PLZ ' + plz;
+      var out = form.querySelector('#j-zusammenfassung'), dank = form.querySelector('#jobsDanke');
+      if (out) out.value = 'An: info@liss-reinigungsservice.de\nBetreff: ' + subject + '\n\n' + body;
+      if (dank) dank.hidden = false;
+      window.location.href = 'mailto:info@liss-reinigungsservice.de?subject=' + encodeURIComponent(subject) + '&body=' + encodeURIComponent(body);
+    });
+  }
+  initJobsForm(document.getElementById('jobsForm'));
+
 
   window.__lissInitCalc = initCalc;
   window.__lissMeasure = function () { if (!reduced) { collect(); paint(); } };
