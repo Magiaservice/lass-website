@@ -18,7 +18,7 @@ durch die ganze Seite:
    Anfrage". LISS zeigt die Preisstaffel offen und hat einen Live-Rechner.
 2. **24-Stunden-Angebotszusage** — kein Vor-Ort-Termin nötig, um eine Zahl zu
    bekommen.
-3. **Foto-Protokoll nach jedem Einsatz** — Checkliste plus Fotos, das einzige
+3. **Einsatzprotokoll nach jedem Einsatz** — Checkliste, Uhrzeit, Name (Fotos nur auf Wunsch und mit Einwilligung; Entscheidung 06.10.2026), das einzige
    nachprüfbare Qualitätsversprechen am Markt.
 
 ## Marke
