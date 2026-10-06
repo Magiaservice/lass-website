@@ -13,3 +13,4 @@
 - Каждый ответ владельцу заканчивай блоком «➡️ Дальше»: кто работает или кому отвечать, и одна фраза для пересылки.
 - Weitere vertrauliche Regeln des Inhabers stehen in `docs/SESSION.md` (Abschnitt «Правила, которые легко нарушить»). Vor jeder Arbeit lesen; nicht in öffentliche Dateien übernehmen.
 - Wenn der Inhaber eine Aufgabe an einen anderen Assistenten weiterleiten soll, immer die nötige Modellstufe angeben: `--stufe leicht|mittel|stark --warum "Grund"` bei `docs/status.py` (leicht = einfache Prüfung/Formulierung, mittel = Code und Szenarientests, stark = Berechnungen, Sicherheit, Recht, Architektur).
+- Zusammenarbeit von Claude Code und Codex: `docs/ARBEITSVOLLMACHT.md` (grün/gelb/rot, Streitregel, Schutzgrenzen) gilt. Vor jeder Arbeit lesen.
