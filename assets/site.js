@@ -346,7 +346,7 @@
          (siehe prefillFromUrl) und damit aus fremder Hand. */
       if (out) out.textContent = (r.einmalig ? 'ab ' : '') + de(r.preis, 0);
       /* Einmalige Leistungen buchen auch Privatkunden: Endpreis inkl. USt mit angeben (PAngV). */
-      if (einh) einh.textContent = r.einmalig ? 'netto einmalig · ab ' + de(Math.round(r.preis * 1.19), 0) + ' € inkl. 19 % USt' : (kunde === 'Privatperson' ? '/ Monat · netto · ' + de(Math.round(r.preis * 1.19), 0) + ' € inkl. 19 % USt' : '/ Monat · netto');
+      if (einh) einh.textContent = r.einmalig ? 'netto einmalig · ab ' + de(Math.round(r.preis * 119) / 100, 2) + ' € inkl. 19 % USt' : (kunde === 'Privatperson' ? '/ Monat · netto · ' + de(Math.round(r.preis * 119) / 100, 2) + ' € inkl. 19 % USt' : '/ Monat · netto');
       if (meta) meta.textContent = r.meta;
     }
 
@@ -464,7 +464,7 @@
       if (val('#f-boden')) zeilen.push('Bodenbelag: ' + val('#f-boden'));
       if (val('#f-termin')) zeilen.push('Wunschtermin: ' + val('#f-termin'));
       if (val('#f-msg')) zeilen.push('Hinweise: ' + val('#f-msg'));
-      zeilen.push('Richtpreis laut Website: ' + (r ? (r.einmalig ? 'ab ' + de(r.preis, 0) + ' € einmalig netto (ab ' + de(Math.round(r.preis * 1.19), 0) + ' € inkl. 19 % USt)' : de(r.preis, 0) + ' € / Monat netto' + (kunde === 'Privatperson' ? ' (' + de(Math.round(r.preis * 1.19), 0) + ' € inkl. 19 % USt)' : '')) : '— (Preis nach Prüfung)'));
+      zeilen.push('Richtpreis laut Website: ' + (r ? (r.einmalig ? 'ab ' + de(r.preis, 0) + ' € einmalig netto (ab ' + de(Math.round(r.preis * 119) / 100, 2) + ' € inkl. 19 % USt)' : de(r.preis, 0) + ' € / Monat netto' + (kunde === 'Privatperson' ? ' (' + de(Math.round(r.preis * 119) / 100, 2) + ' € inkl. 19 % USt)' : '')) : '— (Preis nach Prüfung)'));
       zeilen.push('', 'Kundenart: ' + kunde, 'Name: ' + val('#f-name'));
       if (val('#f-firma')) zeilen.push('Firma: ' + val('#f-firma'));
       zeilen.push('E-Mail: ' + val('#f-email'), 'Telefon: ' + (val('#f-tel') || '—'));
@@ -497,7 +497,7 @@
       e.preventDefault();
       var name = v('#j-name'), tel = v('#j-tel'), plz = v('#j-plz');
       var bad = null;
-      if (!name) bad = '#j-name'; else if (!/^[0-9+()\/\s\-]{6,}$/.test(tel)) bad = '#j-tel'; else if (v('#j-email') && !/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(v('#j-email'))) bad = '#j-email'; else if (plz && (!/^[0-9]{5}$/.test(plz) || plz === '00000')) bad = '#j-plz';
+      if (!name) bad = '#j-name'; else if (!/^[0-9+()\/\s\-]{6,}$/.test(tel) || (tel.match(/[0-9]/g) || []).length < 6) bad = '#j-tel'; else if (v('#j-email') && !/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(v('#j-email'))) bad = '#j-email'; else if (plz && (!/^[0-9]{5}$/.test(plz) || plz === '00000')) bad = '#j-plz';
       if (bad) { var f = form.querySelector(bad), fe = form.querySelector('#jobsFehler'), tx = { '#j-name': 'Bitte Ihren Namen eintragen.', '#j-tel': 'Bitte eine gültige Telefonnummer eintragen.', '#j-email': 'Die E-Mail-Adresse sieht nicht richtig aus (oder Feld leer lassen).', '#j-plz': 'Die Postleitzahl muss fünfstellig sein (oder Feld leer lassen).' }; if (fe) fe.textContent = tx[bad] || ''; if (f) { f.focus(); f.setAttribute('aria-invalid', 'true'); } return; }
       var fe2 = form.querySelector('#jobsFehler'); if (fe2) fe2.textContent = '';
       var z = ['Bewerbung über liss-reinigungsservice.de', '', 'Name: ' + name, 'Telefon: ' + tel];

@@ -3,6 +3,9 @@
    Aus bei „Bewegung reduzieren“, bei Strg/Cmd/Shift-Klick, target=_blank, Anker, tel:/mailto:, Download, data-no-burst, ?burst=0. */
 (function () {
   'use strict';
+  /* Der Übergabe-Marker wird immer aus der Adresse entfernt, auch wenn der Effekt ausgeschaltet ist */
+  var uebergabe = '';
+  if (/^#lissb=[-\d,]+$/.test(location.hash)) { uebergabe = location.hash; try { history.replaceState(null, '', location.pathname + location.search); } catch (e) {} }
   if (/[?&]burst=0\b/.test(location.search)) return;
   var reduced = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   if (reduced || !Element.prototype.animate) return;
@@ -61,9 +64,8 @@
   /* Folgeseite: Die Zielseite wird mit dem Marker #lissb=… im Adressfragment geöffnet (Position, Farbe, Startwert, Startzeit).
      Es wird nichts im Browser gespeichert; der Marker verschwindet sofort wieder aus der Adresse. */
   (function () {
-    var m = /^#lissb=(-?\d+),(-?\d+),(\d+),(\d+),(\d+),(\d+),(\d+),(\d+),(\d+),([01])$/.exec(location.hash);
+    var m = /^#lissb=(-?\d+),(-?\d+),(\d+),(\d+),(\d+),(\d+),(\d+),(\d+),(\d+),([01])$/.exec(uebergabe);
     if (!m) return;
-    try { history.replaceState(null, '', location.pathname + location.search); } catch (x) {}
     var v = m.slice(1).map(Number), seit = Date.now() - v[5];
     if (seit < 0 || seit >= DAUER - 120) return;
     schicht(planen({ x: v[0], y: v[1], w: v[2], h: v[3] }, { r: v[6], g: v[7], b: v[8], hell: !!v[9] }, v[4]), seit);
