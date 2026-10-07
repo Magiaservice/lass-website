@@ -158,7 +158,7 @@ header{
 body.nav-open .burger span:nth-child(1){transform:translateY(7px) rotate(45deg)}
 body.nav-open .burger span:nth-child(2){opacity:0}
 body.nav-open .burger span:nth-child(3){transform:translateY(-7px) rotate(-45deg)}
-@media(min-width:940px){
+@media(min-width:1080px){
   .navlinks{display:flex}.hdr-cta{display:inline-flex}.burger{display:none}
 }
 .mobnav{
@@ -172,7 +172,7 @@ body.nav-open .mobnav{transform:translateX(0);visibility:visible;transition-dela
   padding:var(--s4) 0;border-bottom:1px solid var(--linie);
 }
 .mobnav .btn{margin-top:var(--s5)}
-@media(min-width:940px){.mobnav{display:none}}
+@media(min-width:1080px){.mobnav{display:none}}
 
 /* ---------- Parallax-Bühne ---------- */
 .stage{position:relative;overflow:hidden;isolation:isolate}
