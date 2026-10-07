@@ -600,7 +600,7 @@
       bubbles(st, hasVid ? (small ? 5 : 9) : (small ? 9 : 18));
       waves(st);
     });
-    document.querySelectorAll('section.stage').forEach(function (st) { bubbles(st, small ? 4 : 8); });
+    document.querySelectorAll('section.stage').forEach(function (st) { var n = parseInt(st.getAttribute('data-bub'), 10); bubbles(st, n ? (small ? Math.ceil(n / 2) : n) : (small ? 4 : 8)); });
   }
 
   /* --- Maus-Neigung für die Rechnerkarte --- */
