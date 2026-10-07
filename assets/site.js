@@ -183,7 +183,9 @@
      Rechner, damit Rechner, Formular-Zusammenfassung und E-Mail garantiert
      dieselbe Zahl zeigen. */
   function monatspreis(m, objF, freqF) {
-    return Math.round(einsatzGrund(m) * objF * freqF / 10) * 10;
+    /* Treppenhaus (Faktor 0,8): Preis nach Fläche, aber mindestens 39 € je Einsatz */
+    var je = einsatzGrund(m) * objF; if (objF === 0.8) je = Math.max(je, 39);
+    return Math.round(je * freqF / 10) * 10;
   }
 
   function initCalc(root) {
@@ -225,7 +227,7 @@
     }
 
     function render() {
-      var m = +qm.value, perVisit = einsatzGrund(m) * objMul, r = perVisit / m;
+      var m = +qm.value, perVisit = einsatzGrund(m) * objMul, r; if (objMul === 0.8) perVisit = Math.max(perVisit, 39); r = perVisit / m;
       q('qmOut').textContent = de(m, 0);
       q('outEins').textContent = de(freqMul, 1);
       q('outQmPreis').textContent = de(r, 2) + ' €';
