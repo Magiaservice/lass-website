@@ -6,7 +6,7 @@
   if (/[?&]burst=0\b/.test(location.search)) return;
   var reduced = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   if (reduced || !Element.prototype.animate) return;
-  var DAUER = window.LISS_BURST_DAUER || 1500, WEITER = window.LISS_BURST_WEITER || 320, busy = false, KEY = 'liss_burst';
+  var DAUER = window.LISS_BURST_DAUER || 1500, WEITER = window.LISS_BURST_WEITER || 320, busy = false;
   /* Test: window.LISS_BURST_WEITER = 5000 verlängert die Wartezeit vor dem Seitenwechsel */
 
   var css = document.createElement('style');
@@ -45,26 +45,29 @@
     setTimeout(function () { if (layer.parentNode) layer.remove(); }, Math.max(100, DAUER - elapsed) + 150);
     return layer;
   }
-  function planen(el) {
-    var r = el.getBoundingClientRect(), f = farbe(el), list = [];
-    var n = Math.max(16, Math.min(30, Math.round(r.width / 8))), cx = r.left + r.width / 2, cy = r.top + r.height / 2;
+  /* Kleiner Zufallsgenerator mit Startwert: Die Folgeseite erzeugt exakt dieselben Blasen, ohne dass etwas im Browser gespeichert wird */
+  function zufall(seed) { var a = seed >>> 0; return function () { a = (a + 0x6D2B79F5) >>> 0; var t = a; t = Math.imul(t ^ (t >>> 15), t | 1); t ^= t + Math.imul(t ^ (t >>> 7), t | 61); return ((t ^ (t >>> 14)) >>> 0) / 4294967296; }; }
+  function planen(r, f, seed) {
+    var rnd = zufall(seed), list = [];
+    var n = Math.max(16, Math.min(30, Math.round(r.w / 8))), cx = r.x + r.w / 2, cy = r.y + r.h / 2;
     for (var i = 0; i < n; i++) {
-      var x = r.left + Math.random() * r.width, y = r.top + Math.random() * r.height;
-      var ang = Math.atan2(y - cy, x - cx) + (Math.random() - .5) * 1.2, dist = 70 + Math.random() * 170;
-      list.push({ x: Math.round(x), y: Math.round(y), d: Math.round(16 + Math.random() * 34), dx: Math.round(Math.cos(ang) * dist), dy: Math.round(Math.sin(ang) * dist - 50 - Math.random() * 80), delay: Math.round(Math.random() * 160) });
+      var x = r.x + rnd() * r.w, y = r.y + rnd() * r.h;
+      var ang = Math.atan2(y - cy, x - cx) + (rnd() - .5) * 1.2, dist = 70 + rnd() * 170;
+      list.push({ x: Math.round(x), y: Math.round(y), d: Math.round(16 + rnd() * 34), dx: Math.round(Math.cos(ang) * dist), dy: Math.round(Math.sin(ang) * dist - 50 - rnd() * 80), delay: Math.round(rnd() * 160) });
     }
     return { f: f, list: list };
   }
 
-  /* Folgeseite: Blasen setzen ihren Flug fort */
-  try {
-    var gespeichert = sessionStorage.getItem(KEY);
-    if (gespeichert) {
-      sessionStorage.removeItem(KEY);
-      var st = JSON.parse(gespeichert), seit = Date.now() - st.t0;
-      if (st && st.plan && seit >= 0 && seit < DAUER - 120) schicht(st.plan, seit);
-    }
-  } catch (x) { /* ohne Speicher: kein Fortsetzen, kein Fehler */ }
+  /* Folgeseite: Die Zielseite wird mit dem Marker #lissb=… im Adressfragment geöffnet (Position, Farbe, Startwert, Startzeit).
+     Es wird nichts im Browser gespeichert; der Marker verschwindet sofort wieder aus der Adresse. */
+  (function () {
+    var m = /^#lissb=(-?\d+),(-?\d+),(\d+),(\d+),(\d+),(\d+),(\d+),(\d+),(\d+),([01])$/.exec(location.hash);
+    if (!m) return;
+    try { history.replaceState(null, '', location.pathname + location.search); } catch (x) {}
+    var v = m.slice(1).map(Number), seit = Date.now() - v[5];
+    if (seit < 0 || seit >= DAUER - 120) return;
+    schicht(planen({ x: v[0], y: v[1], w: v[2], h: v[3] }, { r: v[6], g: v[7], b: v[8], hell: !!v[9] }, v[4]), seit);
+  })();
 
   document.addEventListener('click', function (e) {
     if (busy || e.defaultPrevented || e.button !== 0 || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
@@ -75,9 +78,10 @@
     var url; try { url = new URL(a.href, location.href); } catch (x) { return; }
     if (url.origin !== location.origin || (url.pathname === location.pathname && url.search === location.search)) return;
     e.preventDefault(); busy = true;
-    var plan, layer, t0 = Date.now();
-    try { plan = planen(a); layer = schicht(plan, 0); a.classList.add('burst-weg'); } catch (x) { location.href = url.href; return; }
-    try { sessionStorage.setItem(KEY, JSON.stringify({ t0: t0, plan: plan })); } catch (x) { /* dann endet der Effekt mit dieser Seite */ }
+    var t0 = Date.now(), seed = Math.floor(Math.random() * 4294967295), rc = a.getBoundingClientRect(), f = farbe(a);
+    var rect = { x: Math.round(rc.left), y: Math.round(rc.top), w: Math.round(rc.width), h: Math.round(rc.height) };
+    try { schicht(planen(rect, f, seed), 0); a.classList.add('burst-weg'); } catch (x) { location.href = url.href; return; }
+    if (!url.hash) url.hash = 'lissb=' + [rect.x, rect.y, rect.w, rect.h, seed, t0, f.r, f.g, f.b, f.hell ? 1 : 0].join(',');
     setTimeout(function () { location.href = url.href; }, WEITER);
     setTimeout(function () { busy = false; a.classList.remove('burst-weg'); }, DAUER + 300);   /* nur relevant, wenn der Wechsel ausbleibt */
   }, true);
@@ -85,6 +89,5 @@
     if (!e.persisted) return;
     busy = false; document.querySelectorAll('.burst-weg').forEach(function (x) { x.classList.remove('burst-weg'); });
     document.querySelectorAll('.burst-layer').forEach(function (x) { x.remove(); });
-    try { sessionStorage.removeItem(KEY); } catch (x) {}
   });
 })();
