@@ -548,6 +548,13 @@
   }
 
   /* --- Blasenfeld: je Bühne ein paar Blasen in verschiedenen Tiefen --- */
+  /* Blasen liegen in einem eigenen Feld, das an Ober- und Unterkante weich ausblendet: keine hart abgeschnittenen Blasen an Abschnittsgrenzen */
+  function bubbleField(stage) {
+    var f = null, kids = stage.children;
+    for (var i = 0; i < kids.length; i++) if (kids[i].classList && kids[i].classList.contains('bub-field')) f = kids[i];
+    if (!f) { f = document.createElement('div'); f.className = 'bub-field'; f.setAttribute('aria-hidden', 'true'); stage.appendChild(f); }
+    return f;
+  }
   function bubbles(stage, n) {
     for (var i = 0; i < n; i++) {
       var shell = document.createElement('span');
@@ -569,7 +576,7 @@
       core.style.setProperty('--dy', (-14 - Math.random() * 30).toFixed(0) + 'px');
       core.style.setProperty('--sc', (1.03 + Math.random() * 0.09).toFixed(3));
       shell.appendChild(core);
-      stage.appendChild(shell);
+      bubbleField(stage).appendChild(shell);
     }
   }
 

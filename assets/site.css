@@ -941,6 +941,9 @@ footer .fgrid{display:grid;gap:var(--s6)}
 
 /* Seifenblasen-Feld */
 /* Blase = äußere Hülle (Parallax) + Kern (Eigenbewegung) */
+.bub-field{position:absolute;inset:0;overflow:hidden;pointer-events:none;z-index:1;
+  -webkit-mask-image:linear-gradient(to bottom,transparent 0,#000 clamp(40px,12%,110px),#000 calc(100% - clamp(40px,12%,110px)),transparent 100%);
+  mask-image:linear-gradient(to bottom,transparent 0,#000 clamp(40px,12%,110px),#000 calc(100% - clamp(40px,12%,110px)),transparent 100%)}
 .bub{position:absolute;pointer-events:none;z-index:1;will-change:transform}
 .bub>b{
   display:block;width:100%;height:100%;border-radius:50%;
@@ -957,7 +960,7 @@ footer .fgrid{display:grid;gap:var(--s6)}
   border-radius:50%;background:linear-gradient(180deg,rgba(255,255,255,.95),rgba(255,255,255,.3));transform:rotate(-32deg);filter:blur(.6px);
 }
 /* Blasen hinter dem Inhalt (Kennzahlen-Block, Footer), damit Text lesbar bleibt */
-section.stage[data-bub]>.bub,footer.stage>.bub{z-index:0}
+section.stage[data-bub]>.bub-field,footer.stage>.bub-field{z-index:0}
 section.stage[data-bub]>.wrap,footer.stage>.wrap{position:relative;z-index:1}
 /* Auf dunklem Grund (tiefsee-bg, Footer): Blase mit hellem Rand und leichtem Glanz, gleiche Form wie auf hellem Grund */
 .tiefsee-bg .bub>b,footer.stage .bub>b,.scene-stick .bub>b{
@@ -1057,7 +1060,7 @@ section.stage[data-bub]>.wrap,footer.stage>.wrap{position:relative;z-index:1}
 .wordrise.in>span>i{transform:none}
 
 @media(prefers-reduced-motion:reduce){
-  .bub,.waves,.progress{display:none}
+  .bub,.bub-field,.waves,.progress{display:none}
   .scene-track{height:auto}
   .scene-stick{position:static;height:auto;padding:64px 0;display:block}
   .scene-step{position:static;opacity:1;transform:none;padding:32px 0;display:block}
