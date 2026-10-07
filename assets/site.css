@@ -956,6 +956,18 @@ footer .fgrid{display:grid;gap:var(--s6)}
   content:"";position:absolute;top:14%;left:20%;width:30%;height:14%;
   border-radius:50%;background:linear-gradient(180deg,rgba(255,255,255,.95),rgba(255,255,255,.3));transform:rotate(-32deg);filter:blur(.6px);
 }
+/* Blasen hinter dem Inhalt (Kennzahlen-Block, Footer), damit Text lesbar bleibt */
+section.stage[data-bub]>.bub,footer.stage>.bub{z-index:0}
+section.stage[data-bub]>.wrap,footer.stage>.wrap{position:relative;z-index:1}
+/* Auf dunklem Grund (tiefsee-bg, Footer): Blase mit hellem Rand und leichtem Glanz, gleiche Form wie auf hellem Grund */
+.tiefsee-bg .bub>b,footer.stage .bub>b,.scene-stick .bub>b{
+  background:radial-gradient(circle at 50% 50%,
+    rgba(159,194,232,.04) 0 55%,
+    rgba(159,194,232,.16) 78%,
+    rgba(214,229,250,.38) 100%);
+  border:1.5px solid rgba(214,229,250,.62);
+  box-shadow:inset 6px 8px 16px rgba(214,229,250,.20),inset -7px -9px 18px rgba(159,194,232,.22),0 0 20px rgba(159,194,232,.18);
+}
 @keyframes bubdrift{
   from{transform:translate3d(0,0,0) scale(1)}
   to{transform:translate3d(var(--dx,10px),var(--dy,-22px),0) scale(var(--sc,1.06))}
