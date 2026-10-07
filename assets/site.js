@@ -498,7 +498,8 @@
       var name = v('#j-name'), tel = v('#j-tel'), plz = v('#j-plz');
       var bad = null;
       if (!name) bad = '#j-name'; else if (!/^[0-9+()\/\s\-]{6,}$/.test(tel)) bad = '#j-tel'; else if (v('#j-email') && !/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(v('#j-email'))) bad = '#j-email'; else if (!/^[0-9]{5}$/.test(plz) || plz === '00000') bad = '#j-plz';
-      if (bad) { var f = form.querySelector(bad); if (f) { f.focus(); f.setAttribute('aria-invalid', 'true'); } return; }
+      if (bad) { var f = form.querySelector(bad), fe = form.querySelector('#jobsFehler'), tx = { '#j-name': 'Bitte Ihren Namen eintragen.', '#j-tel': 'Bitte eine gültige Telefonnummer eintragen.', '#j-email': 'Die E-Mail-Adresse sieht nicht richtig aus (oder Feld leer lassen).', '#j-plz': 'Bitte eine fünfstellige Postleitzahl eintragen.' }; if (fe) fe.textContent = tx[bad] || ''; if (f) { f.focus(); f.setAttribute('aria-invalid', 'true'); } return; }
+      var fe2 = form.querySelector('#jobsFehler'); if (fe2) fe2.textContent = '';
       var z = ['Bewerbung über liss-reinigungsservice.de', '', 'Name: ' + name, 'Telefon: ' + tel];
       if (v('#j-email')) z.push('E-Mail: ' + v('#j-email'));
       z.push('Postleitzahl: ' + plz, 'Umfang: ' + v('#j-umfang'));
