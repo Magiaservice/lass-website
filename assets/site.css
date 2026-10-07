@@ -707,6 +707,7 @@ section{padding:var(--s7) 0;position:relative}
 /* ---------- Kennzahlen ---------- */
 .stats{display:grid;gap:var(--s5)}
 @media(min-width:700px){.stats{grid-template-columns:repeat(4,1fr)}}
+@media(min-width:700px){.stats.drei{grid-template-columns:repeat(3,1fr)}}
 .stat{border-top:1.5px solid #1B2F63;padding-top:var(--s4)}
 .stat .v{font-family:var(--mono);font-weight:700;font-size:clamp(30px,6vw,42px);letter-spacing:-.03em;color:var(--aqua);line-height:1}
 .stat .k{font-size:14px;color:#C9D5EC;margin-top:var(--s2)}
