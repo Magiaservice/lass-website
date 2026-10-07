@@ -6,7 +6,8 @@
   if (/[?&]burst=0\b/.test(location.search)) return;
   var reduced = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   if (reduced || !Element.prototype.animate) return;
-  var DAUER = 760, WEITER = window.LISS_BURST_WEITER || 560, busy = false;   /* Test: window.LISS_BURST_WEITER = 5000 verlängert die Wartezeit vor dem Seitenwechsel */
+  var DAUER = window.LISS_BURST_DAUER || 1500, WEITER = window.LISS_BURST_WEITER || 320, busy = false, KEY = 'liss_burst';
+  /* Test: window.LISS_BURST_WEITER = 5000 verlängert die Wartezeit vor dem Seitenwechsel */
 
   var css = document.createElement('style');
   css.textContent = '.burst-layer{position:fixed;left:0;top:0;width:100%;height:100%;pointer-events:none;z-index:99999;overflow:hidden}' +
@@ -20,35 +21,51 @@
   function farbe(el) {
     var cs = getComputedStyle(el), bg = rgb(cs.backgroundColor), tx = rgb(cs.color);
     var c = bg && bg.a > 0.15 ? bg : (tx || { r: 1, g: 46, b: 137, a: 1 });
-    var hell = lum(c) > 0.62;
-    return { c: c, hell: hell };
+    return { r: c.r, g: c.g, b: c.b, hell: lum(c) > 0.62 };
   }
-  function blase(layer, x, y, d, f, dx, dy, delay) {
+  function blase(layer, q, f, elapsed) {
     var b = document.createElement('span'); b.className = 'burst-b';
-    var c = f.c, rim = f.hell ? 'rgba(255,255,255,.85)' : 'rgba(214,229,250,.8)';
-    b.style.cssText = 'left:' + (x - d / 2) + 'px;top:' + (y - d / 2) + 'px;width:' + d + 'px;height:' + d + 'px;' +
+    var rim = f.hell ? 'rgba(255,255,255,.85)' : 'rgba(214,229,250,.8)';
+    b.style.cssText = 'left:' + (q.x - q.d / 2) + 'px;top:' + (q.y - q.d / 2) + 'px;width:' + q.d + 'px;height:' + q.d + 'px;' +
       'border:1.5px solid ' + rim + ';' +
-      'background:radial-gradient(circle at 50% 50%,rgba(' + c.r + ',' + c.g + ',' + c.b + ',.10) 0 50%,rgba(' + c.r + ',' + c.g + ',' + c.b + ',.38) 85%,rgba(255,255,255,.4) 100%);' +
+      'background:radial-gradient(circle at 50% 50%,rgba(' + f.r + ',' + f.g + ',' + f.b + ',.10) 0 50%,rgba(' + f.r + ',' + f.g + ',' + f.b + ',.38) 85%,rgba(255,255,255,.4) 100%);' +
       'box-shadow:inset 3px 4px 8px rgba(255,255,255,.45),0 0 12px rgba(' + (f.hell ? '255,255,255' : '159,194,232') + ',.35)';
     layer.appendChild(b);
-    b.animate([
+    var an = b.animate([
       { transform: 'translate(0,0) scale(.35)', opacity: 0 },
-      { transform: 'translate(' + dx * .25 + 'px,' + dy * .25 + 'px) scale(1)', opacity: 1, offset: .18 },
-      { transform: 'translate(' + dx + 'px,' + dy + 'px) scale(1.12)', opacity: 0 }
-    ], { duration: DAUER - delay, delay: delay, easing: 'cubic-bezier(.2,.7,.3,1)', fill: 'both' });
+      { transform: 'translate(' + q.dx * .2 + 'px,' + q.dy * .2 + 'px) scale(1)', opacity: 1, offset: .12 },
+      { transform: 'translate(' + q.dx + 'px,' + q.dy + 'px) scale(1.15)', opacity: 0 }
+    ], { duration: DAUER - q.delay, delay: q.delay, easing: 'cubic-bezier(.25,.6,.3,1)', fill: 'both' });
+    if (elapsed > 0) an.currentTime = elapsed;   /* Fortsetzung auf der Folgeseite: gleiche Bahn, gleicher Zeitpunkt */
   }
-  function zerplatzen(el) {
-    var r = el.getBoundingClientRect(), f = farbe(el), layer = document.createElement('div'); layer.className = 'burst-layer';
+  function schicht(plan, elapsed) {
+    var layer = document.createElement('div'); layer.className = 'burst-layer'; layer.setAttribute('aria-hidden', 'true');
     document.body.appendChild(layer);
-    var n = Math.max(14, Math.min(26, Math.round(r.width / 9))), cx = r.left + r.width / 2, cy = r.top + r.height / 2;
-    for (var i = 0; i < n; i++) {
-      var x = r.left + Math.random() * r.width, y = r.top + Math.random() * r.height;
-      var d = 12 + Math.random() * 30, ang = Math.atan2(y - cy, x - cx) + (Math.random() - .5) * 1.2, dist = 50 + Math.random() * 120;
-      blase(layer, x, y, d, f, Math.cos(ang) * dist, Math.sin(ang) * dist - 40 - Math.random() * 60, Math.random() * 120);
-    }
-    el.classList.add('burst-weg');
+    plan.list.forEach(function (q) { blase(layer, q, plan.f, elapsed); });
+    setTimeout(function () { if (layer.parentNode) layer.remove(); }, Math.max(100, DAUER - elapsed) + 150);
     return layer;
   }
+  function planen(el) {
+    var r = el.getBoundingClientRect(), f = farbe(el), list = [];
+    var n = Math.max(16, Math.min(30, Math.round(r.width / 8))), cx = r.left + r.width / 2, cy = r.top + r.height / 2;
+    for (var i = 0; i < n; i++) {
+      var x = r.left + Math.random() * r.width, y = r.top + Math.random() * r.height;
+      var ang = Math.atan2(y - cy, x - cx) + (Math.random() - .5) * 1.2, dist = 70 + Math.random() * 170;
+      list.push({ x: Math.round(x), y: Math.round(y), d: Math.round(16 + Math.random() * 34), dx: Math.round(Math.cos(ang) * dist), dy: Math.round(Math.sin(ang) * dist - 50 - Math.random() * 80), delay: Math.round(Math.random() * 160) });
+    }
+    return { f: f, list: list };
+  }
+
+  /* Folgeseite: Blasen setzen ihren Flug fort */
+  try {
+    var gespeichert = sessionStorage.getItem(KEY);
+    if (gespeichert) {
+      sessionStorage.removeItem(KEY);
+      var st = JSON.parse(gespeichert), seit = Date.now() - st.t0;
+      if (st && st.plan && seit >= 0 && seit < DAUER - 120) schicht(st.plan, seit);
+    }
+  } catch (x) { /* ohne Speicher: kein Fortsetzen, kein Fehler */ }
+
   document.addEventListener('click', function (e) {
     if (busy || e.defaultPrevented || e.button !== 0 || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
     var a = e.target.closest ? e.target.closest('a.btn[href]') : null;
@@ -58,13 +75,16 @@
     var url; try { url = new URL(a.href, location.href); } catch (x) { return; }
     if (url.origin !== location.origin || (url.pathname === location.pathname && url.search === location.search)) return;
     e.preventDefault(); busy = true;
-    var layer; try { layer = zerplatzen(a); } catch (x) { location.href = url.href; return; }
+    var plan, layer, t0 = Date.now();
+    try { plan = planen(a); layer = schicht(plan, 0); a.classList.add('burst-weg'); } catch (x) { location.href = url.href; return; }
+    try { sessionStorage.setItem(KEY, JSON.stringify({ t0: t0, plan: plan })); } catch (x) { /* dann endet der Effekt mit dieser Seite */ }
     setTimeout(function () { location.href = url.href; }, WEITER);
-    setTimeout(function () { if (layer && layer.parentNode) layer.remove(); busy = false; a.classList.remove('burst-weg'); }, DAUER + 200);
+    setTimeout(function () { busy = false; a.classList.remove('burst-weg'); }, DAUER + 300);   /* nur relevant, wenn der Wechsel ausbleibt */
   }, true);
   window.addEventListener('pageshow', function (e) {
     if (!e.persisted) return;
     busy = false; document.querySelectorAll('.burst-weg').forEach(function (x) { x.classList.remove('burst-weg'); });
     document.querySelectorAll('.burst-layer').forEach(function (x) { x.remove(); });
+    try { sessionStorage.removeItem(KEY); } catch (x) {}
   });
 })();
