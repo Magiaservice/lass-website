@@ -22,8 +22,7 @@ Seite öffnet direkt im Browser. Deutscher Markt, deutsches Recht
   eigenes SSL-Zertifikat (GitHub-Pages-Standard, automatisch
   ausgestellt). **Noch auf `noindex`/`robots.txt: Disallow: /`** — siehe
   §5, ein Pflichtfeld im Impressum fehlt noch.
-- **Repository:** https://github.com/Magiaservice/lass-website (jetzt
-  **privat**, Branch `main`). **Eigentümerwechsel am 28.09.2026:**
+- **Repository:** https://github.com/Magiaservice/lass-website (Stand 06.10.2026: **öffentlich**, Branch `main`). **Eigentümerwechsel am 28.09.2026:**
   vorher `Lexikal` (Entwickler-Konto), jetzt vollständig auf ein Konto
   im Namen des Kunden (**Hassan Daoud**) übertragen. Der bisherige
   Entwickler-Account (`Lexikal`) wurde von GitHub beim Transfer

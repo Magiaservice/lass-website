@@ -421,14 +421,14 @@
       var st = p.get('stadtteil'), stInp = form.querySelector('#f-stadtteil'), stBox = form.querySelector('#f-stadtteil-box');
       if (stInp && stBox && STADTTEILE.indexOf(st) > -1) { stInp.value = st; stBox.hidden = false; }
 
-      var obj = OBJEKTE[p.get('obj')];
+      var obj = Object.prototype.hasOwnProperty.call(OBJEKTE, p.get('obj')) ? OBJEKTE[p.get('obj')] : null;
       if (typSel && obj) {
         [].slice.call(typSel.options).forEach(function (o) {
           if (o.value === obj.form || o.textContent === obj.form) typSel.value = o.value;
         });
       }
 
-      var t = TURNUS[p.get('frq')];
+      var t = Object.prototype.hasOwnProperty.call(TURNUS, p.get('frq')) ? TURNUS[p.get('frq')] : null;
       if (t) {
         form.querySelectorAll('[data-turnus]').forEach(function (c) {
           var hit = c.dataset.turnus === t.label;
@@ -445,6 +445,7 @@
     form.addEventListener('submit', function (e) {
       e.preventDefault();
       if (!validateStep(steps[current - 1])) return;
+      if (current < 3) { show(current + 1); return; }   /* Enter in Schritt 1/2 geht zum nächsten Schritt, sendet nicht */
       var val = function (id) { var el = form.querySelector(id); return el && sichtbar(el) ? el.value.trim() : ''; };
       var a = arten(), typ = typSel ? typSel.value : '', plz = val('#f-plz');
       /* Der Richtpreis gehört in die Mail: er ist die Zahl, die der Kunde
@@ -496,7 +497,7 @@
       e.preventDefault();
       var name = v('#j-name'), tel = v('#j-tel'), plz = v('#j-plz');
       var bad = null;
-      if (!name) bad = '#j-name'; else if (!tel) bad = '#j-tel'; else if (!/^[0-9]{5}$/.test(plz)) bad = '#j-plz';
+      if (!name) bad = '#j-name'; else if (!/^[0-9+()\/\s\-]{6,}$/.test(tel)) bad = '#j-tel'; else if (v('#j-email') && !/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(v('#j-email'))) bad = '#j-email'; else if (!/^[0-9]{5}$/.test(plz) || plz === '00000') bad = '#j-plz';
       if (bad) { var f = form.querySelector(bad); if (f) { f.focus(); f.setAttribute('aria-invalid', 'true'); } return; }
       var z = ['Bewerbung über liss-reinigungsservice.de', '', 'Name: ' + name, 'Telefon: ' + tel];
       if (v('#j-email')) z.push('E-Mail: ' + v('#j-email'));
