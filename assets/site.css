@@ -146,7 +146,9 @@ header{
 .navlinks{display:none;gap:var(--s5);font-size:15px;font-weight:500}
 .navlinks a{text-decoration:none;padding:var(--s2) 0;border-bottom:2px solid transparent;transition:border-color var(--dur-2) var(--ease-soft)}
 .navlinks a:hover,.navlinks a.active{border-color:var(--leisblau)}
-.hdr-cta{display:none}
+.hdr-cta{display:none;white-space:nowrap}
+.logo{flex:0 0 auto}
+.navlinks a{white-space:nowrap}
 .burger{
   display:inline-flex;flex-direction:column;justify-content:center;gap:var(--s1);
   width:46px;height:46px;border:1.5px solid var(--tiefsee);border-radius:var(--r);
@@ -158,7 +160,7 @@ header{
 body.nav-open .burger span:nth-child(1){transform:translateY(7px) rotate(45deg)}
 body.nav-open .burger span:nth-child(2){opacity:0}
 body.nav-open .burger span:nth-child(3){transform:translateY(-7px) rotate(-45deg)}
-@media(min-width:1080px){
+@media(min-width:1340px){
   .navlinks{display:flex}.hdr-cta{display:inline-flex}.burger{display:none}
 }
 .mobnav{
@@ -172,7 +174,7 @@ body.nav-open .mobnav{transform:translateX(0);visibility:visible;transition-dela
   padding:var(--s4) 0;border-bottom:1px solid var(--linie);
 }
 .mobnav .btn{margin-top:var(--s5)}
-@media(min-width:1080px){.mobnav{display:none}}
+@media(min-width:1340px){.mobnav{display:none}}
 
 /* ---------- Parallax-Bühne ---------- */
 .stage{position:relative;overflow:hidden;isolation:isolate}
@@ -946,6 +948,20 @@ footer .fgrid{display:grid;gap:var(--s6)}
 .bub>b::after{
   content:"";position:absolute;top:15%;left:21%;width:24%;height:17%;
   border-radius:50%;background:rgba(255,255,255,.95);filter:blur(1px);
+}
+/* Auf dunklem Grund (tiefsee-bg, Footer): durchsichtige Blase mit hellem Rand statt dunkler Füllung; sonst verschwindet sie im Hintergrund und wirkt wie ein Auge */
+.tiefsee-bg .bub>b,footer.stage .bub>b,.scene-stick .bub>b{
+  background:radial-gradient(circle at 50% 50%,
+    rgba(159,194,232,.04) 0 55%,
+    rgba(159,194,232,.16) 78%,
+    rgba(214,229,250,.38) 100%);
+  border:1.5px solid rgba(214,229,250,.62);
+  box-shadow:inset 6px 8px 16px rgba(214,229,250,.20),inset -7px -9px 18px rgba(159,194,232,.22),0 0 20px rgba(159,194,232,.18);
+}
+.tiefsee-bg .bub>b::after,footer.stage .bub>b::after,.scene-stick .bub>b::after{
+  top:14%;left:20%;width:30%;height:14%;border-radius:50%;
+  background:linear-gradient(180deg,rgba(255,255,255,.95),rgba(255,255,255,.35));
+  transform:rotate(-32deg);filter:blur(.6px);
 }
 @keyframes bubdrift{
   from{transform:translate3d(0,0,0) scale(1)}
