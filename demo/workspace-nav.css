@@ -1,0 +1,49 @@
+@import url('./components/ui/3d-button.css');
+/* Local, build-free adaptation of the supplied React button. */
+.workspace-nav{padding:12px!important;border:0!important;border-radius:18px;background:linear-gradient(135deg,#f7faff,#e9f0fa);box-shadow:inset 0 1px 2px #17385e09,0 12px 25px -21px #17385e55;isolation:isolate}
+.workspace-nav:before,.workspace-nav:after{display:none!important}
+.workspace-nav>a.liss-3d-button{--menu-x:0px;--menu-y:0px;--menu-angle:0deg;display:flex;min-width:0;width:100%;min-height:49px;margin:0 0 10px;border:0!important;padding:0!important;border-radius:14px;transform:translate3d(var(--menu-x),var(--menu-y),0) rotate(var(--menu-angle));transition:transform .38s cubic-bezier(.2,.8,.2,1);background:transparent!important;color:#23476e!important;box-shadow:none!important;text-decoration:none;font-size:13px;line-height:1.45}
+.workspace-nav>a.liss-3d-button .wrap{gap:10px;padding:10px 13px;background:linear-gradient(135deg,#f0f8ff,#dcecfb 55%,#cee2f6);box-shadow:inset 0 .5px 0 #ffffffbb,inset 0 -.5px 0 #6e93bb22,0 1px 2px #17385e0c}
+.workspace-nav>a.liss-3d-button:is(:hover,:focus-visible) .wrap{transform:translateY(-.7px);background:linear-gradient(135deg,#f6fbff,#e1effd 55%,#c8def5);box-shadow:inset 0 .5px 0 #fff,0 2px 4px -2px #17385e25}
+.workspace-nav .workspace-icon{width:20px;height:20px;flex:0 0 20px;color:currentColor;position:relative;z-index:1}
+.workspace-nav .content{gap:5px}
+.workspace-nav .char{font-size:12px;font-weight:550}
+.workspace-nav>a.liss-3d-button:is(.active,:active){color:#fff!important}
+.workspace-nav>a.liss-3d-button:is(.active,:active) .wrap{background:linear-gradient(135deg,#214f98,#012e89 70%,#012568);box-shadow:inset 0 .5px 0 #ffffff55,0 1px 3px -2px #012e8940}
+.workspace-nav>a.liss-3d-button:active .wrap{transform:translateY(1px)}
+.workspace-nav>a.active .outline{border-color:#c8e0ff40}
+.workspace-nav>a.active .bg{background:#012568}
+.workspace-nav>a.liss-3d-button:is(:hover,:focus-visible) .outline{border-color:#8db3d632}
+.workspace-nav>a.active:is(:hover,:focus-visible) .outline{border-color:#d4e9ff50}
+.workspace-nav>a.active .char{font-weight:700}
+.workspace-nav>a.workspace-account{display:block;margin:17px 0 0;padding:7px 4px;font-size:11px;line-height:1.5;background:transparent;box-shadow:none;border:0!important;color:#62748b;text-decoration:none}
+.workspace-nav>a.workspace-account:hover{color:#012e89;text-decoration:underline}
+.workspace-nav>a.workspace-account:focus-visible{outline:2px solid #4a8ce0;outline-offset:3px}
+@media(max-width:800px){.workspace-nav{display:flex;flex-wrap:wrap;gap:10px 9px}.workspace-nav>a.liss-3d-button{width:auto;flex:1 1 155px;min-height:49px;margin:0 0 5px}.workspace-nav>a.workspace-account{flex:1 1 100%;margin:1px 0}.workspace-nav .char{font-size:12px}}
+@media(prefers-reduced-motion:reduce){.workspace-nav>a.liss-3d-button{transform:none!important;transition:none}}
+@media print{.workspace-nav{display:none!important}}
+
+/* Compact, grouped navigation: keep the existing destinations, reveal them by task. */
+.workspace-nav{display:flex;flex-direction:column;gap:5px;padding:12px!important}
+.workspace-nav .workspace-nav-home{display:flex;align-items:center;gap:11px;min-height:48px;margin:0 0 7px;padding:11px 13px;border:1px solid #012e89!important;border-radius:13px;background:linear-gradient(120deg,#164b9d,#012e89 75%);box-shadow:0 3px 8px -6px #012e89a6;color:#fff;text-decoration:none;font-weight:650;transition:background-color .9s ease,box-shadow .9s ease,transform .9s ease}
+.workspace-nav .workspace-nav-home .workspace-icon{width:20px;height:20px;flex:0 0 20px}
+.workspace-nav .workspace-nav-home:hover{background:linear-gradient(120deg,#2864b8,#073b94 75%);box-shadow:0 5px 12px -8px #012e89b0;transform:translateY(-1px)}
+.workspace-nav .workspace-nav-group{margin:0;border:1px solid transparent;border-radius:13px;overflow:hidden}
+.workspace-nav .workspace-nav-group[open]{border-color:#d5e1f0;background:#ffffff8c}
+.workspace-nav .workspace-nav-group>summary{display:flex;align-items:center;gap:11px;min-height:46px;padding:10px 12px;border:1px solid #d5e1f0;border-radius:12px;background:linear-gradient(135deg,#f7fbff,#e9f2fc);color:#23476e;cursor:pointer;list-style:none;font-size:13px;font-weight:620;line-height:1.35;transition:background-color .85s ease,border-color .85s ease,box-shadow .85s ease,transform .85s ease}
+.workspace-nav .workspace-nav-group>summary::-webkit-details-marker{display:none}
+.workspace-nav .workspace-nav-group>summary:hover,.workspace-nav .workspace-nav-group>summary:focus-visible{border-color:#93b6df;background:linear-gradient(135deg,#fafdff,#deebfa);box-shadow:0 4px 10px -8px #143b6d8c;transform:translateY(-1px);outline:none}
+.workspace-nav .workspace-nav-group[open]>summary{border-color:#c7d8ee;background:linear-gradient(135deg,#eff6ff,#e1edfa)}
+.workspace-nav .workspace-nav-group>summary .workspace-icon{width:19px;height:19px;flex:0 0 19px;color:#315c8b}
+.workspace-nav .workspace-nav-group>summary>span:nth-child(2){flex:1}
+.workspace-nav .workspace-nav-chevron{width:8px;height:8px;border-right:1.5px solid #58789e;border-bottom:1.5px solid #58789e;transform:rotate(45deg) translateY(-2px);transition:transform .22s ease}
+.workspace-nav .workspace-nav-group[open] .workspace-nav-chevron{transform:rotate(225deg) translate(-1px,-1px)}
+.workspace-nav .workspace-nav-children{display:grid;gap:3px;padding:5px 7px 7px 20px}
+.workspace-nav .workspace-nav-children>a{display:flex;align-items:center;gap:9px;min-height:37px;padding:7px 9px;border:1px solid transparent;border-radius:9px;color:#405b79;text-decoration:none;font-size:12px;line-height:1.3;transition:background-color .85s ease,border-color .85s ease,color .85s ease,transform .85s ease}
+.workspace-nav .workspace-nav-children>a .workspace-icon{width:16px;height:16px;flex:0 0 16px;color:#53759c}
+.workspace-nav .workspace-nav-children>a:hover,.workspace-nav .workspace-nav-children>a:focus-visible{border-color:#d8e4f2;background:#f5f9ff;color:#123f82;transform:translateX(2px);outline:none}
+.workspace-nav .workspace-nav-children>a.active{border-color:#c9dcf3;background:#e9f2fd;color:#012e89;font-weight:700}
+.workspace-nav .workspace-nav-children>a.active .workspace-icon{color:#012e89}
+.workspace-nav>a.workspace-account{margin-top:8px;padding:9px 5px;border-top:1px solid #d9e3ef!important}
+@media(max-width:800px){.workspace-nav{display:flex;flex-direction:column;gap:5px}.workspace-nav .workspace-nav-home,.workspace-nav .workspace-nav-group{width:100%;flex:1 1 100%}.workspace-nav>a.workspace-account{flex:1 1 100%}}
+@media(prefers-reduced-motion:reduce){.workspace-nav .workspace-nav-home,.workspace-nav .workspace-nav-group>summary,.workspace-nav .workspace-nav-children>a,.workspace-nav .workspace-nav-chevron{transition:none!important;transform:none!important}}

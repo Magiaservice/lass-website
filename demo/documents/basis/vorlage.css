@@ -1,0 +1,150 @@
+/* LISS Vorlagen — Gestaltung nach dem Muster des Inhabers
+   (LISS_Angebot_Praxisreinigung, 20.09.2026). Markenblau aus site.css. */
+:root{
+  --blau:#012E89; --blau-dk:#001F63;
+  --text:#222; --grau:#6B7280; --hell:#F1F4F9; --linie:#DDE3EC;
+  --gelb:#FFF3D6; --gelb-rand:#E8C77A; --gelb-text:#5A4A12;
+  --schrift:"Helvetica Neue",Helvetica,Arial,sans-serif;
+}
+*{box-sizing:border-box}
+body{margin:0;font-family:var(--schrift);color:var(--text);background:#E9EDF3;font-size:13px;line-height:1.45}
+
+/* Werkzeugleiste (nur Bildschirm) */
+.leiste{position:sticky;top:0;z-index:5;display:flex;flex-wrap:wrap;gap:8px;align-items:center;
+  padding:10px 18px;background:var(--blau-dk);color:#fff;font-size:13px}
+.leiste a{color:#fff}
+.leiste .titel{font-weight:700;margin-right:auto}
+.leiste button{font:inherit;cursor:pointer;border:1px solid rgba(255,255,255,.45);background:transparent;color:#fff;padding:6px 11px;border-radius:3px}
+.leiste button.an{background:#fff;color:var(--blau-dk);border-color:#fff}
+.leiste button.haupt{background:#fff;color:var(--blau-dk);font-weight:700;border-color:#fff}
+.hinweis{max-width:210mm;margin:14px auto 0;padding:11px 15px;background:var(--gelb);border:1px solid var(--gelb-rand);color:var(--gelb-text);border-radius:5px;font-size:12.5px}
+
+/* A4-Blatt */
+.blatt{width:210mm;min-height:297mm;margin:14px auto 40px;background:#fff;padding:14mm 16mm 30mm;position:relative;box-shadow:0 2px 14px rgba(0,0,0,.12)}
+
+/* Kopf */
+.kopf{display:flex;justify-content:space-between;align-items:flex-start;border-bottom:1.2px solid var(--blau);padding-bottom:2mm;margin-bottom:9mm}
+.logo{width:48mm}
+.logo img{width:44mm;display:block;margin-left:2mm}
+.logo .unterzeile{font-size:5.6px;letter-spacing:.42em;color:var(--blau);text-align:center;margin-top:-1mm;padding-left:2mm}
+.absender{text-align:right;font-size:10.5px;color:var(--grau);line-height:1.6}
+.absender .firmenname{color:var(--blau);font-weight:700;font-size:11.5px;text-transform:uppercase;letter-spacing:.02em}
+.absender .dokzeile{font-size:9px;text-transform:uppercase}
+.absender .dokzeile .f,table.eckdaten .f{min-width:0}
+
+/* Adresse + Eckdaten */
+.zeile-absender{font-size:8.5px;color:var(--grau);margin-bottom:1.5mm}
+.adressfeld{display:flex;justify-content:space-between;gap:10mm;margin-bottom:9mm}
+.empfaenger{flex:1;font-size:13px;line-height:1.35;min-height:26mm}
+.empfaenger .klein{font-size:10.5px;color:var(--grau)}
+table.eckdaten{border-collapse:collapse;width:84mm;font-size:12px;margin-top:4mm}
+table.eckdaten th{background:var(--hell);color:var(--grau);font-weight:700;font-size:10px;text-align:left;padding:2.2mm 3mm;width:34mm;white-space:nowrap}
+table.eckdaten td{padding:2.2mm 3mm;border-bottom:1px solid var(--linie)}
+
+h1{font-size:28px;color:var(--blau);margin:0;letter-spacing:.01em;text-transform:uppercase}
+.betreff{font-weight:700;font-size:15px;margin:1mm 0 5mm}
+h2{font-size:16px;color:var(--blau);text-transform:uppercase;margin:6mm 0 2.5mm;letter-spacing:.01em}
+p{margin:0 0 2.5mm}
+
+/* Leistungsumfang-Kasten, zweispaltig */
+.umfang{background:#F7F9FC;border:1px solid var(--linie);padding:3mm 4mm;columns:2;column-gap:8mm;column-rule:1px solid var(--linie);font-size:12px}
+.umfang .gruppe{break-inside:avoid;margin-bottom:1mm}
+.umfang b,.umfang .gt{display:block;color:var(--blau);font-weight:400}
+.umfang ul{margin:0;padding:0;list-style:none}
+.umfang li::before{content:"• "}
+
+/* Einfache Tabellen (Rhythmus, Bedingungen) */
+table.liste{width:100%;border-collapse:collapse;font-size:12.5px;margin:1mm 0 3mm}
+table.liste th{background:var(--hell);font-weight:400;text-align:left;padding:2.6mm 2.5mm}
+table.liste td{padding:2.6mm 2.5mm;border-bottom:1px solid var(--linie);vertical-align:top}
+table.liste td.lab{background:var(--hell);color:var(--blau);font-weight:700;font-size:10.5px;width:62mm}
+.tabtitel{font-weight:700;margin:4mm 0 0}
+
+/* Preisübersicht */
+table.pos{width:100%;border-collapse:collapse;font-size:12.5px;margin:1mm 0 0}
+table.pos thead th{background:var(--blau);color:#fff;text-align:left;font-weight:700;padding:2.6mm 2.5mm;font-size:11.5px}
+table.pos td{padding:2.6mm 2.5mm;border-bottom:1px solid var(--linie);vertical-align:top}
+table.pos .nr{width:11mm}
+table.pos .menge{width:38mm}
+table.pos .preis{width:32mm;white-space:nowrap}
+table.summen{width:100%;border-collapse:collapse;font-size:12.5px}
+table.summen td{padding:2.6mm 2.5mm;border-bottom:1px solid var(--linie)}
+table.summen td.betrag{width:32mm;white-space:nowrap}
+table.summen tr.gesamt td{background:var(--blau);color:#fff;font-weight:700;border-bottom:0}
+table.summen tr.fett td{font-weight:700;background:var(--hell)}
+.klein-grau{font-size:10px;color:var(--grau);margin-top:1.5mm}
+
+.kasten{background:var(--hell);border:1px solid var(--linie);padding:3mm 4mm;margin:3mm 0;font-size:12px}
+.gruss{margin-top:6mm}
+.gruss .firma{color:var(--blau)}
+.unterschriften{display:flex;gap:16mm;margin-top:14mm}
+.unterschriften div{flex:1;border-top:1px solid var(--grau);padding-top:1.5mm;font-size:10px;color:var(--grau)}
+
+/* Fuß, vierspaltig */
+.fuss{position:absolute;left:16mm;right:16mm;bottom:10mm;border-top:1.2px solid var(--blau);padding-top:2.5mm;
+  display:grid;grid-template-columns:repeat(4,1fr);gap:5mm;font-size:8.5px;color:var(--grau);line-height:1.5}
+.fuss b{display:block;color:var(--blau);text-transform:uppercase;font-size:8.5px}
+
+/* Ausfüllbare Felder */
+.f{display:inline-block;min-width:22mm;outline:none;border-radius:2px}
+.f.block{display:block;min-width:0}
+.f:empty::before{content:attr(data-ph);color:var(--gelb-text);opacity:.85}
+.f:empty,.fehlt{background:var(--gelb);box-shadow:0 0 0 1px var(--gelb-rand) inset}
+.f:focus{background:#E5EDF9;box-shadow:0 0 0 1.5px var(--blau) inset}
+.btn-zeile{font:inherit;font-size:11.5px;cursor:pointer;background:none;border:1px dashed var(--grau);color:var(--grau);padding:4px 9px;border-radius:3px;margin:2mm 0}
+.weg{border:0;background:none;color:#B4231F;cursor:pointer;font-size:15px;line-height:1;padding:0 2px}
+.abschnitt{position:relative}
+.abschnitt>.weg-abschnitt{position:absolute;right:0;top:0;font:inherit;font-size:11px;cursor:pointer;background:none;border:1px solid #E3B4B2;color:#B4231F;padding:2px 7px;border-radius:3px}
+.bausteine{display:flex;flex-wrap:wrap;gap:5px;margin-bottom:2mm}
+.bausteine .btn-zeile{margin:0}
+
+[hidden]{display:none!important}
+.box{cursor:pointer;font-size:15px;user-select:none;margin-right:2mm}
+.blatt+.blatt{break-before:page}
+table.liste.klein td,table.liste.klein th{padding:2mm 2.5mm;font-size:12px}
+.schnitt{border-top:1.5px dashed var(--grau);margin:7mm 0 5mm;text-align:center;font-size:10px;color:var(--grau);padding-top:1mm}
+.rechtstext{font-size:12px;line-height:1.5}
+.rechtstext h3{font-size:13px;color:var(--blau);margin:4mm 0 1.5mm}
+.rechtstext p{margin:0 0 2mm;color:var(--text)}
+
+body[data-modus="b2b"] .nur-b2c,
+body[data-modus="b2c"] .nur-b2b{display:none!important}
+
+@media screen and (max-width:860px){
+  .blatt{width:auto;min-height:0;margin:8px;padding:7mm 5mm}
+  .kopf,.adressfeld{flex-direction:column;gap:3mm}
+  .absender{text-align:left}
+  table.eckdaten{width:100%}
+  .umfang{columns:1}
+  .fuss{position:static;grid-template-columns:1fr 1fr;margin-top:8mm}
+  table.pos .menge{width:auto}
+}
+
+@page{size:A4;margin:0}
+@media print{
+  body{background:#fff}
+  .leiste,.hinweis,.nur-bildschirm,.weg,.btn-zeile,.weg-abschnitt,.bausteine{display:none!important}
+  .blatt{margin:0;box-shadow:none;width:auto;min-height:297mm}
+  .f:empty,.fehlt{background:none;box-shadow:none}
+  .f:empty::before{content:''}
+  tr.leer{display:none}
+  table.pos thead th,table.summen tr.gesamt td,table.liste th,table.liste td.lab,.umfang,.kasten,table.eckdaten th,table.summen tr.fett td{
+    -webkit-print-color-adjust:exact;print-color-adjust:exact}
+}
+
+/* Keine Hintergrund-Wasserzeichen auf Bildschirm und Druck. */
+.wasserzeichen{display:none!important}
+.vertrag h3{font-size:13px;color:var(--blau);margin:5mm 0 1.5mm}
+.vertrag p{font-size:12px;line-height:1.5;margin:0 0 2mm;text-align:left}
+.vertrag ul{font-size:12px;line-height:1.5}
+.parteien{font-size:12.5px;line-height:1.55;margin:2mm 0 4mm}
+.parteien .rolle{color:var(--grau);font-size:11px}
+.sig{display:flex;gap:16mm;margin-top:16mm;break-inside:avoid}
+.sig div{flex:1;border-top:1px solid var(--grau);padding-top:1.5mm;font-size:10px;color:var(--grau)}
+@media print{.blatt{padding-bottom:30mm}}
+
+@media print{.vertrag .f:empty{border-bottom:1px solid #999}}
+
+/* Editing highlights never belong to printed output. */
+@media print{.f,.f:focus,.f:empty,.fehlt{background:transparent!important;box-shadow:none!important;outline:none!important}.druckvorschau-leiste{display:none!important}}
+body.druckvorschau{padding-top:82px;background:#e9edf3}body.druckvorschau .leiste,body.druckvorschau .hinweis,body.druckvorschau .nur-bildschirm,body.druckvorschau .weg,body.druckvorschau .btn-zeile,body.druckvorschau .weg-abschnitt,body.druckvorschau .bausteine,body.druckvorschau .doc-tools{display:none!important}body.druckvorschau .f,body.druckvorschau .f:focus,body.druckvorschau .fehlt{background:transparent!important;box-shadow:none!important;outline:none!important}body.druckvorschau .f:empty::before{content:''}body.druckvorschau tr.leer{display:none}body.druckvorschau .vertrag .f:empty{border-bottom:1px solid #999}.druckvorschau-leiste{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;align-items:center;gap:10px;flex-wrap:wrap;padding:13px 20px;background:#fffffff5;border-bottom:1px solid #c4d2e5;box-shadow:0 7px 18px -13px #012e8955;font:13px -apple-system,BlinkMacSystemFont,sans-serif;color:#284260}.druckvorschau-leiste[hidden]{display:none}.druckvorschau-leiste span{flex:1;min-width:200px}.druckvorschau-leiste button{font:inherit;padding:9px 13px;border:1px solid #b9cbe6;border-radius:7px;background:#fff;color:#012E89;cursor:pointer}.druckvorschau-leiste button.haupt,.druckvorschau-leiste button:hover{background:#012E89;color:#fff}.druckvorschau-leiste button:focus-visible{outline:3px solid #9ab8e9}@media print{body.druckvorschau{padding-top:0;background:#fff}.druckvorschau-leiste{display:none!important}}

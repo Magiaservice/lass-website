@@ -1103,3 +1103,9 @@ main:focus{outline:none}
 @media(max-width:699px){.cards{grid-template-columns:minmax(0,1fr)}}
 .prow{grid-template-columns:minmax(0,1fr) auto}
 .prow .pr small{white-space:normal}
+
+/* Zugang (Demo-Portal) im Menü */
+.navlinks a.nav-zugang{border:1.5px solid var(--tiefsee);border-radius:var(--r);padding:var(--s2) var(--s3);line-height:1.2}
+.navlinks a.nav-zugang:hover{background:var(--tiefsee);color:#fff;border-color:var(--tiefsee)}
+.mobnav a.nav-zugang{color:var(--leisblau)}
+@media(min-width:1340px){.hdr{max-width:1480px}.navlinks{gap:20px}}

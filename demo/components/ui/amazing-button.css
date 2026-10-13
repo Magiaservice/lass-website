@@ -1,0 +1,14 @@
+.liss-amazing-button{--liss-ink:#12396e;--liss-blue:#012e89;position:relative;isolation:isolate;display:inline-flex;min-height:46px;align-items:center;justify-content:center;padding:1px;border:1px solid #9bb9df;border-radius:13px;background:linear-gradient(135deg,#d9e9fb,#80a9df 48%,#4d7ec2);color:var(--liss-ink);font:inherit;font-weight:650;cursor:pointer;box-shadow:0 4px 12px -9px #12396e88,0 1px 2px #12396e18;transition:box-shadow .32s ease,transform .32s cubic-bezier(.2,.75,.25,1),border-color .32s ease;overflow:hidden;-webkit-tap-highlight-color:transparent}
+.liss-amazing-button__frame{position:relative;display:flex;min-height:42px;min-width:220px;align-items:center;justify-content:center;gap:11px;padding:0 19px;border:1px solid #ffffffbd;border-radius:11px;background:linear-gradient(115deg,#f8fbff 0%,#e8f1fc 58%,#dce9f8 100%);overflow:hidden;transition:background .36s ease,color .3s ease,border-color .3s ease}
+.liss-amazing-button__lock{position:relative;z-index:1;width:18px;height:18px;fill:none;stroke:#315e98;stroke-width:1.65;stroke-linecap:round;stroke-linejoin:round;transition:transform .45s cubic-bezier(.2,.8,.25,1),stroke .3s ease}
+.liss-amazing-button__label{position:relative;z-index:1;white-space:nowrap;font-size:13px;letter-spacing:.015em;font-variant-numeric:tabular-nums}
+.liss-amazing-button__scan{position:absolute;z-index:0;top:-20%;left:-45%;width:38%;height:140%;transform:skewX(-18deg);opacity:0;background:linear-gradient(90deg,transparent,#fff9,transparent);pointer-events:none}
+.liss-amazing-button:hover,.liss-amazing-button:focus-visible{border-color:#608fc9;box-shadow:0 8px 19px -12px #012e89a8,0 0 0 3px #4f88d51c;transform:translateY(-1px)}
+.liss-amazing-button:hover .liss-amazing-button__frame,.liss-amazing-button:focus-visible .liss-amazing-button__frame{color:#fff;border-color:#ffffff55;background:linear-gradient(115deg,#477bbb 0%,#1f559d 52%,#012e89 100%)}
+.liss-amazing-button:hover .liss-amazing-button__lock,.liss-amazing-button:focus-visible .liss-amazing-button__lock{stroke:#fff;transform:rotateY(180deg)}
+.liss-amazing-button:hover .liss-amazing-button__scan,.liss-amazing-button:focus-visible .liss-amazing-button__scan{opacity:.5;animation:lissButtonScan 1.25s ease-in-out}
+.liss-amazing-button:focus-visible{outline:2px solid #4d87d3;outline-offset:3px}
+.liss-amazing-button:active{transform:translateY(0);box-shadow:inset 0 1px 3px #012e8930,0 2px 5px -4px #012e89}
+.liss-amazing-button:disabled{cursor:default;opacity:.58;transform:none}
+@keyframes lissButtonScan{from{left:-45%}to{left:110%}}
+@media(prefers-reduced-motion:reduce){.liss-amazing-button,.liss-amazing-button *{animation:none!important;transition:none!important}}

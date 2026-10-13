@@ -1,0 +1,6 @@
+dialog.liss-dialog-enhanced{position:relative;padding-top:48px;max-width:calc(100vw - 24px);max-height:calc(100vh - 24px);overflow:auto;overscroll-behavior:contain}
+dialog .liss-dialog-close{position:sticky;z-index:10;top:8px;float:right;margin:-40px -8px 8px 0;display:grid;place-items:center;width:32px;height:32px;min-width:32px;padding:0;border:1px solid #d6e1ef;border-radius:50%;background:#f7faff;color:#294b79;font:400 24px/1 -apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;box-shadow:0 2px 6px #17385e17;cursor:pointer}
+dialog .liss-dialog-close:hover{border-color:#91acd0;background:#eaf2fc;color:#012e89}
+dialog .liss-dialog-close:focus-visible{outline:3px solid #8ab1e6;outline-offset:2px}
+dialog.liss-dialog-enhanced>h2:first-of-type{padding-right:36px}
+@media(max-width:600px){dialog.liss-dialog-enhanced{width:calc(100vw - 16px);max-width:calc(100vw - 16px);max-height:calc(100vh - 16px);padding:45px 14px 14px;border-radius:14px}}

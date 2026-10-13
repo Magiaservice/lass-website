@@ -1,0 +1,7 @@
+/* Subtle pointer pressure on the three access roles. */
+@media(hover:hover) and (pointer:fine){
+.role-card.liss-tilt-ready,.management-role.liss-tilt-ready{transform:perspective(1100px) rotateX(var(--tilt-x,0deg)) rotateY(var(--tilt-y,0deg)) translateY(var(--tilt-lift,0px));transform-origin:center;transition:transform 260ms cubic-bezier(.2,.65,.3,1),box-shadow 220ms,border-color 180ms;backface-visibility:hidden}
+.role-card.liss-tilt-active,.management-role.liss-tilt-active{transition:transform 120ms ease-out,box-shadow 220ms,border-color 180ms;will-change:transform}
+}
+@media(prefers-reduced-motion:reduce){.role-card.liss-tilt-ready,.management-role.liss-tilt-ready{transform:none!important;transition:none!important}}
+@media print{.role-card.liss-tilt-ready,.management-role.liss-tilt-ready{transform:none!important}}
