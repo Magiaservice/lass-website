@@ -490,3 +490,73 @@ input:focus,select:focus,textarea:focus{box-shadow:0 0 0 1px #5078b833,0 8px 14p
 #view .liss-birthday-row>small{color:#8291a4;font-size:9px}
 @media(max-width:1100px){#view .liss-dashboard-hero{grid-template-columns:minmax(0,1fr) minmax(0,1fr)}#view .liss-dashboard-lower{grid-template-columns:repeat(2,minmax(0,1fr))}#view .liss-invoices{grid-column:1/-1;border-left:0;border-top:1px solid #e0e8f2;padding-top:12px}}
 @media(max-width:700px){.liss-process .layout{grid-template-columns:minmax(0,1fr)}#view .liss-dashboard-hero{grid-template-columns:1fr}#view .liss-dashboard-lower{grid-template-columns:1fr}#view .liss-invoices{grid-column:auto}}
+
+/* Dashboard refinement: wider work signals and a scannable decision queue. */
+#view .liss-dashboard-v2{gap:18px}
+#view .liss-dashboard-trend{padding:17px 22px 14px}
+#view .liss-dashboard-trend>svg{height:218px}
+#view .liss-dashboard-lower{grid-template-columns:minmax(0,1fr) minmax(0,1.28fr) minmax(205px,.72fr);gap:16px}
+#view .liss-dashboard-lower>.liss-dashboard-card{min-width:0}
+#view .liss-team-load,#view .liss-next-visits{padding:18px 20px}
+#view .liss-team-row{grid-template-columns:minmax(120px,1fr) minmax(90px,1.15fr) auto;gap:11px;padding:10px 0}
+#view .liss-team-name>strong,#view .liss-team-row>small,#view .liss-next-row>strong{font-size:11px}
+#view .liss-next-row{grid-template-columns:92px minmax(0,1fr) auto;gap:5px 11px;padding:10px 0}
+#view .liss-next-row>time{font-size:11px}
+#view .liss-next-row>small{font-size:10px}
+#view .liss-next-status{font-size:9px}
+#view .liss-invoices{align-items:stretch;justify-content:center;padding:18px;border:1px solid #dce7f4;border-radius:16px;background:linear-gradient(145deg,#f0f6ff,#fff 78%);box-shadow:0 7px 22px -19px #12366b80}
+#view .liss-invoices .liss-dashboard-card-head{display:flex;align-items:center;justify-content:space-between;gap:8px}
+#view .liss-invoice-total{font-size:28px}
+#view .decision-workspace{margin:0;padding:18px 20px;border-radius:16px}
+#view .decision-workspace>h3{margin:0;color:#102f69;font-size:18px}
+#view .decision-workspace>p.muted{margin:5px 0 12px;font-size:12px}
+#view .decision-controls{display:flex;align-items:flex-end;justify-content:space-between;gap:12px;margin:8px 0 10px}
+#view .decision-controls>label{display:grid;gap:4px;min-width:min(100%,260px);margin:0;color:#687e9e;font-size:10px}
+#view .decision-controls select{min-width:250px;padding:8px 34px 8px 10px;border:1px solid #d5e0ee;border-radius:9px;background:#fff;color:#26466e;font-size:12px}
+#view .decision-advanced{flex:none}
+#view .decision-advanced>summary,#view .decision-more>summary{padding:8px 10px;border:1px solid #dce6f2;border-radius:9px;background:#f8fbff;color:#45648b;font-size:11px;cursor:pointer;list-style:none}
+#view .decision-advanced>summary::-webkit-details-marker,#view .decision-more>summary::-webkit-details-marker{display:none}
+#view .decision-advanced[open]{flex:1}
+#view .decision-advanced[open] .daily-case-lookup{grid-template-columns:1.3fr 1fr 1fr;gap:8px;margin:10px 0 2px}
+#view .decision-advanced[open] .daily-case-lookup label{font-size:10px}
+#view .decision-workspace>.muted{font-size:11px}
+#view .decision-list{gap:7px}
+#view .decision-card{grid-template-columns:34px minmax(0,1fr) minmax(130px,auto);align-items:center;gap:10px;padding:10px 12px;border-radius:11px;box-shadow:0 4px 12px -11px #17385e55}
+#view .decision-icon{width:32px;height:32px;padding:7px;border-radius:9px}
+#view .decision-icon svg{width:19px;height:19px}
+#view .decision-copy h4{margin:2px 0 3px;font-size:13px;line-height:1.3}
+#view .decision-copy p{margin:2px 0}
+#view .decision-copy small,#view .decision-context{font-size:10px}
+#view .decision-stage{font-size:9px}
+#view .decision-actions{grid-template-columns:1fr;gap:4px}
+#view .decision-actions button{padding:7px 9px;font-size:10px}
+#view .decision-more{margin-top:8px}
+#view .decision-more[open]>summary{margin-bottom:8px}
+#view .decision-list-more{max-height:440px;overflow:auto;padding:2px}
+#view .decision-empty{margin:0;padding:12px;font-size:12px}
+@media(max-width:1100px){
+ #view .liss-dashboard-lower{grid-template-columns:repeat(2,minmax(0,1fr))}
+ #view .liss-invoices{grid-column:1/-1;display:grid;grid-template-columns:minmax(0,1fr) auto minmax(120px,.8fr) auto;align-items:center;gap:8px 16px}
+ #view .liss-invoices .liss-dashboard-card-head{grid-column:1}
+ #view .liss-invoice-total{grid-column:2;grid-row:1/3}
+ #view .liss-invoices>p{grid-column:1;grid-row:2;margin:0}
+ #view .liss-invoice-track{grid-column:3;grid-row:1;margin:0}
+ #view .liss-invoices .liss-dashboard-link{grid-column:4;grid-row:1/3}
+}
+@media(max-width:750px){
+ #view .liss-dashboard-lower{grid-template-columns:minmax(0,1fr)}
+ #view .liss-invoices{grid-column:auto;display:flex;align-items:flex-start}
+ #view .liss-invoices .liss-dashboard-card-head,#view .liss-invoice-total,#view .liss-invoices>p,#view .liss-invoice-track,#view .liss-invoices .liss-dashboard-link{grid-column:auto;grid-row:auto}
+ #view .decision-controls{align-items:stretch;flex-direction:column}
+ #view .decision-controls>label{min-width:0}
+ #view .decision-controls select{width:100%;min-width:0}
+ #view .decision-advanced{align-self:flex-start}
+ #view .decision-advanced[open]{width:100%}
+ #view .decision-advanced[open] .daily-case-lookup{grid-template-columns:1fr}
+ #view .decision-card{grid-template-columns:32px minmax(0,1fr);align-items:start}
+ #view .decision-actions{grid-column:2;display:flex;flex-wrap:wrap}
+ #view .decision-actions button{flex:1 1 130px}
+ #view .liss-dashboard-trend>svg{height:185px}
+}
+
+#view .decision-more[hidden]{display:none!important}
