@@ -558,3 +558,5 @@ input:focus,select:focus,textarea:focus{box-shadow:0 0 0 1px #5078b833,0 8px 14p
  #view .decision-actions button{flex:1 1 130px}
  #view .liss-dashboard-trend>svg{height:185px}
 }
+
+#view .decision-more[hidden]{display:none!important}
