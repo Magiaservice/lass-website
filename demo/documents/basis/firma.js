@@ -1,4 +1,4 @@
-/* DEMO-Firmendaten: fiktiv. Die echten Angaben stehen nicht in der öffentlichen Demo. */
+/* Fiktive Firmendaten für die öffentliche Demo. */
 window.LISS_FIRMA = {
   name:        'LISS Reinigungsservice (Demo)',
   inhaber:     'Demo Inhaber',

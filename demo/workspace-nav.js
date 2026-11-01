@@ -7,7 +7,7 @@ const iconPaths={
   workers:'M9 11a4 4 0 1 0 0-8 4 4 0 0 0 0 8 M2 21v-2a7 7 0 0 1 14 0v2 M17 4a4 4 0 0 1 0 7 M22 21v-2a7 7 0 0 0-4-6',
   calendar:'M4 5h16v16H4z M8 2v6 M16 2v6 M4 10h16 M8 14h1 M15 14h1 M8 18h1 M15 18h1',
   times:'M12 2a10 10 0 1 0 0 20 10 10 0 0 0 0-20 M12 6v6l4 2',
-  inventory:'M3 8l9-5 9 5v10l-9 5-9-5V8z M3 8l9 5 9-5 M12 13v10',
+  inventory:'M4 7h16l-1 13H5L4 7z M8 7l2-4h4l2 4 M9 11v5 M15 11v5',
   documents:'M8 2h8l4 4v13H8z M16 2v5h4 M4 6v16h12 M11 10h6 M11 14h6',
   finance:'M5 2h10l4 4v16H5z M15 2v5h4 M14 11a3 3 0 1 0 0 7 M8 13h5 M8 16h4',
   archive:'M3 3h18v5H3z M5 8v13h14V8 M9 12h6 M9 16h6',
@@ -43,9 +43,33 @@ const groups=[
 function icon(path){const ns='http://www.w3.org/2000/svg',svg=document.createElementNS(ns,'svg'),shape=document.createElementNS(ns,'path');svg.setAttribute('viewBox','0 0 24 24');svg.setAttribute('class','workspace-icon');svg.setAttribute('aria-hidden','true');svg.setAttribute('fill','none');svg.setAttribute('stroke','currentColor');svg.setAttribute('stroke-width','1.7');svg.setAttribute('stroke-linecap','round');svg.setAttribute('stroke-linejoin','round');shape.setAttribute('d',path);svg.append(shape);return svg;}
 function makeAnchor(id,text,href,active,onSelect,kind){const a=document.createElement('a');a.href=href;a.dataset.area=id;a.dataset.kind=kind||'';a.append(icon(iconPaths[id]||iconPaths.objects));const label=document.createElement('span');label.textContent=text;a.append(label);if(active){a.classList.add('active');a.setAttribute('aria-current','page');}if(onSelect&&!['documents','calendar','access','connections'].includes(id))a.onclick=e=>{e.preventDefault();onSelect(id,kind);};return a;}
 function mount(host,active,onSelect,activeKind='deals'){
-  host.replaceChildren();host.classList.add('workspace-nav');host.setAttribute('aria-label','Рабочие разделы');
+  host.replaceChildren();delete host.dataset.portal;host.classList.add('workspace-nav');host.setAttribute('aria-label','Arbeitsbereiche');
   const session=root.LissTeamSession;
   if(session?.role==='employee'||session?.role==='customer'){
+    if(session.role==='employee'){
+      host.dataset.portal='employee';
+      const portalItems=[
+        ['overview','Übersicht','#employee-dashboard'],
+        ['calendar','Einsätze','#employee-shifts'],
+        ['inventory','Material','#employee-material'],
+        ['connections','Nachrichten','#employee-messages'],
+        ['documents','Dokumente','#employee-documents-detail']
+      ];
+      for(const [id,text,href] of portalItems){
+        const a=makeAnchor(id,text,href,text==='Übersicht',null);
+        if(href.startsWith('#'))a.onclick=e=>{
+          e.preventDefault();
+          if(text==='Nachrichten'){
+            let worker=null;try{worker=root.LissProcess?.valid(JSON.parse(localStorage.getItem('liss-process-v1')||'null'))?.workers?.find(w=>w.id==='DEMO-MA-1')||null;}catch(error){}
+            if(worker)root.LissWorkerMessages?.open(worker.id,worker.name,()=>{});
+            return;
+          }
+          const target=document.querySelector(href);for(let parent=target;parent;parent=parent.parentElement)if(parent.tagName==='DETAILS')parent.open=true;target?.scrollIntoView({behavior:'smooth',block:'start'});
+        };
+        host.append(a);
+      }
+      const foot=document.createElement('a');foot.href='LISS-Zugang.html';foot.className='workspace-account';foot.textContent='Abmelden';foot.addEventListener('click',()=>{try{sessionStorage.removeItem('liss-public-demo-session-v1');}catch(e){}});host.append(foot);return;
+    }
     const employee=session.role==='employee',href=employee?'LISS-Prozess.html?ansicht=employee&id=DEMO-MA-1':'LISS-Prozess.html?ansicht=customer&id=DEMO-OBJ-1';
     host.append(makeAnchor(employee?'workers':'objects',employee?'Mein Arbeitsbereich':'Mein Objekt',href,true));
     const foot=document.createElement('a');foot.href='LISS-Zugang.html';foot.className='workspace-account';foot.textContent='Demo verlassen';foot.addEventListener('click',()=>{try{sessionStorage.removeItem('liss-public-demo-session-v1');}catch(e){}});host.append(foot);return;
