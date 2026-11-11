@@ -18,4 +18,4 @@ Disallow: /
 # Beim Live-Gang: die drei Zeilen oben durch "Allow: /" ersetzen,
 # das noindex-Meta aus allen Seiten entfernen und die folgende Zeile
 # einkommentieren.
-# Sitemap: https://lexikal.github.io/lass-website/sitemap.xml
+# Sitemap: https://liss-reinigungsservice.de/sitemap.xml

@@ -153,7 +153,7 @@
     '3': { f: 13,   label: '3×/Woche' },
     '5': { f: 21.6, label: '5×/Woche' }
   };
-  var QM_MIN = 40, QM_MAX = 1200;
+  var QM_MIN = 40, QM_MAX = 1500;
 
   function objKeyByLabel(label) {
     for (var k in OBJEKTE) if (OBJEKTE[k].calc === label) return k;
@@ -346,9 +346,17 @@
       box.hidden = false;
       /* textContent, nicht innerHTML: die Werte stammen teils aus der URL
          (siehe prefillFromUrl) und damit aus fremder Hand. */
-      if (out) out.textContent = (r.einmalig ? 'ab ' : '') + de(r.preis, 0);
-      /* Einmalige Leistungen buchen auch Privatkunden: Endpreis inkl. USt mit angeben (PAngV). */
-      if (einh) einh.textContent = r.einmalig ? 'netto einmalig · ab ' + de(Math.round(r.preis * 119) / 100, 2) + ' € inkl. 19 % USt' : (kunde === 'Privatperson' ? '/ Monat · netto · ' + de(Math.round(r.preis * 119) / 100, 2) + ' € inkl. 19 % USt' : '/ Monat · netto');
+      /* Privatpersonen: Endpreis inkl. USt ist die große Zahl, netto nur klein dahinter
+         (PAngV: Gesamtpreis gegenüber Verbrauchern hervorheben). */
+      var brutto = de(Math.round(r.preis * 119) / 100, 2);
+      if (kunde === 'Privatperson') {
+        if (out) out.textContent = (r.einmalig ? 'ab ' : '') + brutto;
+        if (einh) einh.textContent = (r.einmalig ? 'einmalig' : '/ Monat') + ' · inkl. 19 % USt · netto ' + (r.einmalig ? 'ab ' : '') + de(r.preis, 0) + ' €';
+      } else {
+        if (out) out.textContent = (r.einmalig ? 'ab ' : '') + de(r.preis, 0);
+        /* Einmalige Leistungen buchen auch Privatkunden: Endpreis inkl. USt mit angeben (PAngV). */
+        if (einh) einh.textContent = r.einmalig ? 'netto einmalig · ab ' + brutto + ' € inkl. 19 % USt' : '/ Monat · netto';
+      }
       if (meta) meta.textContent = r.meta;
     }
 
@@ -613,17 +621,19 @@
     document.querySelectorAll('section.stage').forEach(function (st) { var n = parseInt(st.getAttribute('data-bub'), 10); bubbles(st, n ? (small ? Math.ceil(n / 2) : n) : (small ? 4 : 8)); });
   }
 
-  /* --- Maus-Neigung für die Rechnerkarte --- */
+  /* Наклон только при наведении на саму платформу калькулятора. */
   if (!reduced && window.matchMedia('(pointer:fine)').matches) {
-    document.querySelectorAll('.calc').forEach(function (c) { c.setAttribute('data-tilt', ''); });
-    var tilts = document.querySelectorAll('[data-tilt]');
-    window.addEventListener('mousemove', function (e) {
-      var nx = (e.clientX / window.innerWidth - 0.5) * 2;
-      var ny = (e.clientY / window.innerHeight - 0.5) * 2;
-      tilts.forEach(function (t) {
-        t.style.transform = 'perspective(900px) rotateY(' + (nx * 3.2).toFixed(2) + 'deg) rotateX(' + (-ny * 2.4).toFixed(2) + 'deg) translateZ(0)';
+    document.querySelectorAll('.calc').forEach(function (card) {
+      card.addEventListener('pointermove', function (e) {
+        var r = card.getBoundingClientRect();
+        var nx = ((e.clientX - r.left) / r.width - .5) * 2;
+        var ny = ((e.clientY - r.top) / r.height - .5) * 2;
+        card.style.transform = 'perspective(900px) rotateY(' + (nx * 2.2).toFixed(2) + 'deg) rotateX(' + (-ny * 1.6).toFixed(2) + 'deg)';
+      }, { passive: true });
+      card.addEventListener('pointerleave', function () {
+        card.style.transform = '';
       });
-    }, { passive: true });
+    });
   }
 
   /* --- Überschriften Wort für Wort --- */
@@ -660,6 +670,33 @@
   }
   wordrise();
   window.__lissWordrise = wordrise;
+
+  /* Мягкое следование слов заголовка за курсором. */
+  if (!reduced && window.matchMedia('(pointer:fine)').matches) {
+    var cursorTitle = document.querySelector('.hv-h1');
+    var cursorFrame = 0, cursorX = 0, cursorY = 0;
+    function moveTitle() {
+      cursorFrame = 0;
+      if (!cursorTitle || !cursorTitle.classList.contains('in')) return;
+      var box = cursorTitle.getBoundingClientRect();
+      cursorTitle.classList.add('cursor-follow');
+      cursorTitle.querySelectorAll('i').forEach(function (word, index) {
+        var r = word.getBoundingClientRect();
+        var dx = (cursorX - (r.left + r.width / 2)) / Math.max(box.width, 1) * 5;
+        var dy = (cursorY - (r.top + r.height / 2)) / Math.max(window.innerHeight, 1) * 3;
+        var strength = 0.72 + (index % 3) * 0.14;
+        word.style.transform = 'translate3d(' + (dx * strength).toFixed(2) + 'px,' + (dy * strength).toFixed(2) + 'px,0)';
+      });
+    }
+    window.addEventListener('pointermove', function (e) {
+      cursorX = e.clientX; cursorY = e.clientY;
+      if (!cursorFrame) cursorFrame = requestAnimationFrame(moveTitle);
+    }, { passive: true });
+    window.addEventListener('pointerleave', function () {
+      if (!cursorTitle) return;
+      cursorTitle.querySelectorAll('i').forEach(function (word) { word.style.transform = 'translate3d(0,0,0)'; });
+    });
+  }
 
   /* --- Angeheftete Szene: Text wechselt, Ebenen laufen --- */
   function scenes() {
