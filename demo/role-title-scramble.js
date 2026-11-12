@@ -26,6 +26,7 @@ function install(card){
     },34);
   };
   card.addEventListener('pointerenter',e=>{if(e.pointerType==='mouse')animate();});
+  card.addEventListener('pointerdown',e=>{if(e.pointerType==='touch'||e.pointerType==='pen')animate();});
   card.addEventListener('pointerleave',restore);
   card.addEventListener('focusin',animate);
   card.addEventListener('focusout',e=>{if(!card.contains(e.relatedTarget))restore();});
