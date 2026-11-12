@@ -3,6 +3,53 @@
 (function () {
   var reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
+  /* Logo-Video im Kopf: läuft einmal ab und bleibt auf dem letzten Bild stehen.
+     Das Video selbst bleibt unsichtbar; jedes Bild wird auf ein Canvas gezeichnet
+     und der weiße Grund dabei transparent gemacht (Weiß → Alpha). mix-blend-mode
+     reicht nicht: Safari setzt Videos beim Scrollen auf eine eigene Ebene, dann
+     erscheint der weiße Kasten. Bei reduzierter Bewegung oder blockiertem
+     Abspielen wird nur das letzte Bild (Poster) gezeichnet. */
+  document.querySelectorAll('video.logo-vid').forEach(function (v) {
+    var cv = document.createElement('canvas');
+    cv.className = 'logo-vid';
+    cv.width = +v.getAttribute('width'); cv.height = +v.getAttribute('height');
+    cv.setAttribute('aria-hidden', 'true');
+    v.parentNode.insertBefore(cv, v);
+    v.className = 'logo-vid-src';
+    var ctx = cv.getContext('2d', { willReadFrequently: true });
+    function draw(src) {
+      try {
+        ctx.clearRect(0, 0, cv.width, cv.height);
+        ctx.drawImage(src, 0, 0, cv.width, cv.height);
+        var img = ctx.getImageData(0, 0, cv.width, cv.height), d = img.data;
+        for (var i = 0; i < d.length; i += 4) {
+          var a = 255 - Math.min(d[i], d[i + 1], d[i + 2]);
+          if (a < 6) { d[i + 3] = 0; continue; }
+          d[i] = 255 - (255 - d[i]) * 255 / a;
+          d[i + 1] = 255 - (255 - d[i + 1]) * 255 / a;
+          d[i + 2] = 255 - (255 - d[i + 2]) * 255 / a;
+          d[i + 3] = a;
+        }
+        ctx.putImageData(img, 0, 0);
+      } catch (e) { /* Logo ist optional */ }
+    }
+    var posterDone = false;
+    function poster() {
+      if (posterDone) return; posterDone = true;
+      var im = new Image();
+      im.onload = function () { draw(im); };
+      im.src = v.getAttribute('poster');
+    }
+    if (reduced) { poster(); return; }
+    var raf = 0;
+    function loop() { if (v.readyState >= 2) draw(v); raf = v.paused || v.ended ? 0 : requestAnimationFrame(loop); }
+    v.addEventListener('playing', function () { if (!raf) raf = requestAnimationFrame(loop); });
+    v.addEventListener('ended', function () { draw(v); });
+    v.muted = true;
+    var p = v.play(); if (p && p.catch) p.catch(poster);
+    setTimeout(function () { if (v.paused && !v.ended && v.currentTime === 0) poster(); }, 2500);
+  });
+
   /* ---------- 1. Parallax-Engine ----------
      data-px        vertikale Tiefe (0 = fest, 1 = doppelte Geschwindigkeit)
      data-px-x      horizontale Drift

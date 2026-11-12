@@ -1083,13 +1083,19 @@ section.stage[data-bub]>.wrap,footer.stage>.wrap{position:relative;z-index:1}
 /* ============ Mehrseiten-Build: Kopf-Logo als Bild ============ */
 .logo{gap:var(--s2)}
 .logo img{height:34px;width:auto;display:block;flex:0 0 auto}
+/* Logo-Video: site.js zeichnet es freigestellt auf ein Canvas (.logo-vid);
+   das Video selbst (.logo-vid-src, vorher video.logo-vid) bleibt unsichtbar. */
+.logo .logo-vid{height:52px;width:auto;display:block;flex:0 0 auto}
+.logo video.logo-vid,.logo .logo-vid-src{position:absolute;width:1px;height:1px;opacity:0;pointer-events:none}
+.logo{position:relative}
+.logo .logo-vid ~ .sub{display:none} /* „Reinigungsservice“ steht schon im Video */
 .logo .sub{
   display:block;font-family:var(--mono);font-size:8.5px;font-weight:500;
   color:var(--stahl);letter-spacing:.13em;line-height:1.5;margin:0;
   border-left:1px solid var(--linie);padding-left:var(--s2);white-space:nowrap;
 }
 @media(min-width:400px){.logo .sub{font-size:9.5px;letter-spacing:.16em}}
-@media(min-width:520px){.logo img{height:40px}}
+@media(min-width:520px){.logo img{height:40px}.logo .logo-vid{height:60px}}
 footer .flogo{height:54px;width:auto;margin-bottom:var(--s2);opacity:.95}
 footer .fsub{
   font-family:var(--mono);font-size:10px;letter-spacing:.17em;color:#8FA3CC;
